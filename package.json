@@ -1,0 +1,1 @@
+{"type":"module","scripts":{"dev":"vite --host localhost","build":"vite build","preview":"vite preview --host localhost"},"dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","typescript":"latest","react":"latest","react-dom":"latest","framer-motion":"latest","lucide-react":"latest","@tailwindcss/vite":"latest","tailwindcss":"latest"},"devDependencies":{}}
