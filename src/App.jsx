@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, ArrowRight, ArrowLeft, Menu, X, Sparkles, UserRound, ShieldCheck, UsersRound, MapPin, Trophy } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
-const nav = [['Home','home'],['About','about'],['Services','services'],['Our Work','work'],['Testimonials','testimonials'],['Contact','contact']];
+const nav = [['Home','/#home'],['About','/#about'],['Services','/#services'],['Our Work','/#work'],['Testimonials','/#testimonials'],['Events','/events'],['Contact','/#contact']];
 const services = [
   ['01','Corporate Events','Conferences, launches, award nights and brand experiences designed around your business objectives.'],
   ['02','Weddings & Celebrations','Beautifully curated celebrations managed from creative direction through flawless on-ground execution.'],
@@ -20,13 +21,19 @@ const testimonials = [
 const Reveal = ({children, className='', delay=0}) => <motion.div className={className} initial={{opacity:0,y:36}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-80px'}} transition={{duration:.8,delay,ease:[.22,1,.36,1]}}>{children}</motion.div>;
 const Eyebrow = ({children,light=false}) => <div className={`eyebrow ${light?'eyebrow-light':''}`}><span />{children}</div>;
 
-function Logo(){return <a className="logo" href="#home" aria-label="MRL Events home"><span className="logo-mark">𝄞</span><span><b>MRL</b><small>EVENTS</small></span></a>}
+function Logo(){return <Link className="logo" to="/#home" aria-label="MRL Events home"><span className="logo-mark">𝄞</span><span><b>MRL</b><small>EVENTS</small></span></Link>}
 
 function Navbar(){
   const [scrolled,setScrolled]=useState(false), [open,setOpen]=useState(false);
+  const location = useLocation();
   useEffect(()=>{const on=()=>setScrolled(scrollY>30); on(); addEventListener('scroll',on,{passive:true}); return()=>removeEventListener('scroll',on)},[]);
   const go=()=>setOpen(false);
-  return <header className={`nav ${scrolled?'nav-scrolled':''}`}><div className="nav-inner"><Logo/><nav className="desktop-nav">{nav.map(([n,id],i)=><a className={i===0?'active':''} key={id} href={`#${id}`}>{n}</a>)}<a href="#contact" className="nav-cta">Plan your event <ArrowUpRight size={15}/></a></nav><button className="menu-btn" onClick={()=>setOpen(!open)} aria-label="Toggle menu">{open?<X/>:<Menu/>}</button></div><AnimatePresence>{open&&<motion.nav className="mobile-nav" initial={{opacity:0,height:0}} animate={{opacity:1,height:'calc(100vh - 76px)'}} exit={{opacity:0,height:0}}>{nav.map(([n,id],i)=><motion.a key={id} href={`#${id}`} onClick={go} initial={{opacity:0,x:-20}} animate={{opacity:1,x:0}} transition={{delay:i*.06}}>{n}<ArrowUpRight/></motion.a>)}</motion.nav>}</AnimatePresence></header>
+  return <header className={`nav ${scrolled?'nav-scrolled':''}`}><div className="nav-inner"><Logo/><nav className="desktop-nav">{nav.map(([n,path],i)=>{
+    const isActive = location.pathname === path || (location.pathname === '/' && path === '/#home');
+    return path.startsWith('/') && !path.includes('#') ? <Link className={isActive?'active':''} key={path} to={path}>{n}</Link> : <a className={isActive?'active':''} key={path} href={path}>{n}</a>
+  })}<Link to="/#contact" className="nav-cta">Plan your event <ArrowUpRight size={15}/></Link></nav><button className="menu-btn" onClick={()=>setOpen(!open)} aria-label="Toggle menu">{open?<X/>:<Menu/>}</button></div><AnimatePresence>{open&&<motion.nav className="mobile-nav" initial={{opacity:0,height:0}} animate={{opacity:1,height:'calc(100vh - 76px)'}} exit={{opacity:0,height:0}}>{nav.map(([n,path],i)=>{
+    return path.startsWith('/') && !path.includes('#') ? <Link key={path} to={path} onClick={go}><motion.span initial={{opacity:0,x:-20}} animate={{opacity:1,x:0}} transition={{delay:i*.06}} className="flex justify-between w-full">{n}<ArrowUpRight/></motion.span></Link> : <motion.a key={path} href={path} onClick={go} initial={{opacity:0,x:-20}} animate={{opacity:1,x:0}} transition={{delay:i*.06}}>{n}<ArrowUpRight/></motion.a>
+  })}</motion.nav>}</AnimatePresence></header>
 }
 
 function Hero(){
@@ -49,4 +56,59 @@ function CTA(){return <section id="contact" className="cta section-dark"><div cl
 
 function Footer(){return <footer className="footer"><div className="container"><div className="footer-call"><h2>Make it<br/><span>unforgettable.</span></h2><div><p>Creative ideas. Precise planning.<br/>Memorable experiences.</p><a href="mailto:hello@mrlevents.com">Let's talk <ArrowUpRight/></a></div></div><div className="footer-grid"><div><Logo/><p>Creating remarkable events and experiences from concept to execution.</p></div><div><h4>Explore</h4>{nav.slice(0,5).map(([n,id])=><a href={`#${id}`} key={id}>{n}</a>)}</div><div><h4>Contact</h4><a href="tel:+910000000000">+91 00000 00000</a><a href="mailto:hello@mrlevents.com">hello@mrlevents.com</a><span>Mumbai, India</span></div><div><h4>Social</h4>{['Instagram','Facebook','LinkedIn','YouTube'].map(n=><a href="#" key={n}>{n}<ArrowUpRight/></a>)}</div></div><div className="footer-bottom"><span>© 2026 MRL Events. All rights reserved.</span><div><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div></div><div className="footer-line"/></footer>}
 
-export default function App(){return <><Navbar/><main><Hero/><About/><Services/><Work/><Testimonials/><CTA/></main><Footer/></>}
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BookingProvider } from './context/BookingContext';
+import EventsPage from './pages/EventsPage';
+import EventDetails from './pages/EventDetails';
+import BookingFlow from './pages/BookingFlow';
+import BookingSuccess from './pages/BookingSuccess';
+import DigitalTicket from './pages/DigitalTicket';
+
+// Existing Landing Page components
+function LandingPage() {
+  return (
+    <>
+      <main>
+        <Hero/>
+        <About/>
+        <Services/>
+        <Work/>
+        <Testimonials/>
+        <CTA/>
+      </main>
+      <Footer/>
+    </>
+  );
+}
+
+// Layout wrapper to conditionally render Navbar
+function Layout({ children }) {
+  const location = useLocation();
+  // We want the transparent auto-hide navbar everywhere, but maybe a solid one on some pages?
+  // The existing Navbar component uses fixed positioning and scroll listeners, which is perfect.
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <BookingProvider>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:eventId" element={<EventDetails />} />
+            <Route path="/book/:eventId" element={<BookingFlow />} />
+            <Route path="/booking-success" element={<BookingSuccess />} />
+            <Route path="/ticket" element={<DigitalTicket />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </BookingProvider>
+  );
+}
