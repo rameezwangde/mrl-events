@@ -19,7 +19,7 @@ const testimonials = [
 ];
 
 const Reveal = ({children, className='', delay=0}) => <motion.div className={className} initial={{opacity:0,y:36}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-80px'}} transition={{duration:.8,delay,ease:[.22,1,.36,1]}}>{children}</motion.div>;
-const Eyebrow = ({children,light=false}) => <div className={`eyebrow ${light?'eyebrow-light':''}`}><span />{children}</div>;
+const Eyebrow = ({children,light=false}) => <div className={`eyebrow ${light?'eyebrow-light':''}`}><span />{children}</div>; // trigger CSS
 
 function Logo(){return <Link className="logo" to="/#home" aria-label="MRL Events home"><span className="logo-mark">𝄞</span><span><b>MRL</b><small>EVENTS</small></span></Link>}
 
@@ -54,7 +54,7 @@ function Testimonials(){const [current,setCurrent]=useState(0); const move=(d)=>
 
 function CTA(){return <section id="contact" className="cta section-dark"><div className="trail trail-a"/><div className="trail trail-b"/><div className="container"><Reveal><Eyebrow light>Start something memorable</Eyebrow><h2>Have an idea?<br/><span>Let's turn it<br/>into an experience.</span></h2><p>Tell us what you’re planning. We’ll help shape the idea, manage the details and create an event worth remembering.</p><a href="mailto:hello@mrlevents.com" className="button primary big">Start planning your event <ArrowUpRight/></a></Reveal></div></section>}
 
-function Footer(){return <footer className="footer"><div className="container"><div className="footer-call"><h2>Make it<br/><span>unforgettable.</span></h2><div><p>Creative ideas. Precise planning.<br/>Memorable experiences.</p><a href="mailto:hello@mrlevents.com">Let's talk <ArrowUpRight/></a></div></div><div className="footer-grid"><div><Logo/><p>Creating remarkable events and experiences from concept to execution.</p></div><div><h4>Explore</h4>{nav.slice(0,5).map(([n,id])=><a href={`#${id}`} key={id}>{n}</a>)}</div><div><h4>Contact</h4><a href="tel:+910000000000">+91 00000 00000</a><a href="mailto:hello@mrlevents.com">hello@mrlevents.com</a><span>Mumbai, India</span></div><div><h4>Social</h4>{['Instagram','Facebook','LinkedIn','YouTube'].map(n=><a href="#" key={n}>{n}<ArrowUpRight/></a>)}</div></div><div className="footer-bottom"><span>© 2026 MRL Events. All rights reserved.</span><div><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div></div><div className="footer-line"/></footer>}
+function Footer(){return <footer className="footer"><div className="container"><div className="footer-grid"><div><Logo/><p>Creating remarkable events and experiences from concept to execution.</p></div><div><h4>Explore</h4>{nav.slice(0,5).map(([n,id])=><a href={`#${id}`} key={id}>{n}</a>)}</div><div><h4>Contact</h4><a href="tel:+910000000000">+91 00000 00000</a><a href="mailto:hello@mrlevents.com">hello@mrlevents.com</a><span>Mumbai, India</span></div><div><h4>Social</h4>{['Instagram','Facebook','LinkedIn','YouTube'].map(n=><a href="#" key={n}>{n}<ArrowUpRight/></a>)}</div></div><div className="footer-bottom"><span>© 2026 MRL Events. All rights reserved.</span><div><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div></div><div className="footer-line"/></footer>}
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BookingProvider } from './context/BookingContext';
