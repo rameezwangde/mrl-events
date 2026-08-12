@@ -33,10 +33,10 @@ export default function DigitalTicket() {
   const currentTicket = allTickets[currentTicketIndex];
 
   return (
-    <div className="min-h-screen bg-[var(--navy)] py-24 pt-[100px] relative overflow-hidden flex flex-col items-center">
+    <div className="min-h-screen bg-[var(--dark)] py-24 pt-[100px] relative overflow-hidden flex flex-col items-center">
       
       {/* Background glow */}
-      <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[800px] h-[500px] bg-[var(--purple)]/10 rounded-[100%] blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[800px] h-[500px] bg-[var(--wine)]/10 rounded-[100%] blur-[120px] pointer-events-none"></div>
 
       <div className="w-full max-w-md px-4 relative z-10">
         
@@ -50,7 +50,7 @@ export default function DigitalTicket() {
           
           <button 
             onClick={handleDownload}
-            className="text-[var(--pink)] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 bg-[var(--pink)]/10 hover:bg-[var(--pink)]/30 px-3 py-1.5 rounded transition-colors"
+            className="text-[var(--red)] hover:text-[var(--beige)] text-xs font-bold uppercase tracking-widest flex items-center gap-2 bg-[var(--red)]/10 hover:bg-[var(--red)]/30 px-3 py-1.5 rounded transition-colors"
           >
             <Download size={14} /> Download
           </button>
@@ -69,10 +69,10 @@ export default function DigitalTicket() {
             >
               
               {/* Top Half: Event Details */}
-              <div className="bg-[#090c25] rounded-t-2xl border border-white/10 border-b-0 overflow-hidden relative">
+              <div className="bg-[var(--dark2)] rounded-t-2xl border border-[var(--beige)]/10 border-b-0 overflow-hidden relative">
                 
                 {/* Brand Header */}
-                <div className="bg-[var(--navy)] border-b border-white/10 px-6 py-4 flex justify-between items-center">
+                <div className="bg-[var(--dark)] border-b border-[var(--beige)]/10 px-6 py-4 flex justify-between items-center">
                   <div className="logo scale-75 origin-left">
                     <span className="logo-mark text-2xl">𝄞</span>
                     <span><b className="text-xl">MRL</b><small className="text-[8px] mt-1">EVENTS</small></span>
@@ -83,10 +83,10 @@ export default function DigitalTicket() {
                 {/* Event Image */}
                 <div className="h-40 relative">
                   <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#090c25] to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--dark2)] to-transparent"></div>
                   
                   {/* Category Badge */}
-                  <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md border border-white/20 text-white font-[var(--display)] tracking-widest px-4 py-1 text-xl rounded">
+                  <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md border border-[var(--beige)]/20 text-[var(--beige)] font-[var(--display)] tracking-widest px-4 py-1 text-xl rounded">
                     {currentTicket.name}
                   </div>
                 </div>
@@ -112,16 +112,16 @@ export default function DigitalTicket() {
               </div>
 
               {/* Perforation Line */}
-              <div className="flex bg-[#090c25] items-center px-2">
-                <div className="w-4 h-8 bg-[var(--navy)] rounded-r-full -ml-2 border border-white/10 border-l-0 border-y-0"></div>
-                <div className="flex-1 h-[2px] border-b-2 border-dashed border-white/20"></div>
-                <div className="w-4 h-8 bg-[var(--navy)] rounded-l-full -mr-2 border border-white/10 border-r-0 border-y-0"></div>
+              <div className="flex bg-[var(--dark2)] items-center px-2">
+                <div className="w-4 h-8 bg-[var(--dark)] rounded-r-full -ml-2 border border-[var(--beige)]/10 border-l-0 border-y-0"></div>
+                <div className="flex-1 h-[2px] border-b-2 border-dashed border-[var(--beige)]/20"></div>
+                <div className="w-4 h-8 bg-[var(--dark)] rounded-l-full -mr-2 border border-[var(--beige)]/10 border-r-0 border-y-0"></div>
               </div>
 
               {/* Bottom Half: Attendee & QR */}
-              <div className="bg-[#090c25] rounded-b-2xl border border-white/10 border-t-0 p-8 pt-6 relative overflow-hidden">
+              <div className="bg-[var(--dark2)] rounded-b-2xl border border-[var(--beige)]/10 border-t-0 p-8 pt-6 relative overflow-hidden">
                 {/* Glow behind QR */}
-                <div className="absolute bottom-0 right-0 w-32 h-32 bg-[var(--pink)]/20 blur-[40px]"></div>
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-[var(--red)]/20 blur-[40px]"></div>
 
                 <div className="flex justify-between items-start gap-4">
                   <div className="space-y-4 flex-1">
@@ -190,7 +190,7 @@ export default function DigitalTicket() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#15172c] border border-white/20 text-white px-6 py-3 rounded-full text-sm font-medium shadow-2xl z-50 whitespace-nowrap"
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[var(--dark2)] border border-[var(--beige)]/20 text-[var(--beige)] px-6 py-3 rounded-full text-sm font-medium shadow-2xl z-50 whitespace-nowrap"
           >
             Ticket download will be enabled in the production version.
           </motion.div>

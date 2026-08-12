@@ -64,7 +64,7 @@ export default function EventsPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="pt-[120px] pb-24 min-h-screen bg-[var(--navy)] text-white">
+    <div className="pt-[120px] pb-24 min-h-screen bg-[var(--dark)] text-[var(--beige)]">
       <div className="container">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -73,9 +73,9 @@ export default function EventsPage() {
         >
           <div className="eyebrow eyebrow-light justify-center mb-6"><span></span>Upcoming Events</div>
           <h1 className="font-[var(--display)] text-5xl md:text-7xl uppercase tracking-wider">
-            Experience <span className="gradient-text">The Magic</span>
+            Experience <span style={{background:'linear-gradient(90deg,var(--red),var(--wine),var(--terracotta))',backgroundClip:'text',WebkitBackgroundClip:'text',color:'transparent'}}>The Magic</span>
           </h1>
-          <p className="text-[#aaaabd] mt-4 max-w-2xl mx-auto">
+          <p className="text-[#a89888] mt-4 max-w-2xl mx-auto">
             Discover our upcoming premium events and book your tickets now.
           </p>
         </motion.div>
@@ -87,7 +87,7 @@ export default function EventsPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-[#090c25] rounded-xl overflow-hidden border border-white/10 group flex flex-col h-full"
+              className="bg-[var(--dark2)] rounded-xl overflow-hidden border border-[var(--beige)]/10 group flex flex-col h-full"
             >
               <div className="relative h-56 overflow-hidden">
                 <img 
@@ -95,42 +95,42 @@ export default function EventsPage() {
                   alt={event.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#090c25] to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--dark2)] to-transparent"></div>
                 {event.sellingFast && (
-                  <div className="absolute top-4 right-4 bg-[var(--pink)] text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider">
+                  <div className="absolute top-4 right-4 bg-[var(--red)] text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider">
                     SELLING FAST
                   </div>
                 )}
               </div>
               
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="font-[var(--display)] text-3xl uppercase mb-4 text-white group-hover:text-[var(--pink)] transition-colors">
+                <h3 className="font-[var(--display)] text-3xl uppercase mb-4 text-[var(--beige)] group-hover:text-[var(--red)] transition-colors">
                   {event.title}
                 </h3>
                 
                 <div className="space-y-3 mb-6 flex-grow">
-                  <div className="flex items-center gap-3 text-[#b6b5c4] text-sm">
-                    <Calendar size={16} className="text-[var(--blue)]" />
+                  <div className="flex items-center gap-3 text-[#a89888] text-sm">
+                    <Calendar size={16} className="text-[var(--terracotta)]" />
                     <span>{event.date}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-[#b6b5c4] text-sm">
-                    <Clock size={16} className="text-[var(--purple)]" />
+                  <div className="flex items-center gap-3 text-[#a89888] text-sm">
+                    <Clock size={16} className="text-[var(--wine)]" />
                     <span>{event.time}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-[#b6b5c4] text-sm">
-                    <MapPin size={16} className="text-[var(--pink)]" />
+                  <div className="flex items-center gap-3 text-[#a89888] text-sm">
+                    <MapPin size={16} className="text-[var(--red)]" />
                     <span>{event.venue}</span>
                   </div>
                 </div>
                 
-                <div className="flex items-end justify-between mt-auto pt-6 border-t border-white/10">
+                <div className="flex items-end justify-between mt-auto pt-6 border-t border-[var(--beige)]/10">
                   <div>
                     <span className="text-[10px] uppercase tracking-widest text-[#777991] block mb-1">Tickets From</span>
-                    <span className="text-2xl font-bold text-white">₹{event.price}</span>
+                    <span className="text-2xl font-bold text-[var(--beige)]">₹{event.price}</span>
                   </div>
                   <button 
                     onClick={() => navigate(`/events/${event.id}`)}
-                    className="flex items-center gap-2 bg-white/5 hover:bg-white hover:text-[var(--navy)] border border-white/20 px-5 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-300"
+                    className="flex items-center gap-2 bg-[var(--beige)]/5 hover:bg-[var(--beige)] hover:text-[var(--dark)] border border-[var(--beige)]/20 px-5 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-300"
                   >
                     View Event <ArrowRight size={14} />
                   </button>

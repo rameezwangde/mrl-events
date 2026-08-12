@@ -20,7 +20,7 @@ export default function EventDetails() {
     return (
       <div className="pt-32 pb-24 min-h-screen text-center">
         <h2 className="text-3xl text-white">Event not found</h2>
-        <Link to="/events" className="text-[var(--pink)] mt-4 inline-block">Back to Events</Link>
+        <Link to="/events" className="text-[var(--red)] mt-4 inline-block">Back to Events</Link>
       </div>
     );
   }
@@ -31,12 +31,12 @@ export default function EventDetails() {
   };
 
   return (
-    <div className="bg-[var(--navy)] text-white min-h-screen pb-24">
+    <div className="bg-[var(--dark)] text-[var(--beige)] min-h-screen pb-24">
       {/* Hero Section */}
       <div className="relative h-[60vh] min-h-[500px] w-full">
         <div className="absolute inset-0">
           <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy)] via-[rgba(5,7,25,0.7)] to-[rgba(5,7,25,0.4)]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--dark)] via-[rgba(26,18,16,0.7)] to-[rgba(26,18,16,0.4)]"></div>
         </div>
         
         <div className="absolute inset-0 flex items-end pb-16">
@@ -46,7 +46,7 @@ export default function EventDetails() {
             </Link>
             
             {event.sellingFast && (
-              <div className="mb-4 inline-block bg-[var(--pink)] text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider animate-pulse">
+              <div className="mb-4 inline-block bg-[var(--red)] text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider animate-pulse">
                 TICKETS SELLING FAST
               </div>
             )}
@@ -66,15 +66,15 @@ export default function EventDetails() {
               className="flex flex-wrap items-center gap-x-8 gap-y-4 text-[#d8d7e2]"
             >
               <div className="flex items-center gap-3">
-                <Calendar className="text-[var(--blue)]" />
+                <Calendar className="text-[var(--terracotta)]" />
                 <span className="text-lg font-medium">{event.date}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="text-[var(--purple)]" />
+                <Clock className="text-[var(--wine)]" />
                 <span className="text-lg font-medium">{event.time}</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="text-[var(--pink)]" />
+                <MapPin className="text-[var(--red)]" />
                 <span className="text-lg font-medium">{event.venue}</span>
               </div>
             </motion.div>
@@ -91,9 +91,9 @@ export default function EventDetails() {
             viewport={{ once: true }}
             className="prose prose-invert max-w-none"
           >
-            <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider text-white mb-6 border-b border-white/10 pb-4">About The Event</h2>
-            <p className="text-lg text-[#aaaabd] leading-relaxed">{event.about}</p>
-            <p className="text-lg text-[#aaaabd] leading-relaxed mt-4">{event.description}</p>
+            <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider text-[var(--beige)] mb-6 border-b border-[var(--beige)]/10 pb-4">About The Event</h2>
+            <p className="text-lg text-[#a89888] leading-relaxed">{event.about}</p>
+            <p className="text-lg text-[#a89888] leading-relaxed mt-4">{event.description}</p>
           </motion.div>
           
           <motion.div 
@@ -101,11 +101,11 @@ export default function EventDetails() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider text-white mb-6 border-b border-white/10 pb-4">Event Information</h2>
+            <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider text-[var(--beige)] mb-6 border-b border-[var(--beige)]/10 pb-4">Event Information</h2>
             <ul className="space-y-4">
               {event.information.map((info, i) => (
                 <li key={i} className="flex items-start gap-3 text-[#aaaabd]">
-                  <CheckCircle2 className="text-[var(--blue)] shrink-0 mt-0.5" size={20} />
+                  <CheckCircle2 className="text-[var(--terracotta)] shrink-0 mt-0.5" size={20} />
                   <span>{info}</span>
                 </li>
               ))}
@@ -119,7 +119,7 @@ export default function EventDetails() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="sticky top-28 bg-[#090c25] border border-white/10 rounded-xl p-8 shadow-2xl shadow-purple-900/10"
+            className="sticky top-28 bg-[var(--dark2)] border border-[var(--beige)]/10 rounded-xl p-8 shadow-2xl shadow-red-900/10"
           >
             <h3 className="text-2xl font-[var(--display)] uppercase tracking-wider mb-6 text-white">Ticket Prices</h3>
             
@@ -130,7 +130,7 @@ export default function EventDetails() {
                     <span className="block font-bold tracking-widest uppercase text-sm mb-1 text-[#d8d7e2]">{ticket.name}</span>
                     <span className="text-xs text-[#777991]">From ₹{ticket.price}</span>
                   </div>
-                  <div className="text-[var(--pink)] font-bold">
+                  <div className="text-[var(--red)] font-bold">
                     ₹{ticket.price}
                   </div>
                 </div>
@@ -139,13 +139,13 @@ export default function EventDetails() {
             
             <button 
               onClick={handleBookClick}
-              className="w-full button primary py-4 text-base shadow-[0_0_20px_rgba(255,10,120,0.3)] hover:shadow-[0_0_30px_rgba(255,10,120,0.5)]"
+              className="w-full button primary py-4 text-base shadow-[0_0_20px_rgba(198,40,40,0.3)] hover:shadow-[0_0_30px_rgba(198,40,40,0.5)]"
             >
               Book Tickets <ArrowRight />
             </button>
             
             <div className="mt-4 flex items-start gap-2 text-xs text-[#777991] bg-white/5 p-3 rounded">
-              <Info size={16} className="shrink-0 text-[var(--blue)]" />
+              <Info size={16} className="shrink-0 text-[var(--terracotta)]" />
               <p>For demo purposes only. No real transactions will occur.</p>
             </div>
           </motion.div>

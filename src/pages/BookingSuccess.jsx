@@ -19,19 +19,19 @@ export default function BookingSuccess() {
   if (!selectedEvent || !bookingId) return null;
 
   return (
-    <div className="min-h-screen bg-[var(--navy)] flex items-center justify-center py-24 pt-[120px] relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--dark)] flex items-center justify-center py-24 pt-[120px] relative overflow-hidden">
       {/* Background elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--pink)]/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--red)]/10 rounded-full blur-[100px] pointer-events-none"></div>
       
       <div className="container max-w-2xl relative z-10">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-[#090c25] border border-[var(--pink)]/30 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(255,10,120,0.15)] text-center relative overflow-hidden"
+          className="bg-[var(--dark2)] border border-[var(--red)]/30 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(198,40,40,0.15)] text-center relative overflow-hidden"
         >
           {/* Neon line top */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--pink)] to-[var(--purple)]"></div>
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--red)] to-[var(--wine)]"></div>
 
           {/* Animated Checkmark */}
           <div className="mb-8 flex justify-center">
@@ -39,10 +39,10 @@ export default function BookingSuccess() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
-              className="w-24 h-24 rounded-full bg-[var(--pink)]/20 flex items-center justify-center border-2 border-[var(--pink)] relative"
+              className="w-24 h-24 rounded-full bg-[var(--red)]/20 flex items-center justify-center border-2 border-[var(--red)] relative"
             >
-              <div className="absolute inset-0 rounded-full animate-ping bg-[var(--pink)]/20"></div>
-              <svg className="w-12 h-12 text-[var(--pink)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="absolute inset-0 rounded-full animate-ping bg-[var(--red)]/20"></div>
+              <svg className="w-12 h-12 text-[var(--red)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <motion.path 
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
@@ -78,12 +78,12 @@ export default function BookingSuccess() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-[#15172c] border border-white/5 rounded-xl p-6 text-left mb-10"
+            className="bg-[#1a1210] border border-[var(--beige)]/5 rounded-xl p-6 text-left mb-10"
           >
             <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
               <div>
                 <span className="block text-[10px] uppercase tracking-widest text-[#777991] mb-1">Booking ID</span>
-                <span className="font-bold text-[var(--pink)]">{bookingId}</span>
+                <span className="font-bold text-[var(--red)]">{bookingId}</span>
               </div>
               <div>
                 <span className="block text-[10px] uppercase tracking-widest text-[#777991] mb-1">Date & Time</span>
