@@ -167,6 +167,14 @@ button {
     background: linear-gradient(90deg, var(--red), var(--terracotta))
 }
 
+.eyebrow-dark {
+    color: #1a1210 !important;
+}
+
+.eyebrow-dark span {
+    background: linear-gradient(90deg, var(--red), var(--wine)) !important;
+}
+
 .gradient-text {
     background: linear-gradient(90deg, var(--red) 5%, var(--wine) 51%, var(--terracotta));
     background-clip: text;
@@ -1412,7 +1420,7 @@ button {
 }
 
 .services {
-    padding: clamp(110px, 12vw, 180px) 0 90px
+    padding: clamp(40px, 5vw, 70px) 0 90px !important
 }
 
 .services-head {
@@ -1948,7 +1956,7 @@ blockquote footer span {
 }
 
 .services {
-    padding: clamp(110px, 12vw, 180px) 0 90px
+    padding: clamp(40px, 5vw, 70px) 0 90px !important
 }
 
 .services-head {
