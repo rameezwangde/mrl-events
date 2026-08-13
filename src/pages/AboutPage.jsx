@@ -50,7 +50,7 @@ export default function AboutPage() {
             <Reveal>
               <Eyebrow>Our Mission</Eyebrow>
               <h2 className="font-[var(--display)] text-6xl md:text-[95px] leading-[0.85] uppercase tracking-wide text-[var(--dark)] mb-8">
-                EXTRAORDINARY LIVE EXPERIENCES
+                EXTRAORDINARY <span className="text-[var(--red)]">LIVE EXPERIENCES</span>
               </h2>
               <p className="text-xl text-[#5e514a] leading-relaxed max-w-xl">
                 To craft extraordinary live entertainment experiences that connect audiences with legendary artists, through innovation, excellence, and heartfelt execution.
@@ -81,7 +81,7 @@ export default function AboutPage() {
             <Reveal className="order-1 md:order-2">
               <Eyebrow>Our Vision</Eyebrow>
               <h2 className="font-[var(--display)] text-6xl md:text-[95px] leading-[0.85] uppercase tracking-wide text-[var(--dark)] mb-8">
-                REDEFINING LIVE EVENTS
+                REDEFINING <span className="text-[var(--red)]">LIVE EVENTS</span>
               </h2>
               <p className="text-xl text-[#5e514a] leading-relaxed max-w-xl">
                 To emerge as one of India's premier entertainment companies, known for redefining live events with creativity, professionalism, and unforgettable performances.
@@ -97,29 +97,29 @@ export default function AboutPage() {
           <Reveal>
             <Eyebrow>Why MRL Events</Eyebrow>
             <h2 className="font-[var(--display)] text-6xl md:text-[110px] leading-[0.85] uppercase tracking-wide text-[var(--dark)] mb-20 max-w-5xl">
-              PASSION. QUALITY. INNOVATION.
+              PASSION. QUALITY. <span className="text-[var(--red)]">INNOVATION.</span>
             </h2>
           </Reveal>
           
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-16 border-t border-[var(--dark)]/10 pt-16">
             <Reveal delay={0.1}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]">Passion for Performance</h3>
+              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">01.</span> Passion for Performance</h3>
               <p className="text-lg text-[#5e514a] leading-relaxed">Fueling every event with energy, enthusiasm, and musical excellence.</p>
             </Reveal>
             <Reveal delay={0.2}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]">Commitment to Quality</h3>
+              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">02.</span> Commitment to Quality</h3>
               <p className="text-lg text-[#5e514a] leading-relaxed">Ensuring flawless execution with attention to detail in every project.</p>
             </Reveal>
             <Reveal delay={0.3}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]">Artist & Audience Centricity</h3>
+              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">03.</span> Artist & Audience Centricity</h3>
               <p className="text-lg text-[#5e514a] leading-relaxed">Balancing the needs of performers and patrons for enriching experiences.</p>
             </Reveal>
             <Reveal delay={0.4}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]">Innovation & Creativity</h3>
+              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">04.</span> Innovation & Creativity</h3>
               <p className="text-lg text-[#5e514a] leading-relaxed">Continuously evolving concepts and formats to set new trends in live entertainment.</p>
             </Reveal>
             <Reveal delay={0.5} className="md:col-span-2">
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]">Integrity & Professionalism</h3>
+              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">05.</span> Integrity & Professionalism</h3>
               <p className="text-lg text-[#5e514a] leading-relaxed max-w-2xl">Building lasting relationships through trust, transparency, and respect.</p>
             </Reveal>
           </div>
