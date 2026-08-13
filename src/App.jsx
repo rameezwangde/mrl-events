@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, ArrowLeft, Menu, X, Sparkles, UserRound, ShieldCheck, UsersRound, MapPin, Trophy } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-const nav = [['Home', '/#home'], ['About', '/#about'], ['Services', '/#services'], ['Our Work', '/#work'], ['Testimonials', '/#testimonials'], ['Events', '/events'], ['Contact', '/#contact']];
+const nav = [['Home', '/#home'], ['About', '/about'], ['Services', '/#services'], ['Our Work', '/#work'], ['Testimonials', '/#testimonials'], ['Events', '/events'], ['Contact', '/#contact']];
 const services = [
   ['01', 'Corporate Events', 'Conferences, launches, award nights and brand experiences designed around your business objectives.'],
   ['02', 'Weddings & Celebrations', 'Beautifully curated celebrations managed from creative direction through flawless on-ground execution.'],
@@ -63,6 +63,7 @@ import EventDetails from './pages/EventDetails';
 import BookingFlow from './pages/BookingFlow';
 import BookingSuccess from './pages/BookingSuccess';
 import DigitalTicket from './pages/DigitalTicket';
+import AboutPage from './pages/AboutPage';
 
 // Existing Landing Page components
 function LandingPage() {
@@ -70,13 +71,11 @@ function LandingPage() {
     <>
       <main>
         <Hero />
-        <About />
         <Services />
         <Work />
         <Testimonials />
         <CTA />
       </main>
-      <Footer />
     </>
   );
 }
@@ -90,6 +89,7 @@ function Layout({ children }) {
     <>
       <Navbar />
       {children}
+      <Footer />
     </>
   );
 }
@@ -101,6 +101,7 @@ export default function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:eventId" element={<EventDetails />} />
             <Route path="/book/:eventId" element={<BookingFlow />} />
