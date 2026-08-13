@@ -412,7 +412,8 @@ button {
 
 .hero-copy {
     width: 58%;
-    max-width: 780px
+    max-width: 780px;
+    color: var(--dark) !important;
 }
 
 .hero h1 {
@@ -456,7 +457,7 @@ button {
 .hero-copy>p {
     font-size: clamp(15px, 1.2vw, 19px);
     line-height: 1.65;
-    color: var(--beige);
+    color: var(--dark);
     max-width: 600px
 }
 
@@ -1100,7 +1101,8 @@ button {
 
 .hero-copy {
     width: 58%;
-    max-width: 780px
+    max-width: 780px;
+    color: var(--dark) !important;
 }
 
 .hero h1 {
@@ -1144,7 +1146,7 @@ button {
 .hero-copy>p {
     font-size: clamp(15px, 1.2vw, 19px);
     line-height: 1.65;
-    color: var(--beige);
+    color: var(--dark);
     max-width: 600px
 }
 
@@ -1432,7 +1434,7 @@ button {
 
 .services-head h2 {
     font-family: var(--display);
-    font-size: clamp(88px, 11vw, 170px);
+    font-size: clamp(40px, 6.5vw, 90px) !important;
     line-height: .76;
     text-transform: uppercase;
     margin: 0
@@ -1455,7 +1457,7 @@ button {
 
 .service-row {
     display: grid;
-    grid-template-columns: 70px 1.2fr 1fr 42px;
+    grid-template-columns: 1.2fr 1fr 42px !important;
     gap: 22px;
     align-items: center;
     padding: 28px 0;
@@ -1513,8 +1515,7 @@ button {
 }
 
 .work {
-    padding: 90px 0 clamp(120px, 12vw, 180px);
-    background: linear-gradient(var(--dark), var(--dark2))
+    padding: 90px 0 clamp(40px, 6vw, 90px) !important;
 }
 
 .work-top {
@@ -1573,11 +1574,11 @@ button {
 }
 
 .work-grid figcaption span {
-    color: var(--beige)
+    color: var(--red)
 }
 
 .testimonials {
-    padding: clamp(110px, 12vw, 180px) 0
+    padding: clamp(40px, 6vw, 90px) 0 !important
 }
 
 .testimonials h2 {
@@ -1968,7 +1969,7 @@ blockquote footer span {
 
 .services-head h2 {
     font-family: var(--display);
-    font-size: clamp(88px, 11vw, 170px);
+    font-size: clamp(40px, 6.5vw, 90px) !important;
     line-height: .76;
     text-transform: uppercase;
     margin: 0
@@ -1991,7 +1992,7 @@ blockquote footer span {
 
 .service-row {
     display: grid;
-    grid-template-columns: 70px 1.2fr 1fr 42px;
+    grid-template-columns: 1.2fr 1fr 42px !important;
     gap: 22px;
     align-items: center;
     padding: 28px 0;
@@ -2049,8 +2050,7 @@ blockquote footer span {
 }
 
 .work {
-    padding: 90px 0 clamp(120px, 12vw, 180px);
-    background: linear-gradient(var(--dark), var(--dark2))
+    padding: 90px 0 clamp(40px, 6vw, 90px) !important;
 }
 
 .work-top {
@@ -2109,11 +2109,11 @@ blockquote footer span {
 }
 
 .work-grid figcaption span {
-    color: var(--beige)
+    color: var(--red)
 }
 
 .testimonials {
-    padding: clamp(110px, 12vw, 180px) 0
+    padding: clamp(40px, 6vw, 90px) 0 !important
 }
 
 .testimonials h2 {
