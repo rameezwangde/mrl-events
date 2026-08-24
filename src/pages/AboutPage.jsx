@@ -26,7 +26,7 @@ export default function AboutPage() {
     <div className="pt-[140px] pb-24 min-h-screen bg-[var(--beige)] text-[var(--dark)]">
       
       {/* HERO SECTION - Inspired by Reference 1 */}
-      <div className="container mb-24 md:mb-32">
+      <div className="container mb-12 md:mb-16">
         <Reveal>
           <Eyebrow>About the company</Eyebrow>
           <h1 className="font-[var(--display)] text-7xl md:text-[130px] leading-[0.85] uppercase tracking-wide mb-10 text-[var(--dark)]">
@@ -45,7 +45,7 @@ export default function AboutPage() {
 
       {/* MISSION / IMAGE SECTION - Inspired by Reference 2 */}
       <div className="container mb-24 md:mb-32">
-        <div className="border-t border-[var(--dark)]/10 pt-16 md:pt-24">
+        <div className="border-t border-[var(--dark)]/10 pt-10 md:pt-16">
           <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-24 items-center">
             <Reveal>
               <Eyebrow>Our Mission</Eyebrow>
