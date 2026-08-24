@@ -51,7 +51,38 @@ function About() {
   return <section id="about" className="about section-light"><div className="container"><Reveal className="about-intro"><Eyebrow dark>More than events.</Eyebrow><p>We create moments people remember.</p></Reveal><motion.h2 style={{ x: drift }} className="mega-statement"><span>We turn ideas</span><em>into experiences.</em></motion.h2><div style={{ borderTop: '1px solid #c9bca8', paddingTop: '80px' }}><Reveal><h3 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(50px, 8vw, 90px)', textTransform: 'uppercase', textAlign: 'center', margin: '0 0 40px 0' }}>About <i style={{ fontStyle: 'normal', color: 'var(--red)' }}>MRL Events</i></h3></Reveal><Reveal delay={0.15}><div style={{ maxWidth: '900px', margin: '0 auto', color: '#5e514a', fontSize: '17px', lineHeight: '1.75' }}><p className="lead" style={{ marginBottom: '20px', fontSize: 'clamp(20px, 2vw, 26px)', color: '#1a1210', lineHeight: '1.4' }}>MRL Events is a vibrant and rapidly growing entertainment and event management company, founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor.</p><p style={{ marginBottom: '20px' }}>Since its inception, the company has established itself as a trusted name in the industry by curating and executing high-quality musical events across India. With a passion for delivering exceptional live experiences, MRL Events focuses on bringing legendary artists and unforgettable performances to audiences in a grand and memorable way.</p><p style={{ marginBottom: '20px' }}>In a short span, MRL Events has successfully organized iconic shows such as Raags of Rafi by Javed Ali and Aishwarya Majmudar Live in Concert in Mumbai. The company is currently managing a powerful lineup of live concerts, including Kumar Sanu Live in Concert in Ahmedabad and Pune, Salim-Sulaiman Live in Concert in Mumbai, and Sonu Nigam Live in Concert in Chandigarh.</p><p style={{ marginBottom: '35px' }}>With a vision to become a leading force in India's live entertainment space, MRL Events delivers excellence through seamless planning, creative concepts, artist-friendly management, and audience-centric execution. From celebrity concerts and cultural showcases to brand partnerships and corporate events, MRL Events provides comprehensive solutions backed by a talented team and a strong network within the industry. Whether it's managing technical production, ticketing, media outreach, or promotional strategies, MRL Events is committed to delivering experiences that captivate, inspire, and set new benchmarks in the world of live entertainment.</p><div style={{ textAlign: 'center' }}><a href="#contact" className="text-link">Start planning your event <ArrowUpRight /></a></div></div></Reveal></div></div></section>
 }
 
-function Services() { return <section id="services" className="services section-light"><div className="container"><Reveal><Eyebrow dark>What we do</Eyebrow><div className="services-head"><h2>Ideas, <span>brought to life.</span></h2><p>From concept to curtain call, we manage every detail required to deliver memorable experiences.</p></div></Reveal><div className="service-list">{services.map(([n, title, desc], i) => <motion.a href="#contact" className="service-row" key={title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * .04, duration: .6 }}><h3>{title}</h3><p>{desc}</p><ArrowRight /><i /></motion.a>)}</div></div></section> }
+function Services() { 
+  return (
+    <section id="services" className="services section-light" style={{ padding: '120px 0' }}>
+      <div className="container">
+        <Reveal>
+          <Eyebrow dark>What we do</Eyebrow>
+          <div className="services-head">
+            <h2 style={{ color: 'var(--dark)' }}>Ideas, <span className="gradient-text">brought to life.</span></h2>
+            <p style={{ color: '#5e514a' }}>From concept to curtain call, we manage every detail required to deliver memorable experiences.</p>
+          </div>
+        </Reveal>
+        <div className="service-grid">
+          {services.map(([num, title, desc], i) => (
+            <motion.a 
+              href="#contact"
+              className="service-card" 
+              key={title} 
+              initial={{ opacity: 0, y: 40 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true, margin: '-50px' }} 
+              transition={{ delay: i * .1, duration: .6, ease: [.22, 1, .36, 1] }}
+            >
+              <h3>{title}</h3>
+              <p>{desc}</p>
+              <div className="s-link"><ArrowRight size={18}/></div>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function Work() { const works = [['Corporate Event', '/assets/corporate-gala.png', 'work-a'], ['Live Performance', '/assets/live-performance.png', 'work-b'], ['Luxury Celebration', '/assets/luxury-celebration.png', 'work-c']]; return <section id="work" className="work section-light"><div className="container"><div className="work-top"><Reveal><Eyebrow dark>Selected moments</Eyebrow></Reveal><a href="#contact" className="text-link">View our work <ArrowUpRight /></a></div><div className="work-grid">{works.map(([name, img, cls], i) => <motion.figure className={cls} key={name} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .8, delay: i * .1 }}><div className="image-wrap"><motion.img whileHover={{ scale: 1.035 }} transition={{ duration: .7 }} src={img} alt={name} /></div><figcaption><span>0{i + 1}</span>{name}</figcaption></motion.figure>)}</div></div></section> }
 
