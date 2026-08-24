@@ -53,7 +53,7 @@ function About() {
 
 function Services() { 
   return (
-    <section id="services" className="services section-light" style={{ padding: '120px 0' }}>
+    <section id="services" className="services section-light">
       <div className="container">
         <Reveal>
           <Eyebrow dark>What we do</Eyebrow>

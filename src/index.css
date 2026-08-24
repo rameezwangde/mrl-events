@@ -1434,7 +1434,7 @@ button {
 }
 
 .services {
-    padding: clamp(40px, 5vw, 70px) 0 90px !important
+    padding: clamp(40px, 5vw, 70px) 0 40px !important
 }
 
 .services-head {
@@ -1544,7 +1544,7 @@ button {
 }
 
 .work {
-    padding: 90px 0 clamp(40px, 6vw, 90px) !important;
+    padding: 20px 0 clamp(40px, 6vw, 90px) !important;
 }
 
 .work-top {
