@@ -21,7 +21,7 @@ const testimonials = [
 const Reveal = ({ children, className = '', delay = 0 }) => <motion.div className={className} initial={{ opacity: 0, y: 36 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: .8, delay, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
 const Eyebrow = ({ children, light = false, dark = false }) => <div className={`eyebrow ${light ? 'eyebrow-light' : ''} ${dark ? 'eyebrow-dark' : ''}`}><span />{children}</div>; // trigger CSS
 
-function Logo() { return <Link className="logo" to="/#home" aria-label="MRL Events home"><span className="logo-mark">𝄞</span><span><b>MRL</b><small>EVENTS</small></span></Link> }
+function Logo() { return <Link className="logo" to="/#home" aria-label="MRL Events home" style={{ padding: 0, background: 'none', border: 'none' }}><img src="/assets/mrl-logo.png" alt="MRL Events" style={{ height: '54px', width: 'auto', objectFit: 'contain', display: 'block' }} /></Link> }
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false), [open, setOpen] = useState(false);
