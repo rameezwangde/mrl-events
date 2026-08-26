@@ -16,7 +16,7 @@ const Reveal = ({ children, className = '', delay = 0 }) => (
 );
 
 const Eyebrow = ({ children, light = false }) => (
-  <div className={`eyebrow ${light ? 'eyebrow-light' : 'eyebrow-dark'} mb-6`}>
+  <div className={`eyebrow ${light ? 'eyebrow-light' : 'eyebrow-dark'}`} style={{ marginBottom: '20px' }}>
     <span></span>{children}
   </div>
 );
@@ -25,27 +25,27 @@ export default function OurWorkPage() {
   const images = Array.from({ length: 12 }, (_, i) => `/assets/work-${i + 1}.jpeg`);
 
   return (
-    <div className="min-h-screen bg-[var(--beige)] text-[var(--dark)]">
+    <div style={{ minHeight: '100vh', background: 'var(--beige)', color: 'var(--charcoal)' }}>
       
-      {/* HERO SECTION - Dark Theme, large text */}
-      <div className="relative pt-[200px] pb-[120px] bg-[var(--dark)] text-white overflow-hidden">
+      {/* HERO SECTION - Dark Theme */}
+      <div style={{ position: 'relative', paddingTop: '180px', paddingBottom: '100px', background: 'var(--charcoal)', color: '#fff', overflow: 'hidden' }}>
         {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <img 
             src="/assets/live-performance.png" 
             alt="Concert Background" 
-            className="w-full h-full object-cover opacity-30 mix-blend-luminosity"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2, mixBlendMode: 'luminosity' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--dark)] via-transparent to-[var(--dark)]"></div>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, var(--charcoal) 0%, transparent 40%, rgba(29,29,29,0.6) 100%)' }}></div>
         </div>
 
-        <div className="container relative z-10">
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
           <Reveal>
             <Eyebrow light>Our Portfolio</Eyebrow>
-            <h1 className="font-[var(--display)] text-7xl md:text-[140px] leading-[0.85] uppercase tracking-wide mb-8">
-              OUR <span className="text-[var(--red)]">WORK</span>
+            <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(50px, 9vw, 120px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: '28px' }}>
+              OUR <span style={{ color: 'var(--red)' }}>WORK</span>
             </h1>
-            <p className="text-xl md:text-2xl text-[var(--beige)]/80 max-w-3xl leading-relaxed">
+            <p style={{ fontSize: 'clamp(17px, 1.5vw, 20px)', color: 'rgba(242,232,220,0.7)', maxWidth: '600px', lineHeight: '1.6', margin: 0 }}>
               A glimpse into the extraordinary live experiences, corporate galas, and musical events we've brought to life across India.
             </p>
           </Reveal>
@@ -53,26 +53,27 @@ export default function OurWorkPage() {
       </div>
 
       {/* GALLERY SECTION */}
-      <div className="container py-24 md:py-32">
+      <div className="container" style={{ padding: 'clamp(60px, 8vw, 100px) 0' }}>
         <Reveal>
-          <div className="mb-16 border-b border-[var(--dark)]/10 pb-12">
-            <h2 className="font-[var(--display)] text-5xl md:text-7xl uppercase tracking-wide text-[var(--dark)]">
-              FEATURED <span className="text-[var(--red)]">MOMENTS</span>
+          <div style={{ marginBottom: '50px', borderBottom: '1px solid var(--border-medium)', paddingBottom: '40px' }}>
+            <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', margin: 0 }}>
+              FEATURED <span style={{ color: 'var(--red)' }}>MOMENTS</span>
             </h2>
           </div>
         </Reveal>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div style={{ columnCount: 3, columnGap: '20px' }}>
           {images.map((src, idx) => (
-            <Reveal key={idx} delay={idx * 0.1}>
-              <div className="relative overflow-hidden group rounded-sm bg-[var(--dark)]">
-                <img 
+            <Reveal key={idx} delay={Math.min(idx * 0.05, 0.4)}>
+              <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '10px', background: 'var(--charcoal)', marginBottom: '20px', breakInside: 'avoid' }}>
+                <motion.img 
                   src={src} 
                   alt={`Event Moment ${idx + 1}`} 
-                  className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-[.22,1,.36,1]"
+                  style={{ width: '100%', height: 'auto', objectFit: 'cover', opacity: 0.9, display: 'block', transition: 'all 0.7s cubic-bezier(0.22, 1, 0.36, 1)' }}
                   loading="lazy"
+                  whileHover={{ scale: 1.04, opacity: 1 }}
+                  transition={{ duration: 0.7 }}
                 />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none"></div>
               </div>
             </Reveal>
           ))}
@@ -80,19 +81,21 @@ export default function OurWorkPage() {
       </div>
 
       {/* CTA SECTION */}
-      <div className="container pb-24">
-        <div className="border-t border-[var(--dark)]/10 pt-16 md:pt-24 flex flex-col items-center text-center">
-          <Reveal>
-            <h2 className="font-[var(--display)] text-5xl md:text-7xl uppercase tracking-wide text-[var(--dark)] mb-8">
-              READY TO BE OUR NEXT <span className="text-[var(--red)]">MASTERPIECE?</span>
-            </h2>
-            <p className="text-xl text-[#5e514a] leading-relaxed max-w-2xl mx-auto mb-10">
-              Let's turn your vision into an unforgettable experience. Our team is ready to bring your ideas to life.
-            </p>
-            <Link to="/#contact" className="button primary">
-              Plan your event <ArrowUpRight size={18} />
-            </Link>
-          </Reveal>
+      <div style={{ background: 'var(--red)', padding: 'clamp(60px, 8vw, 100px) 0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <Reveal>
+              <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(36px, 5vw, 70px)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--off-white)', marginBottom: '24px', lineHeight: '0.95' }}>
+                READY TO BE OUR NEXT <span style={{ opacity: 0.6 }}>MASTERPIECE?</span>
+              </h2>
+              <p style={{ fontSize: '17px', color: 'rgba(255,253,252,0.7)', lineHeight: '1.7', maxWidth: '550px', margin: '0 auto 36px' }}>
+                Let's turn your vision into an unforgettable experience. Our team is ready to bring your ideas to life.
+              </p>
+              <Link to="/#contact" className="button primary" style={{ background: 'var(--off-white)', color: 'var(--red)' }}>
+                Plan your event <ArrowUpRight size={18} />
+              </Link>
+            </Reveal>
+          </div>
         </div>
       </div>
 

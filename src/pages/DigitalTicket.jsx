@@ -33,123 +33,124 @@ export default function DigitalTicket() {
   const currentTicket = allTickets[currentTicketIndex];
 
   return (
-    <div className="min-h-screen bg-[var(--dark)] py-24 pt-[100px] relative overflow-hidden flex flex-col items-center">
+    <div style={{ minHeight: '100vh', background: 'var(--beige)', padding: '100px 20px 80px', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       
       {/* Background glow */}
-      <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[800px] h-[500px] bg-[var(--wine)]/10 rounded-[100%] blur-[120px] pointer-events-none"></div>
+      <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: '600px', height: '400px', background: 'rgba(183,25,46,0.03)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' }}></div>
 
-      <div className="w-full max-w-md px-4 relative z-10">
+      <div style={{ width: '100%', maxWidth: '420px', position: 'relative', zIndex: 10 }}>
         
-        <div className="flex justify-between items-center mb-8">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <button 
             onClick={() => navigate('/booking-success')}
-            className="text-[#878897] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2"
+            style={{ color: 'var(--charcoal-muted)', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none', cursor: 'pointer' }}
           >
             <ArrowLeft size={14} /> Back
           </button>
           
           <button 
             onClick={handleDownload}
-            className="text-[var(--red)] hover:text-[var(--beige)] text-xs font-bold uppercase tracking-widest flex items-center gap-2 bg-[var(--red)]/10 hover:bg-[var(--red)]/30 px-3 py-1.5 rounded transition-colors"
+            style={{
+              color: 'var(--red)', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em',
+              display: 'flex', alignItems: 'center', gap: '8px',
+              background: 'rgba(183,25,46,0.06)', border: '1px solid rgba(183,25,46,0.15)',
+              padding: '8px 14px', borderRadius: '6px', cursor: 'pointer', transition: 'all 0.25s ease',
+            }}
           >
             <Download size={14} /> Download
           </button>
         </div>
 
         {/* Ticket Container */}
-        <div className="relative">
+        <div style={{ position: 'relative' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTicketIndex}
-              initial={{ opacity: 0, x: 20, rotateY: -10 }}
-              animate={{ opacity: 1, x: 0, rotateY: 0 }}
-              exit={{ opacity: 0, x: -20, rotateY: 10 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.4 }}
-              className="w-full shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+              style={{ width: '100%', boxShadow: '0 20px 60px rgba(29,29,29,0.12)' }}
             >
               
               {/* Top Half: Event Details */}
-              <div className="bg-[var(--dark2)] rounded-t-2xl border border-[var(--beige)]/10 border-b-0 overflow-hidden relative">
+              <div style={{ background: 'var(--off-white)', borderRadius: '18px 18px 0 0', border: '1px solid var(--border-light)', borderBottom: 'none', overflow: 'hidden', position: 'relative' }}>
                 
                 {/* Brand Header */}
-                <div className="bg-[var(--dark)] border-b border-[var(--beige)]/10 px-6 py-4 flex justify-between items-center">
-                  <div className="logo scale-75 origin-left">
-                    <span className="logo-mark text-2xl">𝄞</span>
-                    <span><b className="text-xl">MRL</b><small className="text-[8px] mt-1">EVENTS</small></span>
+                <div style={{ background: 'var(--red)', padding: '14px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <img src="/assets/mrl-logo.png" alt="MRL Events" style={{ height: '28px', width: 'auto', filter: 'brightness(10)' }} />
                   </div>
-                  <div className="text-[10px] font-bold tracking-widest text-[#878897]">DIGITAL PASS</div>
+                  <div style={{ fontSize: '9px', fontWeight: '800', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase' }}>DIGITAL PASS</div>
                 </div>
 
                 {/* Event Image */}
-                <div className="h-40 relative">
-                  <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--dark2)] to-transparent"></div>
+                <div style={{ height: '160px', position: 'relative' }}>
+                  <img src={selectedEvent.image} alt={selectedEvent.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, var(--off-white) 0%, transparent 60%)' }}></div>
                   
                   {/* Category Badge */}
-                  <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md border border-[var(--beige)]/20 text-[var(--beige)] font-[var(--display)] tracking-widest px-4 py-1 text-xl rounded">
+                  <div style={{ position: 'absolute', bottom: '14px', right: '14px', background: 'var(--charcoal)', color: 'var(--off-white)', fontFamily: 'var(--display)', fontWeight: '800', letterSpacing: '0.08em', padding: '6px 14px', fontSize: '16px', borderRadius: '6px' }}>
                     {currentTicket.name}
                   </div>
                 </div>
 
-                <div className="px-8 pb-8 pt-4">
-                  <h2 className="font-[var(--display)] text-3xl uppercase leading-none mb-6 text-white">{selectedEvent.title}</h2>
+                <div style={{ padding: '20px 28px 28px' }}>
+                  <h2 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '900', textTransform: 'uppercase', lineHeight: '1', marginBottom: '20px', color: 'var(--charcoal)', letterSpacing: '-0.01em' }}>{selectedEvent.title}</h2>
                   
-                  <div className="grid grid-cols-2 gap-y-4 gap-x-4">
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 16px' }}>
                     <div>
-                      <span className="block text-[9px] uppercase tracking-widest text-[#777991] mb-1">Date</span>
-                      <span className="text-sm font-bold text-[#d8d7e2] uppercase">{selectedEvent.date}</span>
+                      <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginBottom: '3px' }}>Date</span>
+                      <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--charcoal)', textTransform: 'uppercase' }}>{selectedEvent.date}</span>
                     </div>
                     <div>
-                      <span className="block text-[9px] uppercase tracking-widest text-[#777991] mb-1">Time</span>
-                      <span className="text-sm font-bold text-[#d8d7e2] uppercase">{selectedEvent.time}</span>
+                      <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginBottom: '3px' }}>Time</span>
+                      <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--charcoal)', textTransform: 'uppercase' }}>{selectedEvent.time}</span>
                     </div>
-                    <div className="col-span-2">
-                      <span className="block text-[9px] uppercase tracking-widest text-[#777991] mb-1">Venue</span>
-                      <span className="text-sm font-bold text-[#d8d7e2] uppercase">{selectedEvent.venue}</span>
+                    <div style={{ gridColumn: 'span 2' }}>
+                      <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginBottom: '3px' }}>Venue</span>
+                      <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--charcoal)', textTransform: 'uppercase' }}>{selectedEvent.venue}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Perforation Line */}
-              <div className="flex bg-[var(--dark2)] items-center px-2">
-                <div className="w-4 h-8 bg-[var(--dark)] rounded-r-full -ml-2 border border-[var(--beige)]/10 border-l-0 border-y-0"></div>
-                <div className="flex-1 h-[2px] border-b-2 border-dashed border-[var(--beige)]/20"></div>
-                <div className="w-4 h-8 bg-[var(--dark)] rounded-l-full -mr-2 border border-[var(--beige)]/10 border-r-0 border-y-0"></div>
+              <div style={{ display: 'flex', background: 'var(--off-white)', alignItems: 'center', padding: '0 4px' }}>
+                <div style={{ width: '16px', height: '32px', background: 'var(--beige)', borderRadius: '0 16px 16px 0', marginLeft: '-4px' }}></div>
+                <div style={{ flex: 1, height: '2px', borderBottom: '2px dashed var(--border-medium)' }}></div>
+                <div style={{ width: '16px', height: '32px', background: 'var(--beige)', borderRadius: '16px 0 0 16px', marginRight: '-4px' }}></div>
               </div>
 
               {/* Bottom Half: Attendee & QR */}
-              <div className="bg-[var(--dark2)] rounded-b-2xl border border-[var(--beige)]/10 border-t-0 p-8 pt-6 relative overflow-hidden">
-                {/* Glow behind QR */}
-                <div className="absolute bottom-0 right-0 w-32 h-32 bg-[var(--red)]/20 blur-[40px]"></div>
+              <div style={{ background: 'var(--off-white)', borderRadius: '0 0 18px 18px', border: '1px solid var(--border-light)', borderTop: 'none', padding: '24px 28px 28px', position: 'relative', overflow: 'hidden' }}>
 
-                <div className="flex justify-between items-start gap-4">
-                  <div className="space-y-4 flex-1">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flex: 1 }}>
                     <div>
-                      <span className="block text-[9px] uppercase tracking-widest text-[#777991] mb-1">Attendee</span>
-                      <span className="text-base font-bold text-white uppercase">{customerDetails.fullName || 'Guest User'}</span>
+                      <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginBottom: '3px' }}>Attendee</span>
+                      <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--charcoal)', textTransform: 'uppercase' }}>{customerDetails.fullName || 'Guest User'}</span>
                     </div>
                     <div>
-                      <span className="block text-[9px] uppercase tracking-widest text-[#777991] mb-1">Booking ID</span>
-                      <span className="text-xs font-mono text-[#d8d7e2]">{bookingId}</span>
+                      <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginBottom: '3px' }}>Booking ID</span>
+                      <span style={{ fontSize: '12px', fontFamily: 'monospace', color: 'var(--charcoal-light)' }}>{bookingId}</span>
                     </div>
                     <div>
-                      <span className="block text-[9px] uppercase tracking-widest text-[#777991] mb-1">Ticket</span>
-                      <span className="text-xs font-bold text-[#d8d7e2]">{currentTicketIndex + 1} OF {allTickets.length}</span>
+                      <span style={{ display: 'block', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginBottom: '3px' }}>Ticket</span>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--charcoal)' }}>{currentTicketIndex + 1} OF {allTickets.length}</span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center">
-                    <div className="w-24 h-24 bg-white p-2 rounded-lg flex items-center justify-center">
-                      {/* Fake QR Code using Lucide icon and grid */}
-                      <div className="w-full h-full border-[3px] border-black p-1 relative flex items-center justify-center">
-                        <div className="absolute top-0 left-0 w-3 h-3 bg-black"></div>
-                        <div className="absolute top-0 right-0 w-3 h-3 bg-black"></div>
-                        <div className="absolute bottom-0 left-0 w-3 h-3 bg-black"></div>
-                        <QrCode size={40} className="text-black" strokeWidth={1} />
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ width: '88px', height: '88px', background: '#fff', padding: '8px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-light)' }}>
+                      <div style={{ width: '100%', height: '100%', border: '3px solid var(--charcoal)', padding: '4px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ position: 'absolute', top: 0, left: 0, width: '12px', height: '12px', background: 'var(--charcoal)' }}></div>
+                        <div style={{ position: 'absolute', top: 0, right: 0, width: '12px', height: '12px', background: 'var(--charcoal)' }}></div>
+                        <div style={{ position: 'absolute', bottom: 0, left: 0, width: '12px', height: '12px', background: 'var(--charcoal)' }}></div>
+                        <QrCode size={36} style={{ color: 'var(--charcoal)' }} strokeWidth={1} />
                       </div>
                     </div>
-                    <span className="text-[8px] uppercase tracking-widest text-[#777991] mt-2 font-bold">Scan at entry</span>
+                    <span style={{ fontSize: '7px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--charcoal-muted)', marginTop: '8px', fontWeight: '700' }}>Scan at entry</span>
                   </div>
                 </div>
               </div>
@@ -160,21 +161,21 @@ export default function DigitalTicket() {
 
         {/* Navigation for multiple tickets */}
         {allTickets.length > 1 && (
-          <div className="flex justify-between items-center mt-8">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '28px' }}>
             <button 
               onClick={() => setCurrentTicketIndex(Math.max(0, currentTicketIndex - 1))}
               disabled={currentTicketIndex === 0}
-              className="text-[#878897] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 disabled:opacity-30 transition-colors"
+              style={{ color: 'var(--charcoal-muted)', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none', cursor: 'pointer', opacity: currentTicketIndex === 0 ? 0.3 : 1, transition: 'opacity 0.25s' }}
             >
               <ArrowLeft size={14} /> Previous
             </button>
-            <span className="text-xs font-bold text-[#d8d7e2] tracking-widest">
+            <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--charcoal)', letterSpacing: '0.1em' }}>
               TICKET {currentTicketIndex + 1} OF {allTickets.length}
             </span>
             <button 
               onClick={() => setCurrentTicketIndex(Math.min(allTickets.length - 1, currentTicketIndex + 1))}
               disabled={currentTicketIndex === allTickets.length - 1}
-              className="text-[#878897] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 disabled:opacity-30 transition-colors"
+              style={{ color: 'var(--charcoal-muted)', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none', cursor: 'pointer', opacity: currentTicketIndex === allTickets.length - 1 ? 0.3 : 1, transition: 'opacity 0.25s' }}
             >
               Next <ArrowRight size={14} />
             </button>
@@ -190,7 +191,12 @@ export default function DigitalTicket() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[var(--dark2)] border border-[var(--beige)]/20 text-[var(--beige)] px-6 py-3 rounded-full text-sm font-medium shadow-2xl z-50 whitespace-nowrap"
+            style={{
+              position: 'fixed', bottom: '32px', left: '50%', transform: 'translateX(-50%)',
+              background: 'var(--charcoal)', color: 'var(--off-white)',
+              padding: '14px 24px', borderRadius: '10px', fontSize: '13px', fontWeight: '600',
+              boxShadow: '0 10px 30px rgba(29,29,29,0.2)', zIndex: 50, whiteSpace: 'nowrap',
+            }}
           >
             Ticket download will be enabled in the production version.
           </motion.div>

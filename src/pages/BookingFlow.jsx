@@ -84,24 +84,34 @@ export default function BookingFlow() {
 
   const progressSteps = ['TICKETS', 'DETAILS', 'PAYMENT', 'CONFIRMED'];
 
+  const inputStyle = {
+    width: '100%', background: 'var(--beige)', border: '1.5px solid var(--border-light)',
+    borderRadius: '10px', padding: '14px 18px', fontSize: '14px', color: 'var(--charcoal)',
+    outline: 'none', transition: 'border-color 0.25s ease', fontFamily: 'var(--body)',
+  };
+
   return (
-    <div className="min-h-screen bg-[var(--dark)] text-[var(--beige)] pt-[100px] pb-24">
+    <div style={{ minHeight: '100vh', background: 'var(--beige)', color: 'var(--charcoal)', paddingTop: '110px', paddingBottom: '100px' }}>
       {/* Progress Bar */}
-      <div className="container mb-12">
-        <div className="flex justify-between items-center max-w-3xl mx-auto relative">
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-[var(--beige)]/10 z-0"></div>
+      <div className="container" style={{ marginBottom: '50px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '550px', margin: '0 auto', position: 'relative' }}>
+          <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: '100%', height: '2px', background: 'var(--border-light)', zIndex: 0 }}></div>
           {progressSteps.map((s, i) => {
             const current = i + 1 === step;
             const past = i + 1 < step;
             return (
-              <div key={s} className="relative z-10 flex flex-col items-center gap-2 bg-[var(--dark)] px-2">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                  current ? 'bg-[var(--red)] text-white shadow-[0_0_15px_rgba(198,40,40,0.5)]' : 
-                  past ? 'bg-[var(--terracotta)] text-white' : 'bg-[#2a1f1a] text-[#7a6a5e]'
-                }`}>
+              <div key={s} style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', background: 'var(--beige)', padding: '0 8px' }}>
+                <div style={{
+                  width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '12px', fontWeight: '800', transition: 'all 0.3s ease',
+                  background: current ? 'var(--red)' : past ? 'var(--charcoal)' : 'var(--off-white)',
+                  color: current || past ? '#fff' : 'var(--charcoal-muted)',
+                  border: current ? 'none' : past ? 'none' : '1.5px solid var(--border-medium)',
+                  boxShadow: current ? '0 4px 16px rgba(183,25,46,0.3)' : 'none',
+                }}>
                   {past ? <CheckCircle2 size={16} /> : i + 1}
                 </div>
-                <span className={`text-[10px] tracking-widest font-bold ${current ? 'text-[var(--red)]' : past ? 'text-[var(--beige)]' : 'text-[#7a6a5e]'}`}>
+                <span style={{ fontSize: '9px', letterSpacing: '0.15em', fontWeight: '800', color: current ? 'var(--red)' : past ? 'var(--charcoal)' : 'var(--charcoal-muted)' }}>
                   {s}
                 </span>
               </div>
@@ -110,22 +120,22 @@ export default function BookingFlow() {
         </div>
       </div>
 
-      <div className="container grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '40px' }}>
         
         {/* Main Content Area */}
-        <div className="lg:col-span-2">
+        <div>
           
           {/* STEP 1: TICKETS */}
           {step === 1 && (
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-              <div className="flex items-center justify-between mb-8">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
                 <div>
-                  <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider mb-2">Select Your Experience</h2>
-                  <p className="text-[#aaaabd] text-sm">{selectedEvent.title}</p>
+                  <h2 style={{ fontSize: '28px', fontFamily: 'var(--display)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '6px' }}>Select Your Experience</h2>
+                  <p style={{ color: 'var(--charcoal-muted)', fontSize: '14px' }}>{selectedEvent.title}</p>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {selectedEvent.tickets.map((ticket) => {
                   const qty = getQuantity(ticket.id);
                   const selected = qty > 0;
@@ -133,50 +143,52 @@ export default function BookingFlow() {
                   return (
                     <div 
                       key={ticket.id}
-                      className={`relative border rounded-xl p-6 transition-all duration-300 overflow-hidden ${
-                        selected 
-                        ? 'bg-[rgba(198,40,40,0.05)] border-[var(--red)] shadow-[0_0_30px_rgba(198,40,40,0.15)]' 
-                        : 'bg-[var(--dark2)] border-[var(--beige)]/10 hover:border-[var(--beige)]/30'
-                      }`}
+                      style={{
+                        position: 'relative', borderRadius: '14px', padding: '28px', transition: 'all 0.3s ease', overflow: 'hidden',
+                        background: selected ? 'var(--off-white)' : 'var(--off-white)',
+                        border: selected ? '2px solid var(--red)' : '1.5px solid var(--border-light)',
+                        boxShadow: selected ? '0 8px 30px rgba(183,25,46,0.08)' : 'none',
+                      }}
                     >
-                      {/* Neon glow effect for selected */}
                       {selected && (
-                        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[var(--red)] to-[var(--wine)]"></div>
+                        <div style={{ position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: 'var(--red)', borderRadius: '2px 0 0 2px' }}></div>
                       )}
                       
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className={`font-[var(--display)] text-2xl uppercase tracking-wider ${selected ? 'text-white' : 'text-[#d8d7e2]'}`}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                            <h3 style={{ fontFamily: 'var(--display)', fontSize: '22px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.02em', color: selected ? 'var(--red)' : 'var(--charcoal)' }}>
                               {ticket.name}
                             </h3>
-                            <span className="text-xl font-bold text-[var(--red)]">₹{ticket.price}</span>
+                            <span style={{ fontSize: '20px', fontWeight: '800', color: 'var(--red)', fontFamily: 'var(--display)' }}>₹{ticket.price}</span>
                           </div>
-                          <ul className="text-sm text-[#878897] space-y-1 mb-4 sm:mb-0">
-                            {ticket.benefits.map((b, i) => <li key={i}>• {b}</li>)}
+                          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {ticket.benefits.map((b, i) => <li key={i} style={{ fontSize: '13px', color: 'var(--charcoal-muted)' }}>• {b}</li>)}
                           </ul>
                         </div>
                         
-                        <div className="flex items-center gap-4 bg-[#2a1f1a] rounded-lg p-2 border border-[var(--beige)]/5">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--beige)', borderRadius: '10px', padding: '6px', border: '1px solid var(--border-light)' }}>
                           <button 
                             onClick={() => handleTicketQuantity(ticket, -1)}
                             disabled={qty === 0}
-                            className={`w-10 h-10 rounded flex items-center justify-center font-bold text-lg transition-colors ${
-                              qty > 0 ? 'bg-[var(--beige)]/10 hover:bg-[var(--beige)]/20 text-[var(--beige)]' : 'text-[var(--beige)]/20 cursor-not-allowed'
-                            }`}
-                          >
-                            −
-                          </button>
-                          <span className="w-6 text-center font-bold">{qty}</span>
+                            style={{
+                              width: '40px', height: '40px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontWeight: '700', fontSize: '18px', border: 'none', cursor: qty > 0 ? 'pointer' : 'not-allowed',
+                              background: qty > 0 ? 'var(--off-white)' : 'transparent', color: qty > 0 ? 'var(--charcoal)' : 'var(--charcoal-muted)', opacity: qty > 0 ? 1 : 0.3,
+                              transition: 'all 0.2s ease',
+                            }}
+                          >−</button>
+                          <span style={{ width: '28px', textAlign: 'center', fontWeight: '800', fontSize: '16px' }}>{qty}</span>
                           <button 
                             onClick={() => handleTicketQuantity(ticket, 1)}
                             disabled={qty >= 6}
-                            className={`w-10 h-10 rounded flex items-center justify-center font-bold text-lg transition-colors ${
-                              qty < 6 ? 'bg-[var(--beige)]/10 hover:bg-[var(--beige)]/20 text-[var(--beige)]' : 'text-[var(--beige)]/20 cursor-not-allowed'
-                            }`}
-                          >
-                            +
-                          </button>
+                            style={{
+                              width: '40px', height: '40px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontWeight: '700', fontSize: '18px', border: 'none', cursor: qty < 6 ? 'pointer' : 'not-allowed',
+                              background: qty < 6 ? 'var(--off-white)' : 'transparent', color: qty < 6 ? 'var(--charcoal)' : 'var(--charcoal-muted)', opacity: qty < 6 ? 1 : 0.3,
+                              transition: 'all 0.2s ease',
+                            }}
+                          >+</button>
                         </div>
                       </div>
                     </div>
@@ -189,58 +201,42 @@ export default function BookingFlow() {
           {/* STEP 2: DETAILS */}
           {step === 2 && (
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-              <div className="mb-8">
-                <button onClick={() => setStep(1)} className="text-[#878897] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-6">
+              <div style={{ marginBottom: '32px' }}>
+                <button onClick={() => setStep(1)} style={{ color: 'var(--charcoal-muted)', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', background: 'none', border: 'none', cursor: 'pointer' }}>
                   <ArrowLeft size={14} /> Back to Tickets
                 </button>
-                <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider mb-2">Your Details</h2>
-                <p className="text-[#aaaabd] text-sm">Please provide your information for the digital ticket.</p>
+                <h2 style={{ fontSize: '28px', fontFamily: 'var(--display)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '6px' }}>Your Details</h2>
+                <p style={{ color: 'var(--charcoal-muted)', fontSize: '14px' }}>Please provide your information for the digital ticket.</p>
               </div>
 
-              <div className="bg-[var(--dark2)] border border-[var(--beige)]/10 rounded-xl p-8 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-[#878897]">Full Name *</label>
-                    <input 
-                      type="text" 
-                      name="fullName"
-                      value={customerDetails.fullName}
-                      onChange={handleDetailsChange}
-                      className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)] transition-colors"
-                      placeholder="John Doe"
+              <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-light)', borderRadius: '16px', padding: '36px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <label style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)' }}>Full Name *</label>
+                    <input type="text" name="fullName" value={customerDetails.fullName} onChange={handleDetailsChange} style={inputStyle} placeholder="John Doe"
+                      onFocus={(e) => e.target.style.borderColor = 'var(--red)'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-[#878897]">Email Address *</label>
-                    <input 
-                      type="email" 
-                      name="email"
-                      value={customerDetails.email}
-                      onChange={handleDetailsChange}
-                      className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)] transition-colors"
-                      placeholder="john@example.com"
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <label style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)' }}>Email Address *</label>
+                    <input type="email" name="email" value={customerDetails.email} onChange={handleDetailsChange} style={inputStyle} placeholder="john@example.com"
+                      onFocus={(e) => e.target.style.borderColor = 'var(--red)'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-[#878897]">Mobile Number *</label>
-                    <input 
-                      type="tel" 
-                      name="mobile"
-                      value={customerDetails.mobile}
-                      onChange={handleDetailsChange}
-                      className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)] transition-colors"
-                      placeholder="+91 98765 43210"
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <label style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)' }}>Mobile Number *</label>
+                    <input type="tel" name="mobile" value={customerDetails.mobile} onChange={handleDetailsChange} style={inputStyle} placeholder="+91 98765 43210"
+                      onFocus={(e) => e.target.style.borderColor = 'var(--red)'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-[#878897]">City (Optional)</label>
-                    <input 
-                      type="text" 
-                      name="city"
-                      value={customerDetails.city}
-                      onChange={handleDetailsChange}
-                      className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)] transition-colors"
-                      placeholder="Mumbai"
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <label style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)' }}>City (Optional)</label>
+                    <input type="text" name="city" value={customerDetails.city} onChange={handleDetailsChange} style={inputStyle} placeholder="Mumbai"
+                      onFocus={(e) => e.target.style.borderColor = 'var(--red)'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
                     />
                   </div>
                 </div>
@@ -251,84 +247,89 @@ export default function BookingFlow() {
           {/* STEP 3: PAYMENT */}
           {step === 3 && (
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-              <div className="mb-8">
-                <button onClick={() => setStep(2)} disabled={isProcessing} className="text-[#878897] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-6 disabled:opacity-50">
+              <div style={{ marginBottom: '32px' }}>
+                <button onClick={() => setStep(2)} disabled={isProcessing} style={{ color: 'var(--charcoal-muted)', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', background: 'none', border: 'none', cursor: 'pointer', opacity: isProcessing ? 0.5 : 1 }}>
                   <ArrowLeft size={14} /> Back to Details
                 </button>
-                <h2 className="text-3xl font-[var(--display)] uppercase tracking-wider mb-2">Complete Your Booking</h2>
-                <div className="inline-block bg-[var(--terracotta)]/20 border border-[var(--terracotta)]/40 text-[var(--terracotta)] text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded mt-2">
+                <h2 style={{ fontSize: '28px', fontFamily: 'var(--display)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.01em', marginBottom: '6px' }}>Complete Your Booking</h2>
+                <div style={{ display: 'inline-block', background: 'rgba(183,25,46,0.08)', border: '1px solid rgba(183,25,46,0.2)', color: 'var(--red)', fontSize: '9px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.12em', padding: '4px 10px', borderRadius: '4px', marginTop: '8px' }}>
                   Demo Mode
                 </div>
               </div>
 
-              <div className="bg-[var(--dark2)] border border-[var(--beige)]/10 rounded-xl p-8">
-                <div className="flex justify-between items-center mb-8 pb-8 border-b border-[var(--beige)]/10">
+              <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-light)', borderRadius: '16px', padding: '36px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', paddingBottom: '32px', borderBottom: '1px solid var(--border-light)' }}>
                   <div>
-                    <p className="text-sm text-[#878897] mb-1">Amount to pay</p>
-                    <h3 className="text-4xl font-[var(--display)] text-[var(--red)]">₹{totalAmount}</h3>
+                    <p style={{ fontSize: '13px', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Amount to pay</p>
+                    <h3 style={{ fontSize: '36px', fontFamily: 'var(--display)', fontWeight: '900', color: 'var(--red)', margin: 0 }}>₹{totalAmount}</h3>
                   </div>
-                  <ShieldCheck size={40} className="text-[#2a1f1a]" />
+                  <ShieldCheck size={36} style={{ color: 'var(--border-light)' }} />
                 </div>
 
-                <div className="space-y-4 mb-8">
-                  <label className="text-xs font-bold uppercase tracking-widest text-[#878897] block mb-4">Payment Method</label>
+                <div style={{ marginBottom: '28px' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', display: 'block', marginBottom: '14px' }}>Payment Method</label>
                   
-                  <div className="grid grid-cols-2 gap-4">
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                     <button 
                       onClick={() => setPaymentMethod('card')}
-                      className={`flex flex-col items-center gap-3 p-4 rounded-lg border transition-all ${
-                        paymentMethod === 'card' 
-                        ? 'bg-[var(--red)]/10 border-[var(--red)] text-[var(--beige)]' 
-                        : 'bg-[#2a1f1a] border-[var(--beige)]/10 text-[#7a6a5e] hover:border-[var(--beige)]/30 hover:text-[var(--beige)]'
-                      }`}
+                      style={{
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '18px', borderRadius: '10px',
+                        border: paymentMethod === 'card' ? '2px solid var(--red)' : '1.5px solid var(--border-light)',
+                        background: paymentMethod === 'card' ? 'rgba(183,25,46,0.04)' : 'var(--beige)',
+                        color: paymentMethod === 'card' ? 'var(--charcoal)' : 'var(--charcoal-muted)',
+                        cursor: 'pointer', transition: 'all 0.25s ease',
+                      }}
                     >
-                      <CreditCard size={24} className={paymentMethod === 'card' ? 'text-[var(--red)]' : ''} />
-                      <span className="text-xs font-bold tracking-widest">CARD</span>
+                      <CreditCard size={22} style={{ color: paymentMethod === 'card' ? 'var(--red)' : 'inherit' }} />
+                      <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.12em' }}>CARD</span>
                     </button>
                     <button 
                       onClick={() => setPaymentMethod('upi')}
-                      className={`flex flex-col items-center gap-3 p-4 rounded-lg border transition-all ${
-                        paymentMethod === 'upi' 
-                        ? 'bg-[var(--red)]/10 border-[var(--red)] text-[var(--beige)]' 
-                        : 'bg-[#2a1f1a] border-[var(--beige)]/10 text-[#7a6a5e] hover:border-[var(--beige)]/30 hover:text-[var(--beige)]'
-                      }`}
+                      style={{
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '18px', borderRadius: '10px',
+                        border: paymentMethod === 'upi' ? '2px solid var(--red)' : '1.5px solid var(--border-light)',
+                        background: paymentMethod === 'upi' ? 'rgba(183,25,46,0.04)' : 'var(--beige)',
+                        color: paymentMethod === 'upi' ? 'var(--charcoal)' : 'var(--charcoal-muted)',
+                        cursor: 'pointer', transition: 'all 0.25s ease',
+                      }}
                     >
-                      <Smartphone size={24} className={paymentMethod === 'upi' ? 'text-[var(--red)]' : ''} />
-                      <span className="text-xs font-bold tracking-widest">UPI</span>
+                      <Smartphone size={22} style={{ color: paymentMethod === 'upi' ? 'var(--red)' : 'inherit' }} />
+                      <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.12em' }}>UPI</span>
                     </button>
                   </div>
                 </div>
 
                 {paymentMethod === 'card' && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-4 mb-8">
-                    <input type="text" placeholder="Card Number" className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)]" defaultValue="4111 1111 1111 1111" />
-                    <div className="grid grid-cols-2 gap-4">
-                      <input type="text" placeholder="MM/YY" className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)]" defaultValue="12/28" />
-                      <input type="text" placeholder="CVV" className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)]" defaultValue="123" />
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' }}>
+                    <input type="text" placeholder="Card Number" style={inputStyle} defaultValue="4111 1111 1111 1111" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                      <input type="text" placeholder="MM/YY" style={inputStyle} defaultValue="12/28" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
+                      <input type="text" placeholder="CVV" style={inputStyle} defaultValue="123" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
                     </div>
-                    <input type="text" placeholder="Name on Card" className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)]" defaultValue={customerDetails.fullName} />
+                    <input type="text" placeholder="Name on Card" style={inputStyle} defaultValue={customerDetails.fullName} onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
                   </motion.div>
                 )}
 
                 {paymentMethod === 'upi' && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-4 mb-8">
-                    <input type="text" placeholder="Enter UPI ID (e.g., name@upi)" className="w-full bg-[#2a1f1a] border border-[var(--beige)]/10 rounded-lg px-4 py-3 text-[var(--beige)] focus:outline-none focus:border-[var(--red)]" defaultValue="demo@upi" />
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' }}>
+                    <input type="text" placeholder="Enter UPI ID (e.g., name@upi)" style={inputStyle} defaultValue="demo@upi" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
                   </motion.div>
                 )}
 
-                <div className="bg-[#2a1f1a] rounded-lg p-4 mb-8 text-center border border-[var(--beige)]/5">
-                  <p className="text-xs text-[#878897]">No real payment will be processed. This is for demonstration purposes only.</p>
+                <div style={{ background: 'var(--beige)', borderRadius: '10px', padding: '14px', marginBottom: '28px', textAlign: 'center', border: '1px solid var(--border-light)' }}>
+                  <p style={{ fontSize: '12px', color: 'var(--charcoal-muted)', margin: 0 }}>No real payment will be processed. This is for demonstration purposes only.</p>
                 </div>
 
                 <button 
                   onClick={processPayment}
                   disabled={isProcessing}
-                  className="w-full button primary py-4 shadow-[0_0_20px_rgba(198,40,40,0.3)] disabled:opacity-70 disabled:cursor-wait relative overflow-hidden"
+                  className="button primary"
+                  style={{ width: '100%', padding: '18px', fontSize: '14px', borderRadius: '10px', opacity: isProcessing ? 0.7 : 1, cursor: isProcessing ? 'wait' : 'pointer', position: 'relative', overflow: 'hidden' }}
                 >
                   <AnimatePresence mode="wait">
                     {isProcessing ? (
-                      <motion.div key="processing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-center gap-3">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <motion.div key="processing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                        <div style={{ width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid #fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }}></div>
                         PROCESSING PAYMENT...
                       </motion.div>
                     ) : (
@@ -345,54 +346,55 @@ export default function BookingFlow() {
         </div>
 
         {/* ORDER SUMMARY (Sticky Sidebar) */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-[120px] bg-[var(--dark2)] border border-[var(--beige)]/10 rounded-xl p-6 shadow-2xl">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-[#878897] mb-6">Your Booking</h3>
+        <div>
+          <div style={{ position: 'sticky', top: '100px', background: 'var(--off-white)', border: '1px solid var(--border-light)', borderRadius: '16px', padding: '28px', boxShadow: '0 8px 30px rgba(183,25,46,0.04)' }}>
+            <h3 style={{ fontSize: '12px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '24px' }}>Your Booking</h3>
             
-            <div className="flex gap-4 items-center mb-6 pb-6 border-b border-white/10">
-              <div className="w-16 h-16 rounded overflow-hidden shrink-0 border border-[var(--beige)]/20">
-                <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
+            <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid var(--border-light)' }}>
+              <div style={{ width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0 }}>
+                <img src={selectedEvent.image} alt={selectedEvent.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div>
-                <h4 className="font-bold text-white leading-tight">{selectedEvent.title}</h4>
-                <p className="text-xs text-[#878897] mt-1">{selectedEvent.date}</p>
+                <h4 style={{ fontWeight: '700', color: 'var(--charcoal)', lineHeight: '1.2', margin: 0, fontSize: '14px' }}>{selectedEvent.title}</h4>
+                <p style={{ fontSize: '12px', color: 'var(--charcoal-muted)', marginTop: '4px' }}>{selectedEvent.date}</p>
               </div>
             </div>
 
             {selectedTickets.length === 0 ? (
-              <p className="text-sm text-[#878897] py-4 text-center">No tickets selected yet.</p>
+              <p style={{ fontSize: '13px', color: 'var(--charcoal-muted)', padding: '16px 0', textAlign: 'center' }}>No tickets selected yet.</p>
             ) : (
-              <div className="space-y-4 mb-6 pb-6 border-b border-[var(--beige)]/10">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid var(--border-light)' }}>
                 {selectedTickets.map(t => (
-                  <div key={t.id} className="flex justify-between text-sm">
-                    <span className="text-[#d8d7e2]">{t.name} × {t.quantity}</span>
-                    <span className="text-white">₹{t.price * t.quantity}</span>
+                  <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
+                    <span style={{ color: 'var(--charcoal-light)' }}>{t.name} × {t.quantity}</span>
+                    <span style={{ color: 'var(--charcoal)', fontWeight: '600' }}>₹{t.price * t.quantity}</span>
                   </div>
                 ))}
               </div>
             )}
 
-            <div className="space-y-2 mb-6">
-              <div className="flex justify-between text-sm text-[#878897]">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: 'var(--charcoal-muted)' }}>
                 <span>Subtotal</span>
                 <span>₹{totalAmount}</span>
               </div>
-              <div className="flex justify-between text-sm text-[#878897]">
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: 'var(--charcoal-muted)' }}>
                 <span>Convenience Fee</span>
                 <span>₹0</span>
               </div>
             </div>
 
-            <div className="flex justify-between items-end mb-8 pt-4 border-t border-[var(--beige)]/10">
-              <span className="text-sm font-bold uppercase tracking-widest text-[var(--beige)]">Total</span>
-              <span className="text-2xl font-[var(--display)] text-[var(--red)]">₹{totalAmount}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '28px', paddingTop: '16px', borderTop: '1px solid var(--border-light)' }}>
+              <span style={{ fontSize: '12px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--charcoal)' }}>Total</span>
+              <span style={{ fontSize: '26px', fontFamily: 'var(--display)', fontWeight: '900', color: 'var(--red)' }}>₹{totalAmount}</span>
             </div>
 
             {step === 1 && (
               <button 
                 onClick={() => setStep(2)}
                 disabled={totalAmount === 0}
-                className="w-full button primary py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="button primary"
+                style={{ width: '100%', padding: '16px', borderRadius: '8px', opacity: totalAmount === 0 ? 0.5 : 1, cursor: totalAmount === 0 ? 'not-allowed' : 'pointer' }}
               >
                 CONTINUE <ArrowRight />
               </button>
@@ -402,7 +404,8 @@ export default function BookingFlow() {
               <button 
                 onClick={() => setStep(3)}
                 disabled={!isDetailsValid}
-                className="w-full button primary py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="button primary"
+                style={{ width: '100%', padding: '16px', borderRadius: '8px', opacity: !isDetailsValid ? 0.5 : 1, cursor: !isDetailsValid ? 'not-allowed' : 'pointer' }}
               >
                 CONTINUE TO PAYMENT <ArrowRight />
               </button>
@@ -411,6 +414,7 @@ export default function BookingFlow() {
         </div>
 
       </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

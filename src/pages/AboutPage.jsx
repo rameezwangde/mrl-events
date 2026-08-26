@@ -16,43 +16,43 @@ const Reveal = ({ children, className = '', delay = 0 }) => (
 );
 
 const Eyebrow = ({ children }) => (
-  <div className="eyebrow eyebrow-dark mb-6">
+  <div className="eyebrow eyebrow-dark" style={{ marginBottom: '20px' }}>
     <span></span>{children}
   </div>
 );
 
 export default function AboutPage() {
   return (
-    <div className="pt-[140px] pb-24 min-h-screen bg-[var(--beige)] text-[var(--dark)]">
+    <div style={{ paddingTop: '130px', paddingBottom: '100px', minHeight: '100vh', background: 'var(--beige)', color: 'var(--charcoal)' }}>
       
-      {/* HERO SECTION - Inspired by Reference 1 */}
-      <div className="container mb-12 md:mb-16">
+      {/* HERO SECTION */}
+      <div className="container" style={{ marginBottom: '60px' }}>
         <Reveal>
           <Eyebrow>About the company</Eyebrow>
-          <h1 className="font-[var(--display)] text-7xl md:text-[130px] leading-[0.85] uppercase tracking-wide mb-10 text-[var(--dark)]">
-            ABOUT MRL <span className="text-[var(--red)]">EVENTS</span>
+          <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(50px, 8vw, 110px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: '40px', color: 'var(--charcoal)' }}>
+            ABOUT MRL <span style={{ color: 'var(--red)' }}>EVENTS</span>
           </h1>
-          <div className="max-w-3xl space-y-6 text-[#5e514a] text-xl md:text-2xl font-medium leading-relaxed">
-            <p>
+          <div style={{ maxWidth: '700px', display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--charcoal-muted)', fontSize: 'clamp(17px, 1.5vw, 20px)', fontWeight: '400', lineHeight: '1.65' }}>
+            <p style={{ margin: 0 }}>
               MRL Events is a vibrant and rapidly growing entertainment and event management company, founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor. Since its inception, the company has established itself as a trusted name in the industry by curating and executing high-quality musical events across India.
             </p>
-            <p>
+            <p style={{ margin: 0 }}>
               With a passion for delivering exceptional live experiences, MRL Events focuses on bringing legendary artists and unforgettable performances to audiences in a grand and memorable way.
             </p>
           </div>
         </Reveal>
       </div>
 
-      {/* MISSION / IMAGE SECTION - Inspired by Reference 2 */}
-      <div className="container mb-24 md:mb-32">
-        <div className="border-t border-[var(--dark)]/10 pt-10 md:pt-16">
-          <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-24 items-center">
+      {/* MISSION SECTION */}
+      <div className="container" style={{ marginBottom: '100px' }}>
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center' }}>
             <Reveal>
               <Eyebrow>Our Mission</Eyebrow>
-              <h2 className="font-[var(--display)] text-6xl md:text-[95px] leading-[0.85] uppercase tracking-wide text-[var(--dark)] mb-8">
-                EXTRAORDINARY <span className="text-[var(--red)]">LIVE EXPERIENCES</span>
+              <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(40px, 5vw, 80px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '28px' }}>
+                EXTRAORDINARY <span style={{ color: 'var(--red)' }}>LIVE EXPERIENCES</span>
               </h2>
-              <p className="text-xl text-[#5e514a] leading-relaxed max-w-xl">
+              <p style={{ fontSize: '17px', color: 'var(--charcoal-muted)', lineHeight: '1.7', maxWidth: '500px', margin: 0 }}>
                 To craft extraordinary live entertainment experiences that connect audiences with legendary artists, through innovation, excellence, and heartfelt execution.
               </p>
             </Reveal>
@@ -60,30 +60,34 @@ export default function AboutPage() {
               <img 
                 src="/assets/live-performance.png" 
                 alt="Live Event" 
-                className="w-full h-[400px] md:h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '14px', filter: 'grayscale(100%)', transition: 'filter 0.7s ease' }}
+                onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%)'}
+                onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%)'}
               />
             </Reveal>
           </div>
         </div>
       </div>
 
-      {/* VISION / IMAGE SECTION - Inspired by Reference 2 (Flipped) */}
-      <div className="container mb-24 md:mb-32">
-        <div className="border-t border-[var(--dark)]/10 pt-16 md:pt-24">
-          <div className="grid md:grid-cols-[1fr_1.2fr] gap-12 md:gap-24 items-center">
-            <Reveal delay={0.2} className="order-2 md:order-1 h-full">
+      {/* VISION SECTION */}
+      <div className="container" style={{ marginBottom: '100px' }}>
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center' }}>
+            <Reveal delay={0.2} className="h-full">
               <img 
                 src="/assets/corporate-gala.png" 
                 alt="Corporate Event" 
-                className="w-full h-[400px] md:h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '14px', filter: 'grayscale(100%)', transition: 'filter 0.7s ease' }}
+                onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%)'}
+                onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%)'}
               />
             </Reveal>
-            <Reveal className="order-1 md:order-2">
+            <Reveal>
               <Eyebrow>Our Vision</Eyebrow>
-              <h2 className="font-[var(--display)] text-6xl md:text-[95px] leading-[0.85] uppercase tracking-wide text-[var(--dark)] mb-8">
-                REDEFINING <span className="text-[var(--red)]">LIVE EVENTS</span>
+              <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(40px, 5vw, 80px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '28px' }}>
+                REDEFINING <span style={{ color: 'var(--red)' }}>LIVE EVENTS</span>
               </h2>
-              <p className="text-xl text-[#5e514a] leading-relaxed max-w-xl">
+              <p style={{ fontSize: '17px', color: 'var(--charcoal-muted)', lineHeight: '1.7', maxWidth: '500px', margin: 0 }}>
                 To emerge as one of India's premier entertainment companies, known for redefining live events with creativity, professionalism, and unforgettable performances.
               </p>
             </Reveal>
@@ -91,46 +95,46 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* CORE VALUES GRID - Inspired by Reference 3 */}
-      <div className="container mb-24">
-        <div className="border-t border-[var(--dark)]/10 pt-16 md:pt-24">
+      {/* CORE VALUES */}
+      <div className="container" style={{ marginBottom: '80px' }}>
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px' }}>
           <Reveal>
             <Eyebrow>Why MRL Events</Eyebrow>
-            <h2 className="font-[var(--display)] text-6xl md:text-[110px] leading-[0.85] uppercase tracking-wide text-[var(--dark)] mb-20 max-w-5xl">
-              PASSION. QUALITY. <span className="text-[var(--red)]">INNOVATION.</span>
+            <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(44px, 6vw, 90px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '60px', maxWidth: '800px' }}>
+              PASSION. QUALITY. <span style={{ color: 'var(--red)' }}>INNOVATION.</span>
             </h2>
           </Reveal>
           
-          <div className="grid md:grid-cols-2 gap-x-16 gap-y-16 border-t border-[var(--dark)]/10 pt-16">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px 60px', borderTop: '1px solid var(--border-light)', paddingTop: '50px' }}>
             <Reveal delay={0.1}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">01.</span> Passion for Performance</h3>
-              <p className="text-lg text-[#5e514a] leading-relaxed">Fueling every event with energy, enthusiasm, and musical excellence.</p>
+              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>01.</span>Passion for Performance</h3>
+              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Fueling every event with energy, enthusiasm, and musical excellence.</p>
             </Reveal>
             <Reveal delay={0.2}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">02.</span> Commitment to Quality</h3>
-              <p className="text-lg text-[#5e514a] leading-relaxed">Ensuring flawless execution with attention to detail in every project.</p>
+              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>02.</span>Commitment to Quality</h3>
+              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Ensuring flawless execution with attention to detail in every project.</p>
             </Reveal>
             <Reveal delay={0.3}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">03.</span> Artist & Audience Centricity</h3>
-              <p className="text-lg text-[#5e514a] leading-relaxed">Balancing the needs of performers and patrons for enriching experiences.</p>
+              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>03.</span>Artist & Audience Centricity</h3>
+              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Balancing the needs of performers and patrons for enriching experiences.</p>
             </Reveal>
             <Reveal delay={0.4}>
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">04.</span> Innovation & Creativity</h3>
-              <p className="text-lg text-[#5e514a] leading-relaxed">Continuously evolving concepts and formats to set new trends in live entertainment.</p>
+              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>04.</span>Innovation & Creativity</h3>
+              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Continuously evolving concepts and formats to set new trends in live entertainment.</p>
             </Reveal>
-            <Reveal delay={0.5} className="md:col-span-2">
-              <h3 className="font-[var(--display)] text-4xl mb-4 uppercase tracking-wider text-[var(--dark)]"><span className="text-[var(--red)] mr-2">05.</span> Integrity & Professionalism</h3>
-              <p className="text-lg text-[#5e514a] leading-relaxed max-w-2xl">Building lasting relationships through trust, transparency, and respect.</p>
+            <Reveal delay={0.5} style={{ gridColumn: 'span 2' }}>
+              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>05.</span>Integrity & Professionalism</h3>
+              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0, maxWidth: '600px' }}>Building lasting relationships through trust, transparency, and respect.</p>
             </Reveal>
           </div>
         </div>
       </div>
 
-      {/* ADDITIONAL TEXT & CTA */}
+      {/* CTA */}
       <div className="container">
-        <div className="border-t border-[var(--dark)]/10 pt-16 md:pt-24 flex flex-col items-center text-center">
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <Reveal>
-            <a href="/#contact" className="button primary" style={{ marginTop: '20px' }}>
+            <a href="/#contact" className="button primary" style={{ marginTop: '16px' }}>
               Get in Touch <ArrowUpRight size={18} />
             </a>
           </Reveal>

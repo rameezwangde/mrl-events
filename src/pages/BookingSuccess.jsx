@@ -19,30 +19,33 @@ export default function BookingSuccess() {
   if (!selectedEvent || !bookingId) return null;
 
   return (
-    <div className="min-h-screen bg-[var(--dark)] flex items-center justify-center py-24 pt-[120px] relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--red)]/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div style={{ minHeight: '100vh', background: 'var(--beige)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 20px 80px', position: 'relative', overflow: 'hidden' }}>
+      {/* Background accent */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '500px', height: '500px', background: 'rgba(183,25,46,0.04)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
       
-      <div className="container max-w-2xl relative z-10">
+      <div className="container" style={{ maxWidth: '600px', position: 'relative', zIndex: 10 }}>
         <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-[var(--dark2)] border border-[var(--red)]/30 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(198,40,40,0.15)] text-center relative overflow-hidden"
+          style={{
+            background: 'var(--off-white)', border: '1px solid var(--border-light)',
+            borderRadius: '20px', padding: '48px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+            boxShadow: '0 20px 60px rgba(183,25,46,0.06)',
+          }}
         >
-          {/* Neon line top */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--red)] to-[var(--wine)]"></div>
+          {/* Red accent line top */}
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '3px', background: 'var(--red)' }}></div>
 
           {/* Animated Checkmark */}
-          <div className="mb-8 flex justify-center">
+          <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'center' }}>
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
-              className="w-24 h-24 rounded-full bg-[var(--red)]/20 flex items-center justify-center border-2 border-[var(--red)] relative"
+              style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(183,25,46,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--red)' }}
             >
-              <div className="absolute inset-0 rounded-full animate-ping bg-[var(--red)]/20"></div>
-              <svg className="w-12 h-12 text-[var(--red)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg style={{ width: '40px', height: '40px', color: 'var(--red)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <motion.path 
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
@@ -60,7 +63,7 @@ export default function BookingSuccess() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="font-[var(--display)] text-5xl md:text-7xl uppercase mb-4 text-white"
+            style={{ fontFamily: 'var(--display)', fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: '900', textTransform: 'uppercase', marginBottom: '12px', color: 'var(--charcoal)', letterSpacing: '-0.02em' }}
           >
             You're In!
           </motion.h1>
@@ -69,42 +72,42 @@ export default function BookingSuccess() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-[#aaaabd] text-lg mb-10 max-w-md mx-auto"
+            style={{ color: 'var(--charcoal-muted)', fontSize: '16px', marginBottom: '36px', maxWidth: '400px', margin: '0 auto 36px', lineHeight: '1.6' }}
           >
-            Your booking for <span className="text-white font-bold">{selectedEvent.title}</span> has been confirmed.
+            Your booking for <span style={{ color: 'var(--charcoal)', fontWeight: '700' }}>{selectedEvent.title}</span> has been confirmed.
           </motion.p>
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-[#1a1210] border border-[var(--beige)]/5 rounded-xl p-6 text-left mb-10"
+            style={{ background: 'var(--beige)', border: '1px solid var(--border-light)', borderRadius: '14px', padding: '24px', textAlign: 'left', marginBottom: '36px' }}
           >
-            <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px', fontSize: '14px' }}>
               <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#777991] mb-1">Booking ID</span>
-                <span className="font-bold text-[var(--red)]">{bookingId}</span>
+                <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Booking ID</span>
+                <span style={{ fontWeight: '700', color: 'var(--red)' }}>{bookingId}</span>
               </div>
               <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#777991] mb-1">Date & Time</span>
-                <span className="text-white">{selectedEvent.date}, {selectedEvent.time}</span>
+                <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Date & Time</span>
+                <span style={{ color: 'var(--charcoal)' }}>{selectedEvent.date}, {selectedEvent.time}</span>
               </div>
-              <div className="col-span-2">
-                <span className="block text-[10px] uppercase tracking-widest text-[#777991] mb-1">Venue</span>
-                <span className="text-white">{selectedEvent.venue}</span>
+              <div style={{ gridColumn: 'span 2' }}>
+                <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Venue</span>
+                <span style={{ color: 'var(--charcoal)' }}>{selectedEvent.venue}</span>
               </div>
-              <div className="col-span-2 py-3 border-y border-white/5 my-1">
-                <span className="block text-[10px] uppercase tracking-widest text-[#777991] mb-2">Tickets</span>
+              <div style={{ gridColumn: 'span 2', padding: '14px 0', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', margin: '4px 0' }}>
+                <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '8px' }}>Tickets</span>
                 {selectedTickets.map(t => (
-                  <div key={t.id} className="flex justify-between text-white font-medium mb-1 last:mb-0">
+                  <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--charcoal)', fontWeight: '600', marginBottom: '4px' }}>
                     <span>{t.name}</span>
                     <span>× {t.quantity}</span>
                   </div>
                 ))}
               </div>
-              <div className="col-span-2 flex justify-between items-end">
-                <span className="text-xs uppercase tracking-widest text-[#777991]">Total Paid</span>
-                <span className="text-2xl font-[var(--display)] text-white">₹{totalAmount}</span>
+              <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--charcoal-muted)' }}>Total Paid</span>
+                <span style={{ fontSize: '24px', fontFamily: 'var(--display)', fontWeight: '900', color: 'var(--charcoal)' }}>₹{totalAmount}</span>
               </div>
             </div>
           </motion.div>
@@ -113,19 +116,21 @@ export default function BookingSuccess() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}
           >
             <button 
               onClick={() => navigate('/ticket')}
-              className="w-full sm:w-auto button primary py-4 px-8"
+              className="button primary"
+              style={{ width: '100%', padding: '16px', borderRadius: '10px', fontSize: '13px' }}
             >
               VIEW MY TICKET <ArrowRight />
             </button>
             <button 
               onClick={() => navigate('/events')}
-              className="w-full sm:w-auto button secondary py-4 px-8"
+              className="button secondary"
+              style={{ width: '100%', padding: '16px', borderRadius: '10px', fontSize: '13px' }}
             >
-              <ArrowLeft size={16} className="mr-2" /> Back to Events
+              <ArrowLeft size={16} style={{ marginRight: '8px' }} /> Back to Events
             </button>
           </motion.div>
 
