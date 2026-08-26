@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, ArrowLeft, Menu, X, Sparkles, UserRound, ShieldCheck, UsersRound, MapPin, Trophy } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-const nav = [['Home', '/#home'], ['About', '/about'], ['Services', '/#services'], ['Our Work', '/work'], ['Testimonials', '/#testimonials'], ['Events', '/events'], ['Contact', '/#contact']];
+const nav = [['Home', '/#home'], ['About', '/about'], ['Services', '/#services'], ['Our Work', '/work'], ['Testimonials', '/#testimonials'], ['Events', '/events'], ['Contact', '/contact']];
 const services = [
   ['01', 'Corporate Events', 'Conferences, launches, award nights and brand experiences designed around your business objectives.'],
   ['02', 'Weddings & Celebrations', 'Beautifully curated celebrations managed from creative direction through flawless on-ground execution.'],
@@ -88,9 +88,9 @@ function Work() { const works = [['Corporate Event', '/assets/corporate-gala.png
 
 function Testimonials() { const [current, setCurrent] = useState(0); const move = (d) => setCurrent((current + d + testimonials.length) % testimonials.length); return <section id="testimonials" className="testimonials section-light"><div className="container"><Reveal><Eyebrow dark>Client voices</Eyebrow><h2>The experience<br /><span>speaks for itself.</span></h2></Reveal><div className="quote-layout"><div className="quote-mark">“</div><AnimatePresence mode="wait"><motion.blockquote key={current} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: .45 }}><p>{testimonials[current].quote}</p><footer><b>{testimonials[current].name}</b><span>{testimonials[current].type}</span></footer></motion.blockquote></AnimatePresence><div className="slider-nav"><button onClick={() => move(-1)} aria-label="Previous testimonial"><ArrowLeft /></button><span>{String(current + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}</span><button onClick={() => move(1)} aria-label="Next testimonial"><ArrowRight /></button></div></div></div></section> }
 
-function CTA() { return <section id="contact" className="cta section-dark"><div className="trail trail-a" /><div className="trail trail-b" /><div className="container"><Reveal><Eyebrow light>Start something memorable</Eyebrow><h2>Have an idea?<br /><span>Let's turn it<br />into an experience.</span></h2><p>Tell us what you’re planning. We’ll help shape the idea, manage the details and create an event worth remembering.</p><a href="mailto:hello@mrlevents.com" className="button primary big">Start planning your event <ArrowUpRight /></a></Reveal></div></section> }
+function CTA() { return <section id="contact" className="cta section-dark"><div className="trail trail-a" /><div className="trail trail-b" /><div className="container"><Reveal><Eyebrow light>Start something memorable</Eyebrow><h2>Have an idea?<br /><span>Let's turn it<br />into an experience.</span></h2><p>Tell us what you’re planning. We’ll help shape the idea, manage the details and create an event worth remembering.</p><Link to="/contact" className="button primary big">Start planning your event <ArrowUpRight /></Link></Reveal></div></section> }
 
-function Footer() { return <footer className="footer"><div className="container"><div className="footer-grid"><div><Logo /><p>Creating remarkable events and experiences from concept to execution.</p></div><div><h4>Explore</h4>{nav.slice(0, 5).map(([n, id]) => <a href={`#${id}`} key={id}>{n}</a>)}</div><div><h4>Contact</h4><a href="tel:+910000000000">+91 00000 00000</a><a href="mailto:hello@mrlevents.com">hello@mrlevents.com</a><span>Mumbai, India</span></div><div><h4>Social</h4>{['Instagram', 'Facebook', 'LinkedIn', 'YouTube'].map(n => <a href="#" key={n}>{n}<ArrowUpRight /></a>)}</div></div><div className="footer-bottom"><span>© 2026 MRL Events. All rights reserved.</span><div><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div></div><div className="footer-line" /></footer> }
+function Footer() { return <footer className="footer"><div className="container"><div className="footer-grid"><div><Logo /><p>Creating remarkable events and experiences from concept to execution.</p></div><div><h4>Explore</h4>{nav.slice(0, 5).map(([n, id]) => <a href={id.startsWith('/#') ? id.substring(1) : id} key={id}>{n}</a>)}</div><div><h4>Contact</h4><a href="tel:+919819866075">+91 98198 66075</a><a href="mailto:mrlevents2023@gmail.com">mrlevents2023@gmail.com</a><span>1/18, Lotus CHS Ltd., Bhawani Nagar, Marol, Andheri (E), Mumbai – 400059</span></div><div><h4>Social</h4>{['Instagram', 'Facebook', 'LinkedIn', 'YouTube'].map(n => <a href="#" key={n}>{n}<ArrowUpRight /></a>)}</div></div><div className="footer-bottom"><span>© 2026 MRL Events. All rights reserved.</span><div><a href="#">Privacy Policy</a><a href="#">Terms</a></div></div></div><div className="footer-line" /></footer> }
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BookingProvider } from './context/BookingContext';
@@ -101,6 +101,7 @@ import BookingSuccess from './pages/BookingSuccess';
 import DigitalTicket from './pages/DigitalTicket';
 import AboutPage from './pages/AboutPage';
 import OurWorkPage from './pages/OurWorkPage';
+import ContactPage from './pages/ContactPage';
 
 // Existing Landing Page components
 function LandingPage() {
@@ -140,6 +141,7 @@ export default function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/work" element={<OurWorkPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:eventId" element={<EventDetails />} />
             <Route path="/book/:eventId" element={<BookingFlow />} />
