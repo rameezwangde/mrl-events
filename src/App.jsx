@@ -38,9 +38,9 @@ function Navbar() {
 
 function Hero() {
   const stats = [
-    [UsersRound, '15+', 'Concerts delivered', 'Successfully executed across India.'], 
-    [MapPin, '9+', 'Cities covered', 'Bringing our expertise to venues across the nation.'], 
-    [ShieldCheck, '100%', 'Client commitment', 'Dedicated to delivering flawless experiences every time.'], 
+    [UsersRound, '15+', 'Concerts delivered', 'Successfully executed across India.'],
+    [MapPin, '9+', 'Cities covered', 'Bringing our expertise to venues across the nation.'],
+    [ShieldCheck, '100%', 'Client commitment', 'Dedicated to delivering flawless experiences every time.'],
     [Trophy, '3+', 'Years of experience', 'A decade of industry leadership and creative excellence.']
   ];
   return <section id="home" className="hero"><div className="hero-glow glow-one" /><div className="hero-glow glow-two" /><div className="hero-photo"><motion.img initial={{ scale: 1.06, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.6, ease: [.22, 1, .36, 1] }} src="/assets/hero-concert.png" alt="Audience watching a vibrant live performance" /><div className="hero-mask" /></div><div className="container hero-main"><div className="hero-copy"><motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .15, duration: .6 }}><Eyebrow dark>Live Events & Experiences</Eyebrow></motion.div><h1><motion.span initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .25, duration: .8 }}>We create</motion.span><motion.span className="gradient-text" initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .38, duration: .8 }}>Experiences</motion.span></h1><motion.div className="script" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .58, duration: .7 }}>You'll Never Forget<svg viewBox="0 0 340 22"><motion.path d="M5 15 C 85 0, 220 4, 335 12" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: .9, duration: 1.1 }} /></svg></motion.div><motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .7 }}>From unforgettable celebrations to high-impact corporate experiences, we bring ideas to life through creativity, precision and flawless execution.</motion.p><motion.div className="hero-actions" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .82 }}><a href="#contact" className="button primary">Plan your event <ArrowRight /></a><a href="#work" className="button secondary">Explore our work <ArrowUpRight /></a></motion.div><motion.div className="trust" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>{[[Sparkles, 'Creative Concepts'], [UserRound, 'End-to-End Management'], [ShieldCheck, 'Flawless Execution']].map(([Icon, t], i) => <div key={t}><span className={`trust-icon t${i}`}><Icon /></span>{t}</div>)}</motion.div></div></div><div className="container stats">{stats.map(([Icon, n, l, d], i) => <motion.div key={l} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .9 + i * .08 }}><Icon /><span className={`stat-num s${i}`}>{n}</span><span>{l}</span><p className="stat-desc">{d}</p></motion.div>)}</div></section>
@@ -51,7 +51,7 @@ function About() {
   return <section id="about" className="about section-beige"><div className="container"><Reveal className="about-intro"><Eyebrow dark>More than events.</Eyebrow><p>We create moments people remember.</p></Reveal><motion.h2 style={{ x: drift }} className="mega-statement"><span>We turn ideas</span><em>into experiences.</em></motion.h2><div style={{ borderTop: '1px solid rgba(29,29,29,0.12)', paddingTop: '70px' }}><Reveal><h3 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(44px, 7vw, 80px)', fontWeight: '900', textTransform: 'uppercase', textAlign: 'center', margin: '0 0 35px 0', letterSpacing: '-0.02em' }}>About <i style={{ fontStyle: 'normal', color: 'var(--red)' }}>MRL Events</i></h3></Reveal><Reveal delay={0.15}><div style={{ maxWidth: '900px', margin: '0 auto', color: 'var(--charcoal-muted)', fontSize: '16px', lineHeight: '1.75' }}><p className="lead" style={{ marginBottom: '20px', fontSize: 'clamp(19px, 1.8vw, 24px)', color: 'var(--charcoal)', lineHeight: '1.45', fontWeight: '500' }}>MRL Events is a vibrant and rapidly growing entertainment and event management company, founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor.</p><p style={{ marginBottom: '20px' }}>Since its inception, the company has established itself as a trusted name in the industry by curating and executing high-quality musical events across India. With a passion for delivering exceptional live experiences, MRL Events focuses on bringing legendary artists and unforgettable performances to audiences in a grand and memorable way.</p><p style={{ marginBottom: '20px' }}>In a short span, MRL Events has successfully organized iconic shows such as Raags of Rafi by Javed Ali and Aishwarya Majmudar Live in Concert in Mumbai. The company is currently managing a powerful lineup of live concerts, including Kumar Sanu Live in Concert in Ahmedabad and Pune, Salim-Sulaiman Live in Concert in Mumbai, and Sonu Nigam Live in Concert in Chandigarh.</p><p style={{ marginBottom: '35px' }}>With a vision to become a leading force in India's live entertainment space, MRL Events delivers excellence through seamless planning, creative concepts, artist-friendly management, and audience-centric execution. From celebrity concerts and cultural showcases to brand partnerships and corporate events, MRL Events provides comprehensive solutions backed by a talented team and a strong network within the industry. Whether it's managing technical production, ticketing, media outreach, or promotional strategies, MRL Events is committed to delivering experiences that captivate, inspire, and set new benchmarks in the world of live entertainment.</p><div style={{ textAlign: 'center' }}><a href="#contact" className="text-link">Start planning your event <ArrowUpRight /></a></div></div></Reveal></div></div></section>
 }
 
-function Services() { 
+function Services() {
   return (
     <section id="services" className="services section-white">
       <div className="container">
@@ -64,19 +64,19 @@ function Services() {
         </Reveal>
         <div className="service-grid">
           {services.map(([num, title, desc], i) => (
-            <motion.a 
+            <motion.a
               href="#contact"
-              className="service-card" 
-              key={title} 
-              initial={{ opacity: 0, y: 40 }} 
-              whileInView={{ opacity: 1, y: 0 }} 
-              viewport={{ once: true, margin: '-50px' }} 
+              className="service-card"
+              key={title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: i * .1, duration: .6, ease: [.22, 1, .36, 1] }}
             >
               <span style={{ fontFamily: 'var(--display)', fontSize: '38px', fontWeight: '900', color: 'var(--red)', opacity: 0.15, lineHeight: '1' }}>{num}</span>
               <h3>{title}</h3>
               <p>{desc}</p>
-              <div className="s-link"><ArrowRight size={18}/></div>
+              <div className="s-link"><ArrowRight size={18} /></div>
             </motion.a>
           ))}
         </div>
