@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, ArrowLeft, Menu, X, Sparkles, UserRound, ShieldCheck, UsersRound, MapPin, Trophy } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
-const nav = [['Home', '/#home'], ['About', '/about'], ['Services', '/#services'], ['Our Work', '/work'], ['Testimonials', '/#testimonials'], ['Events', '/events'], ['Contact', '/contact']];
+const nav = [['Home', '/#home'], ['About', '/about'], ['Services', '/#services'], ['Our Work', '/work'], ['Events', '/events'], ['Contact', '/contact']];
 const services = [
   ['01', 'Corporate Events', 'Conferences, launches, award nights and brand experiences designed around your business objectives.'],
   ['02', 'Weddings & Celebrations', 'Beautifully curated celebrations managed from creative direction through flawless on-ground execution.'],
