@@ -112,7 +112,7 @@ export default function AboutPage() {
                 REDEFINING <span style={{ color: 'var(--red)' }}>LIVE EVENTS</span>
               </h2>
               <p style={{ fontSize: '17px', color: 'var(--charcoal)', fontWeight: '500', lineHeight: '1.7', maxWidth: '500px', margin: 0 }}>
-                To emerge as one of India's premier entertainment companies, known for redefining live events with creativity, professionalism, and unforgettable performances.
+                To become one of India’s most admired and trusted entertainment companies, recognised for producing world-class live events, presenting exceptional talent, and creating experiences that audiences cherish for a lifetime.
               </p>
             </Reveal>
           </div>
