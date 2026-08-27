@@ -145,7 +145,7 @@ export default function AboutPage() {
               <img 
                 src="/assets/mithoon.jpg" 
                 alt="Mithoon Event" 
-                style={{ width: '100%', height: 'auto', borderRadius: '14px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
+                style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', borderRadius: '14px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
               />
             </Reveal>
             <Reveal>
@@ -164,12 +164,21 @@ export default function AboutPage() {
       {/* CORE VALUES */}
       <div className="container" style={{ marginBottom: '60px' }}>
         <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '40px' }}>
-          <Reveal>
-            <Eyebrow>Why MRL Events</Eyebrow>
-            <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(44px, 6vw, 90px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '40px', maxWidth: '800px' }}>
-              PASSION. QUALITY. <span style={{ color: 'var(--red)' }}>INNOVATION.</span>
-            </h2>
-          </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center', marginBottom: '40px' }}>
+            <Reveal>
+              <Eyebrow>Why MRL Events</Eyebrow>
+              <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(44px, 6vw, 90px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', margin: 0 }}>
+                PASSION. QUALITY. <span style={{ color: 'var(--red)' }}>INNOVATION.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.2} className="h-full">
+              <img 
+                src="/assets/javed.jpeg" 
+                alt="Javed Ali Event" 
+                style={{ width: '100%', height: 'auto', borderRadius: '14px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
+              />
+            </Reveal>
+          </div>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px 60px', borderTop: '1px solid var(--border-light)', paddingTop: '30px' }}>
             {[
