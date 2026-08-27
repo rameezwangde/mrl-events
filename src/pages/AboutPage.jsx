@@ -63,8 +63,8 @@ export default function AboutPage() {
       </div>
 
       {/* MISSION SECTION */}
-      <div className="container" style={{ marginBottom: '100px' }}>
-        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px' }}>
+      <div className="container" style={{ marginBottom: '60px' }}>
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '40px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center' }}>
             <Reveal>
               <Eyebrow>Our Mission</Eyebrow>
@@ -94,8 +94,8 @@ export default function AboutPage() {
       </div>
 
       {/* VISION SECTION */}
-      <div className="container" style={{ marginBottom: '100px' }}>
-        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px' }}>
+      <div className="container" style={{ marginBottom: '60px' }}>
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '40px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center' }}>
             <Reveal delay={0.2} className="h-full">
               <img 
@@ -120,36 +120,33 @@ export default function AboutPage() {
       </div>
 
       {/* CORE VALUES */}
-      <div className="container" style={{ marginBottom: '80px' }}>
-        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px' }}>
+      <div className="container" style={{ marginBottom: '60px' }}>
+        <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '40px' }}>
           <Reveal>
             <Eyebrow>Why MRL Events</Eyebrow>
-            <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(44px, 6vw, 90px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '60px', maxWidth: '800px' }}>
+            <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(44px, 6vw, 90px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '40px', maxWidth: '800px' }}>
               PASSION. QUALITY. <span style={{ color: 'var(--red)' }}>INNOVATION.</span>
             </h2>
           </Reveal>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px 60px', borderTop: '1px solid var(--border-light)', paddingTop: '50px' }}>
-            <Reveal delay={0.1}>
-              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>01.</span>Passion for Performance</h3>
-              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Fueling every event with energy, enthusiasm, and musical excellence.</p>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>02.</span>Commitment to Quality</h3>
-              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Ensuring flawless execution with attention to detail in every project.</p>
-            </Reveal>
-            <Reveal delay={0.3}>
-              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>03.</span>Artist & Audience Centricity</h3>
-              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Balancing the needs of performers and patrons for enriching experiences.</p>
-            </Reveal>
-            <Reveal delay={0.4}>
-              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>04.</span>Innovation & Creativity</h3>
-              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0 }}>Continuously evolving concepts and formats to set new trends in live entertainment.</p>
-            </Reveal>
-            <Reveal delay={0.5} style={{ gridColumn: 'span 2' }}>
-              <h3 style={{ fontFamily: 'var(--display)', fontSize: '28px', fontWeight: '800', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)' }}><span style={{ color: 'var(--red)', marginRight: '8px' }}>05.</span>Integrity & Professionalism</h3>
-              <p style={{ fontSize: '15px', color: 'var(--charcoal-muted)', lineHeight: '1.7', margin: 0, maxWidth: '600px' }}>Building lasting relationships through trust, transparency, and respect.</p>
-            </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px 60px', borderTop: '1px solid var(--border-light)', paddingTop: '30px' }}>
+            {[
+              "Experience in organising premium musical concerts",
+              "Strong association with renowned and legendary artists",
+              "Expertise in large-scale event planning and execution",
+              "Successful sold-out shows at prestigious venues",
+              "Creative marketing and audience-engagement strategies",
+              "Commitment to quality, innovation, and professionalism",
+              "End-to-end event management solutions",
+              "Growing presence across major Indian cities"
+            ].map((text, i) => (
+              <Reveal delay={0.1 * (i % 4)} key={i}>
+                <h3 style={{ fontFamily: 'var(--display)', fontSize: '22px', fontWeight: '800', margin: 0, textTransform: 'uppercase', letterSpacing: '0.01em', color: 'var(--charcoal)', lineHeight: '1.4' }}>
+                  <span style={{ color: 'var(--red)', marginRight: '12px' }}>{String(i + 1).padStart(2, '0')}.</span>
+                  {text}
+                </h3>
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>
