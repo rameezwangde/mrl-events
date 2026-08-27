@@ -190,7 +190,7 @@ export default function AboutPage() {
       </div>
 
       {/* CTA */}
-      <div className="container">
+      <div className="container" style={{ paddingBottom: '100px' }}>
         <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <Reveal>
             <a href="/#contact" className="button primary" style={{ marginTop: '16px' }}>
