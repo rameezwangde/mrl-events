@@ -52,13 +52,21 @@ export default function AboutPage() {
       {/* ABOUT TEXT SECTION */}
       <div className="container" style={{ paddingTop: '80px', marginBottom: '60px' }}>
         <Reveal>
-          <div className="seo-content" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--charcoal)', fontSize: 'clamp(17px, 1.5vw, 20px)', fontWeight: '500', lineHeight: '1.65' }}>
-            <p style={{ margin: 0 }}>
-              <strong>MRL Events</strong> is a vibrant and rapidly growing <strong>entertainment and event management company</strong> founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor. Since our inception, we have established ourselves as a trusted name in the Indian entertainment industry by conceptualising, organising, and executing high-quality <strong>musical concerts and live experiences</strong> across India.
-            </p>
-            <p style={{ margin: 0 }}>
-              Driven by creativity, passion, and professional excellence, MRL Events specialises in bringing legendary artists and celebrated performers closer to their audiences. From <strong>artist management and event production</strong> to venue coordination, promotions, ticketing, and audience engagement, every aspect of an event is carefully planned and flawlessly executed.
-            </p>
+          <div className="seo-content">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '60px', marginBottom: '60px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--charcoal)', fontSize: 'clamp(17px, 1.5vw, 20px)', fontWeight: '500', lineHeight: '1.65' }}>
+                <p style={{ margin: 0 }}>
+                  <strong>MRL Events</strong> is a vibrant and rapidly growing <strong>entertainment and event management company</strong> founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor. Since our inception, we have established ourselves as a trusted name in the Indian entertainment industry by conceptualising, organising, and executing high-quality <strong>musical concerts and live experiences</strong> across India.
+                </p>
+                <p style={{ margin: 0 }}>
+                  Driven by creativity, passion, and professional excellence, MRL Events specialises in bringing legendary artists and celebrated performers closer to their audiences. From <strong>artist management and event production</strong> to venue coordination, promotions, ticketing, and audience engagement, every aspect of an event is carefully planned and flawlessly executed.
+                </p>
+              </div>
+              <div>
+                <img src="/assets/falguni_pathak.jpg" alt="Falguni Pathak Event Poster" style={{ width: '100%', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }} />
+              </div>
+            </div>
+            
             <h2 style={{ fontSize: '24px', fontFamily: 'var(--display)', color: 'var(--charcoal)', marginTop: '20px', marginBottom: '10px' }}>Our Prestigious Concerts & Live Shows</h2>
             <p style={{ margin: 0 }}>
               We have successfully organised several large-scale productions featuring renowned artists at premium venues. Our portfolio includes:

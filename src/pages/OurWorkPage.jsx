@@ -22,7 +22,10 @@ const Eyebrow = ({ children, light = false }) => (
 );
 
 export default function OurWorkPage() {
-  const images = Array.from({ length: 12 }, (_, i) => `/assets/work-${i + 1}.jpeg`);
+  const images = [
+    '/assets/falguni_pathak.jpg',
+    ...Array.from({ length: 11 }, (_, i) => `/assets/work-${i + 1}.jpeg`)
+  ];
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--beige)', color: 'var(--charcoal)' }}>
