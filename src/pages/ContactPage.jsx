@@ -2,6 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
+const InstagramIcon = ({ size = 24, color = "currentColor" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+  </svg>
+);
+
+const FacebookIcon = ({ size = 24, color = "currentColor" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+  </svg>
+);
+
 export default function ContactPage() {
   const cardStyle = {
     background: 'var(--off-white)',
@@ -79,6 +93,25 @@ export default function ContactPage() {
               Bhawani Nagar, Marol,<br />
               Andheri (E), Mumbai – 400059
             </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            style={cardStyle}
+            whileHover={{ y: -6, boxShadow: '0 20px 50px rgba(0,0,0,0.12)' }}
+          >
+            <div style={{ width: '76px', height: '56px', background: 'rgba(183, 25, 46, 0.08)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: '0 auto 20px', color: 'var(--red)' }}>
+              <InstagramIcon size={24} />
+              <FacebookIcon size={24} />
+            </div>
+            <h3 style={{ fontSize: '22px', fontFamily: 'var(--display)', fontWeight: '800', marginBottom: '12px', color: 'var(--charcoal)' }}>Social Media</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', marginTop: '16px' }}>
+              <a href="https://www.instagram.com/eventsmrl/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', color: 'var(--charcoal)', fontWeight: '600', textDecoration: 'none' }}><InstagramIcon size={18} color="var(--red)" /> @eventsmrl</a>
+              <a href="https://www.facebook.com/p/MRL-Events-100093348081655/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', color: 'var(--charcoal)', fontWeight: '600', textDecoration: 'none' }}><FacebookIcon size={18} color="var(--red)" /> MRL Events</a>
+            </div>
           </motion.div>
         </div>
 
