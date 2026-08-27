@@ -32,12 +32,31 @@ export default function AboutPage() {
           <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(50px, 8vw, 110px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: '40px', color: 'var(--charcoal)' }}>
             ABOUT MRL <span style={{ color: 'var(--red)' }}>EVENTS</span>
           </h1>
-          <div style={{ maxWidth: '700px', display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--charcoal-muted)', fontSize: 'clamp(17px, 1.5vw, 20px)', fontWeight: '400', lineHeight: '1.65' }}>
+          <div className="seo-content" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--charcoal)', fontSize: 'clamp(17px, 1.5vw, 20px)', fontWeight: '500', lineHeight: '1.65' }}>
             <p style={{ margin: 0 }}>
-              MRL Events is a vibrant and rapidly growing entertainment and event management company, founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor. Since its inception, the company has established itself as a trusted name in the industry by curating and executing high-quality musical events across India.
+              <strong>MRL Events</strong> is a vibrant and rapidly growing <strong>entertainment and event management company</strong> founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor. Since our inception, we have established ourselves as a trusted name in the Indian entertainment industry by conceptualising, organising, and executing high-quality <strong>musical concerts and live experiences</strong> across India.
             </p>
             <p style={{ margin: 0 }}>
-              With a passion for delivering exceptional live experiences, MRL Events focuses on bringing legendary artists and unforgettable performances to audiences in a grand and memorable way.
+              Driven by creativity, passion, and professional excellence, MRL Events specialises in bringing legendary artists and celebrated performers closer to their audiences. From <strong>artist management and event production</strong> to venue coordination, promotions, ticketing, and audience engagement, every aspect of an event is carefully planned and flawlessly executed.
+            </p>
+            <h2 style={{ fontSize: '24px', fontFamily: 'var(--display)', color: 'var(--charcoal)', marginTop: '20px', marginBottom: '10px' }}>Our Prestigious Concerts & Live Shows</h2>
+            <p style={{ margin: 0 }}>
+              We have successfully organised several large-scale productions featuring renowned artists at premium venues. Our portfolio includes:
+            </p>
+            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <li><strong>"Raagas of Rafi" by Javed Ali</strong> in Mumbai</li>
+              <li><strong>Falguni Pathak</strong> – Two back-to-back sold-out shows at the Nita Mukesh Ambani Cultural Centre (NMACC), BKC, Mumbai</li>
+              <li><strong>Viraj Ghelani Comedy Show Live</strong> at NMACC, Mumbai</li>
+              <li><strong>Aditya Narayan</strong> – Sold-out live show in Mumbai</li>
+              <li><strong>Kumar Sanu Live</strong> in Pune and Ahmedabad</li>
+              <li><strong>Salim–Sulaiman Live</strong> in Mumbai</li>
+              <li><strong>Mithoon Live in Concert</strong> in Mumbai</li>
+              <li><strong>Papon Live in Concert</strong> in Surat</li>
+              <li><strong>Aishwarya Majmudar Live in Concert</strong></li>
+              <li><strong>Kavi Sammelan by Dr. Kumar Vishwas</strong> and many more shows</li>
+            </ul>
+            <p style={{ margin: 0, marginTop: '10px' }}>
+              Through these successful events, MRL Events has demonstrated its ability to manage large-scale productions, renowned artists, premium venues, and diverse audiences. Every concert is designed to be more than just a performance—it is created as an unforgettable celebration of music, emotion, and togetherness.
             </p>
           </div>
         </Reveal>
@@ -52,9 +71,14 @@ export default function AboutPage() {
               <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(40px, 5vw, 80px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '28px' }}>
                 EXTRAORDINARY <span style={{ color: 'var(--red)' }}>LIVE EXPERIENCES</span>
               </h2>
-              <p style={{ fontSize: '17px', color: 'var(--charcoal-muted)', lineHeight: '1.7', maxWidth: '500px', margin: 0 }}>
-                To craft extraordinary live entertainment experiences that connect audiences with legendary artists, through innovation, excellence, and heartfelt execution.
-              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', fontSize: '17px', color: 'var(--charcoal)', fontWeight: '500', lineHeight: '1.7', maxWidth: '500px' }}>
+                <p style={{ margin: 0 }}>
+                  Our mission is to craft extraordinary live entertainment experiences that connect audiences with legendary artists through innovation, excellence, creativity, and heartfelt execution.
+                </p>
+                <p style={{ margin: 0 }}>
+                  MRL Events is committed to maintaining the highest standards of professionalism while delivering memorable experiences for audiences, artists, sponsors, partners, and stakeholders. We aim to continuously expand our presence across India and create iconic entertainment properties that leave a lasting impression.
+                </p>
+              </div>
             </Reveal>
             <Reveal delay={0.2} className="h-full">
               <img 
@@ -87,7 +111,7 @@ export default function AboutPage() {
               <h2 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(40px, 5vw, 80px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', color: 'var(--charcoal)', marginBottom: '28px' }}>
                 REDEFINING <span style={{ color: 'var(--red)' }}>LIVE EVENTS</span>
               </h2>
-              <p style={{ fontSize: '17px', color: 'var(--charcoal-muted)', lineHeight: '1.7', maxWidth: '500px', margin: 0 }}>
+              <p style={{ fontSize: '17px', color: 'var(--charcoal)', fontWeight: '500', lineHeight: '1.7', maxWidth: '500px', margin: 0 }}>
                 To emerge as one of India's premier entertainment companies, known for redefining live events with creativity, professionalism, and unforgettable performances.
               </p>
             </Reveal>
