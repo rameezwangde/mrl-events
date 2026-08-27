@@ -128,11 +128,9 @@ export default function AboutPage() {
             </Reveal>
             <Reveal delay={0.2} className="h-full">
               <img 
-                src="/assets/live-performance.png" 
-                alt="Live Event" 
-                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '14px', filter: 'grayscale(100%)', transition: 'filter 0.7s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%)'}
-                onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%)'}
+                src="/assets/aditya_narayan.jpg" 
+                alt="Aditya Narayan Event" 
+                style={{ width: '100%', height: 'auto', borderRadius: '14px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
               />
             </Reveal>
           </div>
@@ -145,11 +143,9 @@ export default function AboutPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 'clamp(40px, 5vw, 80px)', alignItems: 'center' }}>
             <Reveal delay={0.2} className="h-full">
               <img 
-                src="/assets/corporate-gala.png" 
-                alt="Corporate Event" 
-                style={{ width: '100%', height: '400px', objectFit: 'cover', borderRadius: '14px', filter: 'grayscale(100%)', transition: 'filter 0.7s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%)'}
-                onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%)'}
+                src="/assets/mithoon.jpg" 
+                alt="Mithoon Event" 
+                style={{ width: '100%', height: 'auto', borderRadius: '14px', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
               />
             </Reveal>
             <Reveal>
