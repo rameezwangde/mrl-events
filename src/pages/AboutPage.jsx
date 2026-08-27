@@ -43,18 +43,36 @@ export default function AboutPage() {
             <p style={{ margin: 0 }}>
               We have successfully organised several large-scale productions featuring renowned artists at premium venues. Our portfolio includes:
             </p>
-            <ul style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><strong>"Raagas of Rafi" by Javed Ali</strong> in Mumbai</li>
-              <li><strong>Falguni Pathak</strong> – Two back-to-back sold-out shows at the Nita Mukesh Ambani Cultural Centre (NMACC), BKC, Mumbai</li>
-              <li><strong>Viraj Ghelani Comedy Show Live</strong> at NMACC, Mumbai</li>
-              <li><strong>Aditya Narayan</strong> – Sold-out live show in Mumbai</li>
-              <li><strong>Kumar Sanu Live</strong> in Pune and Ahmedabad</li>
-              <li><strong>Salim–Sulaiman Live</strong> in Mumbai</li>
-              <li><strong>Mithoon Live in Concert</strong> in Mumbai</li>
-              <li><strong>Papon Live in Concert</strong> in Surat</li>
-              <li><strong>Aishwarya Majmudar Live in Concert</strong></li>
-              <li><strong>Kavi Sammelan by Dr. Kumar Vishwas</strong> and many more shows</li>
-            </ul>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '10px' }}>
+              {[
+                <><strong>"Raagas of Rafi" by Javed Ali</strong> in Mumbai</>,
+                <><strong>Falguni Pathak</strong> – Two back-to-back sold-out shows at the Nita Mukesh Ambani Cultural Centre (NMACC), BKC, Mumbai</>,
+                <><strong>Viraj Ghelani Comedy Show Live</strong> at NMACC, Mumbai</>,
+                <><strong>Aditya Narayan</strong> – Sold-out live show in Mumbai</>,
+                <><strong>Kumar Sanu Live</strong> in Pune and Ahmedabad</>,
+                <><strong>Salim–Sulaiman Live</strong> in Mumbai</>,
+                <><strong>Mithoon Live in Concert</strong> in Mumbai</>,
+                <><strong>Papon Live in Concert</strong> in Surat</>,
+                <><strong>Aishwarya Majmudar Live in Concert</strong></>,
+                <><strong>Kavi Sammelan by Dr. Kumar Vishwas</strong> and many more shows</>
+              ].map((item, idx) => (
+                <div key={idx} style={{ 
+                  background: 'rgba(255, 255, 255, 0.6)', 
+                  padding: '14px 20px', 
+                  borderRadius: '12px', 
+                  border: '1px solid rgba(0,0,0,0.05)',
+                  fontSize: '16px',
+                  color: 'var(--charcoal)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
+                }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--red)', flexShrink: 0 }} />
+                  <span style={{ lineHeight: '1.4' }}>{item}</span>
+                </div>
+              ))}
+            </div>
             <p style={{ margin: 0, marginTop: '10px' }}>
               Through these successful events, MRL Events has demonstrated its ability to manage large-scale productions, renowned artists, premium venues, and diverse audiences. Every concert is designed to be more than just a performance—it is created as an unforgettable celebration of music, emotion, and togetherness.
             </p>
