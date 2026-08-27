@@ -66,22 +66,36 @@ export default function EventsPage() {
   const others = dummyEvents.slice(1);
 
   return (
-    <div style={{ paddingTop: '120px', paddingBottom: '100px', minHeight: '100vh', background: 'var(--beige)' }}>
-      <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{ marginBottom: '60px' }}
-        >
-          <div className="eyebrow eyebrow-dark" style={{ marginBottom: '20px' }}><span></span>Upcoming Events</div>
-          <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(48px, 7vw, 100px)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '-0.02em', lineHeight: '0.9', color: 'var(--charcoal)', margin: 0 }}>
-            Experience <span style={{ color: 'var(--red)' }}>The Magic</span>
-          </h1>
-          <p style={{ color: 'var(--charcoal-muted)', marginTop: '16px', maxWidth: '500px', fontSize: '16px', lineHeight: '1.7' }}>
-            Discover our upcoming premium events and book your tickets now.
-          </p>
-        </motion.div>
+    <div style={{ minHeight: '100vh', background: 'var(--beige)' }}>
+      
+      {/* HERO SECTION */}
+      <div style={{ position: 'relative', paddingTop: '180px', paddingBottom: '100px', background: 'var(--charcoal)', color: '#fff', overflow: 'hidden', marginBottom: '60px' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img 
+            src="/assets/events_hero.jpg" 
+            alt="Events Background" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, mixBlendMode: 'luminosity' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, var(--charcoal) 0%, transparent 40%, rgba(29,29,29,0.6) 100%)' }}></div>
+        </div>
 
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <div className="eyebrow eyebrow-light" style={{ marginBottom: '20px' }}><span></span>Upcoming Events</div>
+            <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(48px, 7vw, 100px)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '-0.02em', lineHeight: '0.9', margin: 0, marginBottom: '20px' }}>
+              Experience <span style={{ color: 'var(--red)' }}>The Magic</span>
+            </h1>
+            <p style={{ opacity: 0.9, maxWidth: '500px', fontSize: 'clamp(18px, 2vw, 22px)', lineHeight: '1.5', margin: 0 }}>
+              Discover our upcoming premium events and book your tickets now.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="container">
         {/* Featured Event — Large Card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

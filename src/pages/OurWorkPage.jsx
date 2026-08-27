@@ -32,9 +32,9 @@ export default function OurWorkPage() {
         {/* Background Image with Overlay */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <img 
-            src="/assets/live-performance.png" 
+            src="/assets/our_work_hero.jpg" 
             alt="Concert Background" 
-            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2, mixBlendMode: 'luminosity' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, mixBlendMode: 'luminosity' }}
           />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, var(--charcoal) 0%, transparent 40%, rgba(29,29,29,0.6) 100%)' }}></div>
         </div>

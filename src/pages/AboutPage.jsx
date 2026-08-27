@@ -15,23 +15,43 @@ const Reveal = ({ children, className = '', delay = 0 }) => (
   </motion.div>
 );
 
-const Eyebrow = ({ children }) => (
-  <div className="eyebrow eyebrow-dark" style={{ marginBottom: '20px' }}>
+const Eyebrow = ({ children, light = false }) => (
+  <div className={`eyebrow ${light ? 'eyebrow-light' : 'eyebrow-dark'}`} style={{ marginBottom: '20px' }}>
     <span></span>{children}
   </div>
 );
 
 export default function AboutPage() {
   return (
-    <div style={{ paddingTop: '130px', paddingBottom: '100px', minHeight: '100vh', background: 'var(--beige)', color: 'var(--charcoal)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--beige)', color: 'var(--charcoal)' }}>
       
       {/* HERO SECTION */}
-      <div className="container" style={{ marginBottom: '60px' }}>
+      <div style={{ position: 'relative', paddingTop: '180px', paddingBottom: '100px', background: 'var(--charcoal)', color: '#fff', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img 
+            src="/assets/about_hero.jpg" 
+            alt="About MRL Events" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, mixBlendMode: 'luminosity' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, var(--charcoal) 0%, transparent 40%, rgba(29,29,29,0.6) 100%)' }}></div>
+        </div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <Reveal>
+            <Eyebrow light>About the company</Eyebrow>
+            <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(50px, 8vw, 110px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: '20px' }}>
+              ABOUT MRL <span style={{ color: 'var(--red)' }}>EVENTS</span>
+            </h1>
+            <p style={{ fontSize: 'clamp(18px, 2vw, 22px)', maxWidth: '700px', opacity: 0.9, lineHeight: '1.5', margin: 0 }}>
+              A vibrant and rapidly growing event management company, conceptualising and executing high-quality live experiences across India.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* ABOUT TEXT SECTION */}
+      <div className="container" style={{ paddingTop: '80px', marginBottom: '60px' }}>
         <Reveal>
-          <Eyebrow>About the company</Eyebrow>
-          <h1 style={{ fontFamily: 'var(--display)', fontSize: 'clamp(50px, 8vw, 110px)', fontWeight: '900', lineHeight: '0.9', textTransform: 'uppercase', letterSpacing: '-0.02em', marginBottom: '40px', color: 'var(--charcoal)' }}>
-            ABOUT MRL <span style={{ color: 'var(--red)' }}>EVENTS</span>
-          </h1>
           <div className="seo-content" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '20px', color: 'var(--charcoal)', fontSize: 'clamp(17px, 1.5vw, 20px)', fontWeight: '500', lineHeight: '1.65' }}>
             <p style={{ margin: 0 }}>
               <strong>MRL Events</strong> is a vibrant and rapidly growing <strong>entertainment and event management company</strong> founded in 2023 by Mr. Laxaman Patel and Mr. Ramesh Mor. Since our inception, we have established ourselves as a trusted name in the Indian entertainment industry by conceptualising, organising, and executing high-quality <strong>musical concerts and live experiences</strong> across India.
