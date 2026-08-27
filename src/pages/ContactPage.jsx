@@ -75,7 +75,7 @@ export default function ContactPage() {
             </div>
             <h3 style={{ fontSize: '22px', fontFamily: 'var(--display)', fontWeight: '800', marginBottom: '12px', color: 'var(--charcoal)' }}>Office</h3>
             <p style={{ color: 'var(--charcoal-muted)', marginBottom: '0', lineHeight: '1.7', fontSize: '14px' }}>
-              1/18, Lotus CHS Ltd.,<br />
+              1/1/18, Lotus CHS Ltd.,<br />
               Bhawani Nagar, Marol,<br />
               Andheri (E), Mumbai – 400059
             </p>
