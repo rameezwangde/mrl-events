@@ -27,22 +27,36 @@ export default function ContactPage() {
   };
 
   return (
-    <main style={{ paddingTop: '120px', paddingBottom: '80px', background: 'var(--red)', color: 'var(--off-white)', minHeight: '100vh' }}>
-      <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', marginBottom: '60px' }}
-        >
-          <h1 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontFamily: 'var(--display)', fontWeight: '900', color: 'var(--off-white)', letterSpacing: '-0.02em' }}>
-            Get in <span style={{ opacity: 0.6 }}>Touch</span>
-          </h1>
-          <p style={{ color: 'rgba(255,253,252,0.8)', maxWidth: '550px', margin: '16px auto 0', fontSize: '17px', lineHeight: '1.7' }}>
-            We'd love to hear from you. Reach out to discuss your next big event or to simply say hello.
-          </p>
-        </motion.div>
+    <main style={{ minHeight: '100vh', background: 'var(--beige)' }}>
+      {/* HERO SECTION */}
+      <div style={{ position: 'relative', paddingTop: '180px', paddingBottom: '100px', background: 'var(--charcoal)', color: '#fff', overflow: 'hidden', marginBottom: '60px' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img 
+            src="/assets/contact_hero.jpg" 
+            alt="Contact MRL Events" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, mixBlendMode: 'luminosity' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg, var(--charcoal) 0%, transparent 40%, rgba(29,29,29,0.6) 100%)' }}></div>
+        </div>
 
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{ textAlign: 'center' }}
+          >
+            <h1 style={{ fontSize: 'clamp(50px, 8vw, 110px)', fontFamily: 'var(--display)', fontWeight: '900', color: '#fff', letterSpacing: '-0.02em', textTransform: 'uppercase', lineHeight: '0.9', margin: 0, marginBottom: '20px' }}>
+              Get in <span style={{ color: 'var(--red)' }}>Touch</span>
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,0.9)', maxWidth: '600px', margin: '0 auto', fontSize: 'clamp(18px, 2vw, 22px)', lineHeight: '1.5' }}>
+              We'd love to hear from you. Reach out to discuss your next big event or to simply say hello.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="container" style={{ paddingBottom: '80px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '28px', marginBottom: '60px' }}>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
