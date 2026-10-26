@@ -116,13 +116,6 @@ function Hero() {
 
       <div className="container hero-main">
         <div className="hero-copy">
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .15, duration: .6 }}>
-            <div className="hero-live-pill">
-              <span className="live-pulse" />
-              <span>India's Premier Live Concert & Event Curators</span>
-            </div>
-          </motion.div>
-
           <h1>
             <motion.span initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .25, duration: .8 }}>
               We Create
