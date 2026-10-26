@@ -26,14 +26,68 @@ function Logo() { return <Link className="logo" to="/#home" aria-label="MRL Even
 function Navbar() {
   const [scrolled, setScrolled] = useState(false), [open, setOpen] = useState(false);
   const location = useLocation();
-  useEffect(() => { const on = () => setScrolled(scrollY > 30); on(); addEventListener('scroll', on, { passive: true }); return () => removeEventListener('scroll', on) }, []);
+  const isHome = location.pathname === '/' || location.pathname === '';
+
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 30);
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
+
   const go = () => setOpen(false);
-  return <header className={`nav ${scrolled ? 'nav-scrolled' : ''}`}><div className="nav-inner"><Logo /><nav className="desktop-nav">{nav.map(([n, path], i) => {
-    const isActive = location.pathname === path || (location.pathname === '/' && path === '/#home');
-    return path.startsWith('/') && !path.includes('#') ? <Link className={isActive ? 'active' : ''} key={path} to={path}>{n}</Link> : <a className={isActive ? 'active' : ''} key={path} href={path}>{n}</a>
-  })}<Link to="/#contact" className="nav-cta">Plan your event <ArrowUpRight size={14} /></Link></nav><button className="menu-btn" onClick={() => setOpen(!open)} aria-label="Toggle menu">{open ? <X /> : <Menu />}</button></div><AnimatePresence>{open && <motion.nav className="mobile-nav" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>{nav.map(([n, path], i) => {
-    return path.startsWith('/') && !path.includes('#') ? <Link key={path} to={path} onClick={go}><motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * .06 }} className="flex justify-between w-full">{n}<ArrowUpRight /></motion.span></Link> : <motion.a key={path} href={path} onClick={go} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * .06 }}>{n}<ArrowUpRight /></motion.a>
-  })}</motion.nav>}</AnimatePresence></header>
+
+  return (
+    <header className={`nav ${scrolled ? 'nav-scrolled' : ''} ${isHome && !scrolled ? 'nav-home-hero' : ''}`}>
+      <div className="nav-inner">
+        <Logo />
+        <nav className="desktop-nav">
+          {nav.map(([n, path], i) => {
+            const isActive = location.pathname === path || (location.pathname === '/' && path === '/#home');
+            return path.startsWith('/') && !path.includes('#') ? (
+              <Link className={isActive ? 'active' : ''} key={path} to={path}>
+                {n}
+              </Link>
+            ) : (
+              <a className={isActive ? 'active' : ''} key={path} href={path}>
+                {n}
+              </a>
+            );
+          })}
+          <Link to="/#contact" className="nav-cta">
+            Plan your event <ArrowUpRight size={14} />
+          </Link>
+        </nav>
+        <button className="menu-btn" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+          {open ? <X /> : <Menu />}
+        </button>
+      </div>
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            className="mobile-nav"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            {nav.map(([n, path], i) => {
+              return path.startsWith('/') && !path.includes('#') ? (
+                <Link key={path} to={path} onClick={go}>
+                  <motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * .06 }} className="flex justify-between w-full">
+                    {n}<ArrowUpRight />
+                  </motion.span>
+                </Link>
+              ) : (
+                <motion.a key={path} href={path} onClick={go} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * .06 }}>
+                  {n}<ArrowUpRight />
+                </motion.a>
+              );
+            })}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
+  );
 }
 
 function Hero() {
@@ -43,7 +97,84 @@ function Hero() {
     [ShieldCheck, '100%', 'Client commitment', 'Dedicated to delivering flawless experiences every time.'],
     [Trophy, '3+', 'Years of experience', 'A decade of industry leadership and creative excellence.']
   ];
-  return <section id="home" className="hero"><div className="hero-glow glow-one" /><div className="hero-glow glow-two" /><div className="hero-photo"><motion.img initial={{ scale: 1.06, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.6, ease: [.22, 1, .36, 1] }} src="/assets/aditya_narayan_hero.jpg" alt="Aditya Narayan Live Concert" /><div className="hero-mask" /></div><div className="container hero-main"><div className="hero-copy"><motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .15, duration: .6 }}><Eyebrow dark>Live Events & Experiences</Eyebrow></motion.div><h1><motion.span initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .25, duration: .8 }}>We create</motion.span><motion.span className="gradient-text" initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .38, duration: .8 }}>Experiences</motion.span></h1><motion.div className="script" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .58, duration: .7 }}>You'll Never Forget<svg viewBox="0 0 340 22"><motion.path d="M5 15 C 85 0, 220 4, 335 12" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: .9, duration: 1.1 }} /></svg></motion.div><motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .7 }}>From unforgettable celebrations to high-impact corporate experiences, we bring ideas to life through creativity, precision and flawless execution.</motion.p><motion.div className="hero-actions" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .82 }}><a href="#contact" className="button primary">Plan your event <ArrowRight /></a><a href="#work" className="button secondary">Explore our work <ArrowUpRight /></a></motion.div><motion.div className="trust" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>{[[Sparkles, 'Creative Concepts'], [UserRound, 'End-to-End Management'], [ShieldCheck, 'Flawless Execution']].map(([Icon, t], i) => <div key={t}><span className={`trust-icon t${i}`}><Icon /></span>{t}</div>)}</motion.div></div></div><div className="container stats">{stats.map(([Icon, n, l, d], i) => <motion.div key={l} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .9 + i * .08 }}><Icon /><span className={`stat-num s${i}`}>{n}</span><span>{l}</span><p className="stat-desc">{d}</p></motion.div>)}</div></section>
+  return (
+    <section id="home" className="hero hero-dark-stage">
+      <div className="hero-stage-bg">
+        <motion.img
+          initial={{ scale: 1.08, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.8, ease: [.22, 1, .36, 1] }}
+          src="/assets/hero-concert.png"
+          alt="MRL Events Live Stage Experience"
+          className="hero-stage-img"
+        />
+        <div className="hero-stage-glow glow-cyan" />
+        <div className="hero-stage-glow glow-magenta" />
+        <div className="hero-stage-glow glow-gold" />
+        <div className="hero-stage-overlay" />
+      </div>
+
+      <div className="container hero-main">
+        <div className="hero-copy">
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .15, duration: .6 }}>
+            <div className="hero-live-pill">
+              <span className="live-pulse" />
+              <span>India's Premier Live Concert & Event Curators</span>
+            </div>
+          </motion.div>
+
+          <h1>
+            <motion.span initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .25, duration: .8 }}>
+              We Create
+            </motion.span>
+            <motion.span className="hero-stage-title-gradient" initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .38, duration: .8 }}>
+              Experiences
+            </motion.span>
+          </h1>
+
+          <motion.div className="script hero-stage-script" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .55, duration: .7 }}>
+            You'll Never Forget
+            <svg viewBox="0 0 340 22">
+              <motion.path d="M5 15 C 85 0, 220 4, 335 12" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: .85, duration: 1.1 }} />
+            </svg>
+          </motion.div>
+
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .68 }}>
+            From high-voltage stadium concerts and legendary artist tours to iconic corporate galas, we orchestrate extraordinary moments with flawless precision.
+          </motion.p>
+
+          <motion.div className="hero-actions" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .8 }}>
+            <a href="#contact" className="button primary big glow-btn">
+              Plan your event <ArrowRight size={18} />
+            </a>
+            <Link to="/events" className="button secondary hero-glass-btn">
+              Upcoming Concerts <ArrowUpRight size={18} />
+            </Link>
+          </motion.div>
+
+          <motion.div className="trust hero-trust-dark" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .95 }}>
+            {[[Sparkles, 'Creative Concepts'], [UserRound, 'End-to-End Management'], [ShieldCheck, 'Flawless Execution']].map(([Icon, t], i) => (
+              <div key={t}>
+                <span className={`trust-icon t${i}`}><Icon size={16} /></span>
+                <span>{t}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="container stats stats-dark">
+        {stats.map(([Icon, n, l, d], i) => (
+          <motion.div key={l} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .9 + i * .08 }}>
+            <Icon />
+            <span className={`stat-num s${i}`}>{n}</span>
+            <span>{l}</span>
+            <p className="stat-desc">{d}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function About() {
