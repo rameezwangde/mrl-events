@@ -5,6 +5,22 @@ import { ArrowUpRight, ArrowRight, Calendar, MapPin, Clock } from 'lucide-react'
 
 export const dummyEvents = [
   {
+    id: 'mrl-test-1rs',
+    title: 'MRL LIVE TEST SHOW (₹1)',
+    date: '31 October 2026',
+    time: '8:00 PM',
+    venue: 'MRL Virtual Arena, Mumbai',
+    price: 1,
+    image: '/assets/live-performance.png',
+    sellingFast: true,
+    description: 'Special 1 Rupee live payment gateway test event. Complete your booking to test real-time PhonePe processing and instant digital ticket generation.',
+    about: 'Join our test run! This dummy event allows you to test PhonePe Payment Gateway transactions for ₹1. All features including ticket generation and verification are fully active.',
+    information: ['Live Payment Gateway Test Event', 'Instant ticket dispatch', '100% Secure PhonePe integration'],
+    tickets: [
+      { id: 'test-pass', name: 'TEST PASS', price: 1, benefits: ['Standard Entry Test', 'Instant QR Pass', 'PhonePe Live / Sandbox'], available: true }
+    ]
+  },
+  {
     id: 'mrl-live-2026',
     title: 'MRL LIVE EXPERIENCE',
     date: '28 September 2026',

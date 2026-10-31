@@ -1,22 +1,39 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { dummyEvents } from './EventsPage';
 
 export default function BookingSuccess() {
   const navigate = useNavigate();
-  const { selectedEvent, selectedTickets, totalAmount, bookingId } = useBooking();
+  const [searchParams] = useSearchParams();
+  const queryBookingId = searchParams.get('bookingId');
+  const { selectedEvent, setSelectedEvent, selectedTickets, setSelectedTickets, totalAmount, bookingId, setBookingId } = useBooking();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Redirect if accessed directly without booking
-    if (!selectedEvent || !bookingId) {
+
+    // If redirected back from PhonePe with bookingId in query params
+    if (queryBookingId) {
+      setBookingId(queryBookingId);
+      // Ensure selected event exists if refreshed or redirected
+      if (!selectedEvent) {
+        const testEvt = dummyEvents.find(e => e.id === 'mrl-test-1rs') || dummyEvents[0];
+        setSelectedEvent(testEvt);
+        if (selectedTickets.length === 0) {
+          setSelectedTickets([{ id: testEvt.tickets[0].id, name: testEvt.tickets[0].name, price: testEvt.tickets[0].price, quantity: 1 }]);
+        }
+      }
+    } else if (!selectedEvent || !bookingId) {
       navigate('/events');
     }
-  }, [selectedEvent, bookingId, navigate]);
+  }, [queryBookingId, selectedEvent, bookingId, navigate, setBookingId, setSelectedEvent, selectedTickets, setSelectedTickets]);
 
-  if (!selectedEvent || !bookingId) return null;
+  const activeEvent = selectedEvent || dummyEvents[0];
+  const activeBookingId = queryBookingId || bookingId;
+
+  if (!activeEvent || !activeBookingId) return null;
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--beige)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 20px 80px', position: 'relative', overflow: 'hidden' }}>
@@ -74,7 +91,7 @@ export default function BookingSuccess() {
             transition={{ delay: 0.4 }}
             style={{ color: 'var(--charcoal-muted)', fontSize: '16px', marginBottom: '36px', maxWidth: '400px', margin: '0 auto 36px', lineHeight: '1.6' }}
           >
-            Your booking for <span style={{ color: 'var(--charcoal)', fontWeight: '700' }}>{selectedEvent.title}</span> has been confirmed.
+            Your booking for <span style={{ color: 'var(--charcoal)', fontWeight: '700' }}>{activeEvent.title}</span> has been confirmed.
           </motion.p>
 
           <motion.div 
@@ -86,15 +103,15 @@ export default function BookingSuccess() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 20px', fontSize: '14px' }}>
               <div>
                 <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Booking ID</span>
-                <span style={{ fontWeight: '700', color: 'var(--red)' }}>{bookingId}</span>
+                <span style={{ fontWeight: '700', color: 'var(--red)' }}>{activeBookingId}</span>
               </div>
               <div>
                 <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Date & Time</span>
-                <span style={{ color: 'var(--charcoal)' }}>{selectedEvent.date}, {selectedEvent.time}</span>
+                <span style={{ color: 'var(--charcoal)' }}>{activeEvent.date}, {activeEvent.time}</span>
               </div>
               <div style={{ gridColumn: 'span 2' }}>
                 <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '4px' }}>Venue</span>
-                <span style={{ color: 'var(--charcoal)' }}>{selectedEvent.venue}</span>
+                <span style={{ color: 'var(--charcoal)' }}>{activeEvent.venue}</span>
               </div>
               <div style={{ gridColumn: 'span 2', padding: '14px 0', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', margin: '4px 0' }}>
                 <span style={{ display: 'block', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', marginBottom: '8px' }}>Tickets</span>

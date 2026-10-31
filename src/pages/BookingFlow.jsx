@@ -73,13 +73,45 @@ export default function BookingFlow() {
                          customerDetails.email.trim() !== '' && 
                          customerDetails.mobile.trim() !== '';
 
-  const processPayment = () => {
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const processPayment = async () => {
     setIsProcessing(true);
-    setTimeout(() => {
+    setErrorMessage('');
+
+    const txnId = `MRL_${Date.now()}_${Math.floor(100 + Math.random() * 900)}`;
+
+    try {
+      const response = await fetch('/api/phonepe-init', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          amount: totalAmount,
+          transactionId: txnId,
+          customerDetails,
+          eventId: selectedEvent.id
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.redirectUrl) {
+        // Store current booking details so user has them on return
+        setBookingId(txnId);
+        window.location.href = data.redirectUrl;
+      } else {
+        // Fallback or show error
+        console.warn('PhonePe direct init notice:', data.message);
+        setErrorMessage(data.message || 'Payment initiation failed. Please check credentials or try again.');
+        setIsProcessing(false);
+      }
+    } catch (err) {
+      console.error('Payment request error:', err);
+      setErrorMessage('Could not connect to payment gateway. Please make sure the backend is reachable.');
       setIsProcessing(false);
-      setBookingId(`MRL-DEMO-2026-${Math.floor(100 + Math.random() * 900)}`);
-      navigate('/booking-success');
-    }, 2000);
+    }
   };
 
   const progressSteps = ['TICKETS', 'DETAILS', 'PAYMENT', 'CONFIRMED'];
@@ -316,8 +348,20 @@ export default function BookingFlow() {
                   </motion.div>
                 )}
 
-                <div style={{ background: 'var(--beige)', borderRadius: '10px', padding: '14px', marginBottom: '28px', textAlign: 'center', border: '1px solid var(--border-light)' }}>
-                  <p style={{ fontSize: '12px', color: 'var(--charcoal-muted)', margin: 0 }}>No real payment will be processed. This is for demonstration purposes only.</p>
+                {errorMessage && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #f87171', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', color: '#991b1b', fontSize: '13px' }}>
+                    {errorMessage}
+                  </div>
+                )}
+
+                <div style={{ background: 'var(--beige)', borderRadius: '10px', padding: '16px', marginBottom: '28px', border: '1px solid var(--border-light)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                    <ShieldCheck size={16} color="var(--red)" />
+                    <span style={{ fontSize: '12px', fontWeight: '800', letterSpacing: '0.05em', color: 'var(--charcoal)' }}>PHONEPE SECURE GATEWAY</span>
+                  </div>
+                  <p style={{ fontSize: '12px', color: 'var(--charcoal-muted)', margin: 0, lineHeight: '1.4' }}>
+                    You will be redirected to PhonePe's official checkout page to complete the payment via UPI (PhonePe, GPay, Paytm), Cards, or NetBanking.
+                  </p>
                 </div>
 
                 <button 
