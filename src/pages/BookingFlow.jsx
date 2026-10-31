@@ -103,8 +103,9 @@ export default function BookingFlow() {
         window.location.href = data.redirectUrl;
       } else {
         // Fallback or show error
-        console.warn('PhonePe direct init notice:', data.message);
-        setErrorMessage(data.message || 'Payment initiation failed. Please check credentials or try again.');
+        console.warn('PhonePe direct init notice:', data);
+        const detailedErr = data.message ? `${data.message}${data.code ? ` (${data.code})` : ''}` : 'Payment initiation failed. Please check credentials or try again.';
+        setErrorMessage(detailedErr);
         setIsProcessing(false);
       }
     } catch (err) {

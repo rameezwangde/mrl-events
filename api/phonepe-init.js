@@ -62,6 +62,8 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('PhonePe Gateway Response Status:', response.status);
+    console.log('PhonePe Gateway Response Data:', JSON.stringify(data));
 
     if (data.success && data.data?.instrumentResponse?.redirectInfo?.url) {
       return res.status(200).json({
@@ -73,6 +75,7 @@ export default async function handler(req, res) {
       return res.status(400).json({
         success: false,
         message: data.message || 'PhonePe payment initiation failed',
+        code: data.code || null,
         details: data
       });
     }
