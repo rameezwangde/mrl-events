@@ -1,5 +1,3 @@
-import crypto from 'crypto';
-
 export default async function handler(req, res) {
   const transactionId = req.query.id || req.body?.transactionId;
 
@@ -7,49 +5,67 @@ export default async function handler(req, res) {
     return res.status(400).send('Transaction ID missing');
   }
 
-  const merchantId = process.env.PHONEPE_MERCHANT_ID || 'PGTESTPAYUAT86';
-  const saltKey = process.env.PHONEPE_SALT_KEY || '96434309-7796-489d-8924-ab56988a6076';
-  const saltIndex = process.env.PHONEPE_SALT_INDEX || '1';
-  const env = process.env.PHONEPE_ENV || 'UAT';
-
-  const baseUrl = env.toUpperCase() === 'PRODUCTION'
-    ? 'https://api.phonepe.com/apis/hermes'
-    : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+  const clientId = process.env.PHONEPE_CLIENT_ID;
+  const clientSecret = process.env.PHONEPE_CLIENT_SECRET;
+  const clientVersion = process.env.PHONEPE_CLIENT_VERSION || '1';
+  const env = process.env.PHONEPE_ENV || 'PRODUCTION';
 
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   const proto = req.headers['x-forwarded-proto'] || 'https';
   const origin = `${proto}://${host}`;
 
   try {
-    const statusEndpoint = `/pg/v1/status/${merchantId}/${transactionId}`;
-    const stringToHash = statusEndpoint + saltKey;
-    const sha256 = crypto.createHash('sha256').update(stringToHash).digest('hex');
-    const xVerify = `${sha256}###${saltIndex}`;
+    const isProduction = env.toUpperCase() === 'PRODUCTION';
 
-    const response = await fetch(`${baseUrl}${statusEndpoint}`, {
+    const authUrl = isProduction
+      ? 'https://api.phonepe.com/apis/identity-manager/v1/oauth/token'
+      : 'https://api-preprod.phonepe.com/apis/identity-manager/v1/oauth/token';
+
+    const checkoutBaseUrl = isProduction
+      ? 'https://api.phonepe.com/apis/pg'
+      : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+
+    // 1. Get Access Token
+    const authParams = new URLSearchParams();
+    authParams.append('client_id', clientId);
+    authParams.append('client_secret', clientSecret);
+    authParams.append('client_version', clientVersion);
+    authParams.append('grant_type', 'client_credentials');
+
+    const tokenResponse = await fetch(authUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: authParams.toString()
+    });
+
+    const tokenData = await tokenResponse.json();
+    const accessToken = tokenData.access_token;
+
+    if (!accessToken) {
+      console.error('PhonePe Status Token Error:', tokenData);
+      return res.redirect(302, `${origin}/events?paymentError=Auth+Failed`);
+    }
+
+    // 2. Query Order Status via /checkout/v2/order/{merchantOrderId}/status
+    const statusResponse = await fetch(`${checkoutBaseUrl}/checkout/v2/order/${transactionId}/status?details=false`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'X-VERIFY': xVerify,
-        'X-MERCHANT-ID': merchantId,
-        'accept': 'application/json'
+        'Authorization': `O-Bearer ${accessToken}`
       }
     });
 
-    const data = await response.json();
+    const statusData = await statusResponse.json();
 
-    if (data.code === 'PAYMENT_SUCCESS') {
-      // Payment Successful -> Redirect to frontend success screen with booking ID
+    if (statusData.state === 'COMPLETED') {
       return res.redirect(302, `${origin}/booking-success?bookingId=${transactionId}&status=SUCCESS`);
-    } else if (data.code === 'PAYMENT_PENDING') {
+    } else if (statusData.state === 'PENDING') {
       return res.redirect(302, `${origin}/booking-success?bookingId=${transactionId}&status=PENDING`);
     } else {
-      // Failed or cancelled
-      return res.redirect(302, `${origin}/events?paymentError=${encodeURIComponent(data.message || 'Payment failed or cancelled')}`);
+      return res.redirect(302, `${origin}/events?paymentError=${encodeURIComponent(statusData.state || 'Payment Failed')}`);
     }
   } catch (error) {
     console.error('PhonePe verification error:', error);
-    return res.redirect(302, `${origin}/events?paymentError=Payment+Verification+Error`);
+    return res.redirect(302, `${origin}/events?paymentError=Verification+Error`);
   }
 }
-

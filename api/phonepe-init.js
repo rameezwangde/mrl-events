@@ -1,90 +1,125 @@
-import crypto from 'crypto';
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 
   try {
-    const { amount, transactionId, customerDetails, eventId } = req.body;
+    const { amount, transactionId, customerDetails } = req.body;
 
     if (!amount || !transactionId) {
       return res.status(400).json({ success: false, message: 'Missing amount or transactionId' });
     }
 
-    const merchantId = process.env.PHONEPE_MERCHANT_ID || 'PGTESTPAYUAT86';
-    const saltKey = process.env.PHONEPE_SALT_KEY || '96434309-7796-489d-8924-ab56988a6076';
-    const saltIndex = process.env.PHONEPE_SALT_INDEX || '1';
-    const env = process.env.PHONEPE_ENV || 'UAT';
+    const clientId = process.env.PHONEPE_CLIENT_ID;
+    const clientSecret = process.env.PHONEPE_CLIENT_SECRET;
+    const clientVersion = process.env.PHONEPE_CLIENT_VERSION || '1';
+    const env = process.env.PHONEPE_ENV || 'PRODUCTION';
 
-    const baseUrl = env.toUpperCase() === 'PRODUCTION'
-      ? 'https://api.phonepe.com/apis/hermes'
+    if (!clientId || !clientSecret) {
+      return res.status(400).json({
+        success: false,
+        message: 'PhonePe PHONEPE_CLIENT_ID or PHONEPE_CLIENT_SECRET is missing in environment variables.'
+      });
+    }
+
+    const isProduction = env.toUpperCase() === 'PRODUCTION';
+
+    // 1. URLs for OAuth & Checkout
+    const authUrl = isProduction
+      ? 'https://api.phonepe.com/apis/identity-manager/v1/oauth/token'
+      : 'https://api-preprod.phonepe.com/apis/identity-manager/v1/oauth/token';
+
+    const checkoutBaseUrl = isProduction
+      ? 'https://api.phonepe.com/apis/pg'
       : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
 
-    // Build origin URL for redirects
+    // 2. Request OAuth 2.0 Access Token
+    const authParams = new URLSearchParams();
+    authParams.append('client_id', clientId);
+    authParams.append('client_secret', clientSecret);
+    authParams.append('client_version', clientVersion);
+    authParams.append('grant_type', 'client_credentials');
+
+    const tokenResponse = await fetch(authUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: authParams.toString()
+    });
+
+    const tokenData = await tokenResponse.json();
+
+    if (!tokenData.access_token) {
+      console.error('PhonePe OAuth error:', tokenData);
+      return res.status(400).json({
+        success: false,
+        message: tokenData.error_description || tokenData.error || 'Failed to authenticate with PhonePe OAuth',
+        details: tokenData
+      });
+    }
+
+    const accessToken = tokenData.access_token;
+
+    // 3. Build Redirect URL back to your site
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const proto = req.headers['x-forwarded-proto'] || 'https';
     const origin = `${proto}://${host}`;
 
-    // Amount in paise (₹1 = 100 paise)
+    // Amount in paisa (₹1 = 100)
     const amountInPaise = Math.round(Number(amount) * 100);
 
     const payload = {
-      merchantId: merchantId,
-      merchantTransactionId: transactionId,
-      merchantUserId: `MRL_${(customerDetails?.mobile || 'USER').replace(/[^0-9a-zA-Z]/g, '').slice(-10) || 'GUEST'}`,
+      merchantOrderId: transactionId,
       amount: amountInPaise,
-      redirectUrl: `${origin}/api/phonepe-status?id=${transactionId}`,
-      redirectMode: 'POST',
-      callbackUrl: `${origin}/api/phonepe-status?id=${transactionId}`,
-      mobileNumber: customerDetails?.mobile?.replace(/[^0-9]/g, '').slice(-10) || '9999999999',
-      paymentInstrument: {
-        type: 'PAY_PAGE'
+      expireAfter: 1200,
+      paymentFlow: {
+        type: 'PG_CHECKOUT',
+        message: `MRL Events Booking ${transactionId}`,
+        merchantUrls: {
+          redirectUrl: `${origin}/api/phonepe-status?id=${transactionId}`
+        }
+      },
+      metaInfo: {
+        udf1: customerDetails?.fullName || 'Guest',
+        udf2: customerDetails?.mobile || '9999999999',
+        udf3: customerDetails?.email || ''
       }
     };
 
-    const base64Payload = Buffer.from(JSON.stringify(payload)).toString('base64');
-    const apiEndpoint = '/pg/v1/pay';
-    const stringToHash = base64Payload + apiEndpoint + saltKey;
-    const sha256 = crypto.createHash('sha256').update(stringToHash).digest('hex');
-    const xVerify = `${sha256}###${saltIndex}`;
-
-    const response = await fetch(`${baseUrl}${apiEndpoint}`, {
+    // 4. Create Payment via /checkout/v2/pay
+    const checkoutResponse = await fetch(`${checkoutBaseUrl}/checkout/v2/pay`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-VERIFY': xVerify,
-        'accept': 'application/json'
+        'Authorization': `O-Bearer ${accessToken}`
       },
-      body: JSON.stringify({
-        request: base64Payload
-      })
+      body: JSON.stringify(payload)
     });
 
-    const data = await response.json();
-    console.log('PhonePe Gateway Response Status:', response.status);
-    console.log('PhonePe Gateway Response Data:', JSON.stringify(data));
+    const checkoutData = await checkoutResponse.json();
 
-    if (data.success && data.data?.instrumentResponse?.redirectInfo?.url) {
+    if (checkoutData.redirectUrl) {
       return res.status(200).json({
         success: true,
-        redirectUrl: data.data.instrumentResponse.redirectInfo.url,
+        redirectUrl: checkoutData.redirectUrl,
+        orderId: checkoutData.orderId,
         transactionId
       });
     } else {
+      console.error('PhonePe checkout error:', checkoutData);
       return res.status(400).json({
         success: false,
-        message: data.message || 'PhonePe payment initiation failed',
-        code: data.code || null,
-        details: data
+        message: checkoutData.message || 'Payment initiation failed',
+        code: checkoutData.code || null,
+        details: checkoutData
       });
     }
   } catch (error) {
-    console.error('PhonePe init error:', error);
+    console.error('PhonePe API Error:', error);
     return res.status(500).json({
       success: false,
-      message: error.message || 'Internal server error initializing PhonePe payment'
+      message: error.message || 'Internal server error initializing PhonePe'
     });
   }
 }
-
