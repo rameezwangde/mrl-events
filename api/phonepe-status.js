@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
     const authUrl = isProduction
       ? 'https://api.phonepe.com/apis/identity-manager/v1/oauth/token'
-      : 'https://api-preprod.phonepe.com/apis/identity-manager/v1/oauth/token';
+      : 'https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token';
 
     const checkoutBaseUrl = isProduction
       ? 'https://api.phonepe.com/apis/pg'

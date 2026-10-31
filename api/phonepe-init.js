@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     // 1. URLs for OAuth & Checkout
     const authUrl = isProduction
       ? 'https://api.phonepe.com/apis/identity-manager/v1/oauth/token'
-      : 'https://api-preprod.phonepe.com/apis/identity-manager/v1/oauth/token';
+      : 'https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token';
 
     const checkoutBaseUrl = isProduction
       ? 'https://api.phonepe.com/apis/pg'
@@ -52,9 +52,10 @@ export default async function handler(req, res) {
 
     if (!tokenData.access_token) {
       console.error('PhonePe OAuth error:', tokenData);
+      const errDetail = tokenData.error_description || tokenData.error || tokenData.message || JSON.stringify(tokenData);
       return res.status(400).json({
         success: false,
-        message: tokenData.error_description || tokenData.error || 'Failed to authenticate with PhonePe OAuth',
+        message: `PhonePe Auth Error: ${errDetail}`,
         details: tokenData
       });
     }
