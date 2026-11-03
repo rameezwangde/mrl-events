@@ -3,6 +3,8 @@ import {
   isRateLimited, 
   registerOrder, 
   getRegisteredOrder, 
+  transitionOrderStatus,
+  ORDER_STATES,
   applySecurityHeaders 
 } from './_security.js';
 import { logPaymentEvent } from './_logger.js';
@@ -148,14 +150,19 @@ export default async function handler(req, res) {
     const checkoutData = await checkoutResponse.json();
 
     if (checkoutData.redirectUrl) {
-      // 11. Register authoritative order in internal registry for state verification
+      // 11. Register authoritative order in internal registry with CREATED -> PAYMENT_PENDING transition
       registerOrder(transactionId, {
         eventId,
         amountInRupees: authoritativeAmount,
         mobile,
         email,
         phonePeOrderId: checkoutData.orderId || null,
-        status: 'INITIATED'
+        status: 'CREATED'
+      });
+
+      // Transition to PAYMENT_PENDING once checkout URL is created
+      transitionOrderStatus(transactionId, ORDER_STATES.PAYMENT_PENDING, {
+        phonePeOrderId: checkoutData.orderId || null
       });
 
       // Safe structured log
@@ -163,7 +170,7 @@ export default async function handler(req, res) {
         transactionId,
         orderId: checkoutData.orderId,
         amount: authoritativeAmount,
-        status: 'INITIATED'
+        status: ORDER_STATES.PAYMENT_PENDING
       });
 
       // Return only minimum required info to client

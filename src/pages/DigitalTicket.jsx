@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBooking } from '../context/BookingContext';
-import { ArrowLeft, ArrowRight, Download, QrCode } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, QrCode, ShieldAlert } from 'lucide-react';
 
 export default function DigitalTicket() {
   const navigate = useNavigate();
@@ -10,6 +10,7 @@ export default function DigitalTicket() {
   
   const [currentTicketIndex, setCurrentTicketIndex] = useState(0);
   const [showToast, setShowToast] = useState(false);
+  const [ticketStatus, setTicketStatus] = useState('verifying'); // 'verifying', 'valid', 'invalid'
 
   // Flatten tickets into individual items
   const allTickets = selectedTickets.flatMap(ticket => 
@@ -18,12 +19,48 @@ export default function DigitalTicket() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!selectedEvent || allTickets.length === 0) {
+    if (!selectedEvent || allTickets.length === 0 || !bookingId) {
       navigate('/events');
+      return;
     }
-  }, [selectedEvent, allTickets.length, navigate]);
+
+    // Verify order is legitimately PAID on the server before granting ticket
+    let isMounted = true;
+    fetch(`/api/phonepe-verify?id=${encodeURIComponent(bookingId)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!isMounted) return;
+        if (data.verified && data.state === 'PAID') {
+          setTicketStatus('valid');
+        } else {
+          setTicketStatus('invalid');
+        }
+      })
+      .catch(() => {
+        if (isMounted) setTicketStatus('invalid');
+      });
+
+    return () => { isMounted = false; };
+  }, [selectedEvent, allTickets.length, bookingId, navigate]);
 
   if (!selectedEvent || allTickets.length === 0) return null;
+
+  if (ticketStatus === 'invalid') {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--beige)', padding: '120px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+        <div style={{ background: '#fff', padding: '40px', borderRadius: '16px', maxWidth: '440px', border: '1px solid var(--border-light)', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
+          <ShieldAlert size={48} color="var(--red)" style={{ marginBottom: '16px' }} />
+          <h2 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '12px', color: 'var(--charcoal)' }}>Ticket Access Restricted</h2>
+          <p style={{ fontSize: '14px', color: 'var(--charcoal-muted)', marginBottom: '24px', lineHeight: '1.5' }}>
+            Payment could not be verified by PhonePe for this booking identifier. Tickets are issued strictly after payment confirmation.
+          </p>
+          <button onClick={() => navigate('/events')} className="button primary" style={{ width: '100%', padding: '14px', borderRadius: '8px' }}>
+            Back to Events
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const handleDownload = () => {
     setShowToast(true);

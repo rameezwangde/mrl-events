@@ -1,6 +1,7 @@
 import { 
   getRegisteredOrder, 
-  updateRegisteredOrder, 
+  transitionOrderStatus,
+  ORDER_STATES,
   isRateLimited, 
   applySecurityHeaders 
 } from './_security.js';
@@ -84,43 +85,64 @@ export default async function handler(req, res) {
       const expectedPaise = Math.round(registered.amountInRupees * 100);
       if (statusData.amount !== expectedPaise) {
         amountTampered = true;
-        updateRegisteredOrder(transactionId, { status: 'FRAUD_AMOUNT_MISMATCH' });
+        transitionOrderStatus(transactionId, ORDER_STATES.FRAUD_DETECTED, { reason: 'AMOUNT_MISMATCH' });
       }
     }
 
     if (amountTampered) {
       logPaymentEvent('error', 'PAYMENT_AMOUNT_FRAUD_DETECTED', {
         transactionId,
-        status: 'FRAUD_DETECTED'
+        status: ORDER_STATES.FRAUD_DETECTED
       });
 
       return res.status(403).json({
         success: false,
         verified: false,
-        state: 'FRAUD_DETECTED',
+        state: ORDER_STATES.FRAUD_DETECTED,
         message: 'Transaction amount verification failed'
       });
     }
 
+    // 4. Strict State Transition Enforcement
     const isCompleted = statusData.state === 'COMPLETED';
 
     if (isCompleted) {
-      updateRegisteredOrder(transactionId, { status: 'COMPLETED' });
+      // Transition from PAYMENT_PENDING -> PAID (Terminal State)
+      const transitionResult = transitionOrderStatus(transactionId, ORDER_STATES.PAID, {
+        phonePeOrderId: statusData.orderId || null,
+        verifiedAt: Date.now()
+      });
+
       logPaymentEvent('info', 'PAYMENT_VERIFIED_COMPLETED', {
         transactionId,
         orderId: statusData.orderId,
-        status: 'COMPLETED',
+        status: ORDER_STATES.PAID,
         amount: statusData.amount ? statusData.amount / 100 : null
+      });
+
+      return res.status(200).json({
+        success: true,
+        verified: true,
+        state: ORDER_STATES.PAID,
+        bookingId: transactionId,
+        amount: statusData.amount ? statusData.amount / 100 : registered?.amountInRupees || null
+      });
+    } else if (statusData.state === 'FAILED') {
+      transitionOrderStatus(transactionId, ORDER_STATES.FAILED);
+      return res.status(200).json({
+        success: false,
+        verified: false,
+        state: ORDER_STATES.FAILED,
+        bookingId: transactionId
       });
     }
 
-    // Return only sanitized verification indicators, never raw tokens or internal fields
+    // Still pending
     return res.status(200).json({
       success: true,
-      verified: isCompleted,
-      state: statusData.state || 'UNKNOWN',
-      bookingId: transactionId,
-      amount: statusData.amount ? statusData.amount / 100 : registered?.amountInRupees || null
+      verified: false,
+      state: ORDER_STATES.PAYMENT_PENDING,
+      bookingId: transactionId
     });
   } catch (error) {
     logPaymentEvent('error', 'VERIFICATION_LOOKUP_EXCEPTION', { error, transactionId });

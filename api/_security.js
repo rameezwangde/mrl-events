@@ -108,14 +108,34 @@ export function isRateLimited(key, maxRequests = 20, windowMs = 60000) {
   return false;
 }
 
+// Finite State Machine for Payment Lifecycle:
+// CREATED -> PAYMENT_PENDING -> PAID
+// or CREATED -> PAYMENT_PENDING -> FAILED / FRAUD_DETECTED
+export const ORDER_STATES = {
+  CREATED: 'CREATED',
+  PAYMENT_PENDING: 'PAYMENT_PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  FRAUD_DETECTED: 'FRAUD_DETECTED'
+};
+
+const VALID_TRANSITIONS = {
+  [ORDER_STATES.CREATED]: [ORDER_STATES.PAYMENT_PENDING, ORDER_STATES.FAILED],
+  [ORDER_STATES.PAYMENT_PENDING]: [ORDER_STATES.PAID, ORDER_STATES.FAILED, ORDER_STATES.FRAUD_DETECTED],
+  [ORDER_STATES.PAID]: [], // Terminal state. PAID cannot transition or be re-set!
+  [ORDER_STATES.FAILED]: [],
+  [ORDER_STATES.FRAUD_DETECTED]: []
+};
+
 // Global Order Store for Idempotency & Verification Tracking
-// Maps transactionId -> { eventId, amountInRupees, customerMobile, createdAt, status, phonePeOrderId }
+// Maps transactionId -> { eventId, amountInRupees, customerMobile, customerEmail, createdAt, status, phonePeOrderId, verifiedAt }
 const orderRegistry = globalThis.__MRL_ORDER_REGISTRY__ || new Map();
 globalThis.__MRL_ORDER_REGISTRY__ = orderRegistry;
 
 export function registerOrder(transactionId, orderData) {
   orderRegistry.set(transactionId, {
     ...orderData,
+    status: ORDER_STATES.CREATED,
     createdAt: Date.now()
   });
 }
@@ -124,6 +144,39 @@ export function getRegisteredOrder(transactionId) {
   return orderRegistry.get(transactionId) || null;
 }
 
+export function transitionOrderStatus(transactionId, nextState, metadata = {}) {
+  const existing = orderRegistry.get(transactionId);
+  if (!existing) {
+    return { success: false, error: 'Order not found' };
+  }
+
+  const currentState = existing.status || ORDER_STATES.CREATED;
+
+  // Idempotency: if already in target state, allow safe no-op
+  if (currentState === nextState) {
+    return { success: true, state: currentState, idempotent: true };
+  }
+
+  // Validate state transition according to state machine rules
+  const allowedNext = VALID_TRANSITIONS[currentState] || [];
+  if (!allowedNext.includes(nextState)) {
+    return {
+      success: false,
+      error: `Illegal state transition from ${currentState} to ${nextState}`
+    };
+  }
+
+  orderRegistry.set(transactionId, {
+    ...existing,
+    ...metadata,
+    status: nextState,
+    updatedAt: Date.now()
+  });
+
+  return { success: true, state: nextState };
+}
+
+// Backward compatibility helper
 export function updateRegisteredOrder(transactionId, updates) {
   const existing = orderRegistry.get(transactionId);
   if (existing) {
@@ -132,13 +185,15 @@ export function updateRegisteredOrder(transactionId, updates) {
 }
 
 /**
- * Validates origin / CORS
+ * Validates origin / CORS and applies security headers
  */
 export function applySecurityHeaders(req, res, allowedMethods = ['POST']) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(self "https://mercury.phonepe.com" "https://mercury-uat.phonepe.com"), usb=()');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self';");
 
   const origin = req.headers.origin;
   const allowedOrigins = [

@@ -39,17 +39,17 @@ export default function BookingSuccess() {
       .then(res => res.json())
       .then(data => {
         if (!isMounted) return;
-        if (data.verified || data.state === 'COMPLETED') {
+        if (data.verified && data.state === 'PAID') {
           setVerificationState('confirmed');
-        } else if (data.state === 'PENDING') {
+        } else if (data.state === 'PAYMENT_PENDING') {
           setVerificationState('pending');
         } else {
-          // If transaction failed or amount was tampered with
+          // Explicitly failed, fraud detected, or illegal transition attempt
           setVerificationState('failed');
         }
       })
       .catch(() => {
-        if (isMounted) setVerificationState('unverified');
+        if (isMounted) setVerificationState('failed');
       });
 
     return () => { isMounted = false; };

@@ -1,6 +1,7 @@
 import { 
   getRegisteredOrder, 
-  updateRegisteredOrder, 
+  transitionOrderStatus,
+  ORDER_STATES,
   isRateLimited, 
   applySecurityHeaders 
 } from './_security.js';
@@ -81,10 +82,10 @@ export default async function handler(req, res) {
       const expectedPaise = Math.round(registered.amountInRupees * 100);
       if (statusData.amount !== expectedPaise) {
         // Amount mismatch detected! Fraud alert
-        updateRegisteredOrder(transactionId, { status: 'FRAUD_DETECTED' });
+        transitionOrderStatus(transactionId, ORDER_STATES.FRAUD_DETECTED, { reason: 'AMOUNT_MISMATCH' });
         logPaymentEvent('error', 'PAYMENT_AMOUNT_FRAUD_DETECTED', {
           transactionId,
-          status: 'FRAUD_DETECTED',
+          status: ORDER_STATES.FRAUD_DETECTED,
           amount: statusData.amount / 100
         });
         return res.redirect(302, `${origin}/events?paymentError=Security+Verification+Failed`);
@@ -98,13 +99,13 @@ export default async function handler(req, res) {
     });
 
     if (statusData.state === 'COMPLETED') {
-      updateRegisteredOrder(transactionId, { status: 'COMPLETED' });
+      transitionOrderStatus(transactionId, ORDER_STATES.PAID);
       return res.redirect(302, `${origin}/booking-success?bookingId=${encodeURIComponent(transactionId)}&status=SUCCESS`);
     } else if (statusData.state === 'PENDING') {
-      updateRegisteredOrder(transactionId, { status: 'PENDING' });
+      transitionOrderStatus(transactionId, ORDER_STATES.PAYMENT_PENDING);
       return res.redirect(302, `${origin}/booking-success?bookingId=${encodeURIComponent(transactionId)}&status=PENDING`);
     } else {
-      updateRegisteredOrder(transactionId, { status: 'FAILED' });
+      transitionOrderStatus(transactionId, ORDER_STATES.FAILED);
       return res.redirect(302, `${origin}/events?paymentError=${encodeURIComponent(statusData.state || 'Payment Failed')}`);
     }
   } catch (error) {

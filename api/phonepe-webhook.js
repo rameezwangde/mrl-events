@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 import { 
   getRegisteredOrder, 
-  updateRegisteredOrder, 
+  transitionOrderStatus,
+  ORDER_STATES,
   isRateLimited, 
   applySecurityHeaders 
 } from './_security.js';
@@ -114,10 +115,10 @@ export default async function handler(req, res) {
 
     if (storedOrder) {
       // 6. Idempotency Check: Protect against duplicate callbacks
-      if (storedOrder.status === 'COMPLETED' && orderState === 'COMPLETED') {
+      if (storedOrder.status === ORDER_STATES.PAID && orderState === 'COMPLETED') {
         logPaymentEvent('info', 'WEBHOOK_DUPLICATE_IDEMPOTENT_SKIPPED', {
           transactionId: merchantOrderId,
-          status: 'COMPLETED'
+          status: ORDER_STATES.PAID
         });
 
         // Already processed; respond 200 without duplicate execution
@@ -129,7 +130,7 @@ export default async function handler(req, res) {
         const expectedPaise = Math.round(storedOrder.amountInRupees * 100);
         if (Number(reportedAmountPaise) !== expectedPaise) {
           // Amount mismatch - Possible tampering attempt
-          updateRegisteredOrder(merchantOrderId, { status: 'FRAUD_AMOUNT_MISMATCH' });
+          transitionOrderStatus(merchantOrderId, ORDER_STATES.FRAUD_DETECTED, { reason: 'AMOUNT_MISMATCH' });
           logPaymentEvent('error', 'WEBHOOK_AMOUNT_FRAUD_DETECTED', {
             transactionId: merchantOrderId,
             amount: Number(reportedAmountPaise) / 100
@@ -182,8 +183,7 @@ export default async function handler(req, res) {
           const verifyData = await verifyResponse.json();
 
           if (verifyData.state === 'COMPLETED') {
-            updateRegisteredOrder(merchantOrderId, {
-              status: 'COMPLETED',
+            transitionOrderStatus(merchantOrderId, ORDER_STATES.PAID, {
               phonePeOrderId: verifyData.orderId || phonePeOrderId || null,
               verifiedAt: Date.now()
             });
@@ -191,16 +191,15 @@ export default async function handler(req, res) {
             logPaymentEvent('info', 'WEBHOOK_PAYMENT_CONFIRMED', {
               transactionId: merchantOrderId,
               orderId: verifyData.orderId,
-              status: 'COMPLETED'
+              status: ORDER_STATES.PAID
             });
           } else {
-            updateRegisteredOrder(merchantOrderId, {
-              status: verifyData.state || orderState || 'UNKNOWN'
-            });
+            const nextState = verifyData.state === 'FAILED' ? ORDER_STATES.FAILED : ORDER_STATES.PAYMENT_PENDING;
+            transitionOrderStatus(merchantOrderId, nextState);
 
             logPaymentEvent('warn', 'WEBHOOK_PAYMENT_UNCONFIRMED', {
               transactionId: merchantOrderId,
-              status: verifyData.state || orderState
+              status: nextState
             });
           }
         }
