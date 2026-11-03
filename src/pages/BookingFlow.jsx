@@ -96,9 +96,28 @@ export default function BookingFlow() {
       const data = await response.json();
 
       if (data.success && data.redirectUrl) {
-        // Store current booking details so user has them on return
-        setBookingId(txnId);
-        window.location.href = data.redirectUrl;
+        // Open Redirect Protection: Validate redirect URL points strictly to official PhonePe domains
+        try {
+          const parsedUrl = new URL(data.redirectUrl);
+          const isPhonePeHost = parsedUrl.protocol === 'https:' && (
+            parsedUrl.hostname === 'mercury.phonepe.com' ||
+            parsedUrl.hostname === 'mercury-uat.phonepe.com' ||
+            parsedUrl.hostname.endsWith('.phonepe.com')
+          );
+
+          if (!isPhonePeHost) {
+            setErrorMessage('Invalid redirect received from payment gateway.');
+            setIsProcessing(false);
+            return;
+          }
+
+          // Store current booking details so user has them on return
+          setBookingId(txnId);
+          window.location.assign(parsedUrl.href);
+        } catch (e) {
+          setErrorMessage('Malformed redirect URL received from payment gateway.');
+          setIsProcessing(false);
+        }
       } else {
         // Fallback or show error
         const detailedErr = data.message ? `${data.message}${data.code ? ` (${data.code})` : ''}` : 'Payment initiation failed. Please check credentials or try again.';
