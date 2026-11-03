@@ -33,7 +33,7 @@ export default function BookingSuccess() {
       }
     }
 
-    // Verify payment directly with server-side check against PhonePe
+    // Strictly verify payment with backend server-side reconciliation against PhonePe
     let isMounted = true;
     fetch(`/api/phonepe-verify?id=${encodeURIComponent(activeId)}`)
       .then(res => res.json())
@@ -42,14 +42,14 @@ export default function BookingSuccess() {
         if (data.verified || data.state === 'COMPLETED') {
           setVerificationState('confirmed');
         } else if (data.state === 'PENDING') {
-          setVerificationState('confirmed'); // Allow pending/processing state
+          setVerificationState('pending');
         } else {
-          // If explicitly failed on PhonePe
-          setVerificationState('confirmed'); // Fallback gracefully if demo transaction
+          // If transaction failed or amount was tampered with
+          setVerificationState('failed');
         }
       })
       .catch(() => {
-        if (isMounted) setVerificationState('confirmed');
+        if (isMounted) setVerificationState('unverified');
       });
 
     return () => { isMounted = false; };

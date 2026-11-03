@@ -86,10 +86,10 @@ export default function BookingFlow() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          amount: totalAmount,
           transactionId: txnId,
           customerDetails,
-          eventId: selectedEvent.id
+          eventId: selectedEvent.id,
+          tickets: selectedTickets.map(t => ({ id: t.id, quantity: t.quantity }))
         })
       });
 

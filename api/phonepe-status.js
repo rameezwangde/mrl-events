@@ -1,8 +1,26 @@
-export default async function handler(req, res) {
-  const transactionId = req.query.id || req.body?.transactionId;
+import { 
+  getRegisteredOrder, 
+  updateRegisteredOrder, 
+  isRateLimited, 
+  applySecurityHeaders 
+} from './_security.js';
 
-  if (!transactionId) {
-    return res.status(400).send('Transaction ID missing');
+export default async function handler(req, res) {
+  applySecurityHeaders(req, res, ['GET', 'POST']);
+
+  // Extract transaction ID from query or body
+  const transactionId = (req.query.id || req.body?.transactionId || '').toString().trim();
+
+  // Validate transaction identifier syntax
+  if (!transactionId || !/^[A-Za-z0-9_-]{8,64}$/.test(transactionId)) {
+    return res.status(400).send('Bad Request: Invalid transaction identifier');
+  }
+
+  // Rate Limiting
+  const clientIp = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown')
+    .toString().split(',')[0].trim();
+  if (isRateLimited(`status_${clientIp}`, 30, 60000)) {
+    return res.status(429).send('Too Many Requests');
   }
 
   const clientId = process.env.PHONEPE_CLIENT_ID;
@@ -25,11 +43,11 @@ export default async function handler(req, res) {
       ? 'https://api.phonepe.com/apis/pg'
       : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
 
-    // 1. Get Access Token
+    // 1. Authenticate with PhonePe Server-Side
     const authParams = new URLSearchParams();
-    authParams.append('client_id', clientId);
-    authParams.append('client_secret', clientSecret);
-    authParams.append('client_version', clientVersion);
+    authParams.append('client_id', (clientId || '').trim());
+    authParams.append('client_secret', (clientSecret || '').trim());
+    authParams.append('client_version', (clientVersion || '1').toString().trim());
     authParams.append('grant_type', 'client_credentials');
 
     const tokenResponse = await fetch(authUrl, {
@@ -45,8 +63,8 @@ export default async function handler(req, res) {
       return res.redirect(302, `${origin}/events?paymentError=Auth+Failed`);
     }
 
-    // 2. Query Order Status via /checkout/v2/order/{merchantOrderId}/status
-    const statusResponse = await fetch(`${checkoutBaseUrl}/checkout/v2/order/${transactionId}/status?details=false`, {
+    // 2. Query Authoritative Order Status from PhonePe Gateway
+    const statusResponse = await fetch(`${checkoutBaseUrl}/checkout/v2/order/${encodeURIComponent(transactionId)}/status?details=false`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -56,11 +74,26 @@ export default async function handler(req, res) {
 
     const statusData = await statusResponse.json();
 
+    // 3. Compare with registered order amount to prevent tampering
+    const registered = getRegisteredOrder(transactionId);
+    if (registered && statusData.amount) {
+      const expectedPaise = Math.round(registered.amountInRupees * 100);
+      if (statusData.amount !== expectedPaise) {
+        // Amount mismatch detected! Fraud alert
+        updateRegisteredOrder(transactionId, { status: 'FRAUD_DETECTED' });
+        return res.redirect(302, `${origin}/events?paymentError=Security+Verification+Failed`);
+      }
+    }
+
+    // 4. Update order status and redirect safely
     if (statusData.state === 'COMPLETED') {
-      return res.redirect(302, `${origin}/booking-success?bookingId=${transactionId}&status=SUCCESS`);
+      updateRegisteredOrder(transactionId, { status: 'COMPLETED' });
+      return res.redirect(302, `${origin}/booking-success?bookingId=${encodeURIComponent(transactionId)}&status=SUCCESS`);
     } else if (statusData.state === 'PENDING') {
-      return res.redirect(302, `${origin}/booking-success?bookingId=${transactionId}&status=PENDING`);
+      updateRegisteredOrder(transactionId, { status: 'PENDING' });
+      return res.redirect(302, `${origin}/booking-success?bookingId=${encodeURIComponent(transactionId)}&status=PENDING`);
     } else {
+      updateRegisteredOrder(transactionId, { status: 'FAILED' });
       return res.redirect(302, `${origin}/events?paymentError=${encodeURIComponent(statusData.state || 'Payment Failed')}`);
     }
   } catch (error) {
