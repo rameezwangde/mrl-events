@@ -4,6 +4,7 @@ import {
   isRateLimited, 
   applySecurityHeaders 
 } from './_security.js';
+import { logPaymentEvent } from './_logger.js';
 
 export default async function handler(req, res) {
   applySecurityHeaders(req, res, ['GET', 'OPTIONS']);
@@ -88,6 +89,11 @@ export default async function handler(req, res) {
     }
 
     if (amountTampered) {
+      logPaymentEvent('error', 'PAYMENT_AMOUNT_FRAUD_DETECTED', {
+        transactionId,
+        status: 'FRAUD_DETECTED'
+      });
+
       return res.status(403).json({
         success: false,
         verified: false,
@@ -100,6 +106,12 @@ export default async function handler(req, res) {
 
     if (isCompleted) {
       updateRegisteredOrder(transactionId, { status: 'COMPLETED' });
+      logPaymentEvent('info', 'PAYMENT_VERIFIED_COMPLETED', {
+        transactionId,
+        orderId: statusData.orderId,
+        status: 'COMPLETED',
+        amount: statusData.amount ? statusData.amount / 100 : null
+      });
     }
 
     // Return only sanitized verification indicators, never raw tokens or internal fields
@@ -111,6 +123,7 @@ export default async function handler(req, res) {
       amount: statusData.amount ? statusData.amount / 100 : registered?.amountInRupees || null
     });
   } catch (error) {
+    logPaymentEvent('error', 'VERIFICATION_LOOKUP_EXCEPTION', { error, transactionId });
     return res.status(500).json({ success: false, verified: false, message: 'Verification lookup failed' });
   }
 }

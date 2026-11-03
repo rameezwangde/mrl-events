@@ -4,6 +4,7 @@ import {
   isRateLimited, 
   applySecurityHeaders 
 } from './_security.js';
+import { logPaymentEvent } from './_logger.js';
 
 export default async function handler(req, res) {
   applySecurityHeaders(req, res, ['GET', 'POST']);
@@ -81,11 +82,21 @@ export default async function handler(req, res) {
       if (statusData.amount !== expectedPaise) {
         // Amount mismatch detected! Fraud alert
         updateRegisteredOrder(transactionId, { status: 'FRAUD_DETECTED' });
+        logPaymentEvent('error', 'PAYMENT_AMOUNT_FRAUD_DETECTED', {
+          transactionId,
+          status: 'FRAUD_DETECTED',
+          amount: statusData.amount / 100
+        });
         return res.redirect(302, `${origin}/events?paymentError=Security+Verification+Failed`);
       }
     }
 
     // 4. Update order status and redirect safely
+    logPaymentEvent('info', 'REDIRECT_STATUS_EVALUATED', {
+      transactionId,
+      status: statusData.state || 'UNKNOWN'
+    });
+
     if (statusData.state === 'COMPLETED') {
       updateRegisteredOrder(transactionId, { status: 'COMPLETED' });
       return res.redirect(302, `${origin}/booking-success?bookingId=${encodeURIComponent(transactionId)}&status=SUCCESS`);
@@ -97,6 +108,7 @@ export default async function handler(req, res) {
       return res.redirect(302, `${origin}/events?paymentError=${encodeURIComponent(statusData.state || 'Payment Failed')}`);
     }
   } catch (error) {
+    logPaymentEvent('error', 'STATUS_CHECK_EXCEPTION', { error, transactionId });
     return res.redirect(302, `${origin}/events?paymentError=Verification+Error`);
   }
 }

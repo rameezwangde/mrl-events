@@ -5,6 +5,7 @@ import {
   getRegisteredOrder, 
   applySecurityHeaders 
 } from './_security.js';
+import { logPaymentEvent } from './_logger.js';
 
 export default async function handler(req, res) {
   applySecurityHeaders(req, res, ['POST', 'OPTIONS']);
@@ -157,6 +158,14 @@ export default async function handler(req, res) {
         status: 'INITIATED'
       });
 
+      // Safe structured log
+      logPaymentEvent('info', 'CHECKOUT_SESSION_CREATED', {
+        transactionId,
+        orderId: checkoutData.orderId,
+        amount: authoritativeAmount,
+        status: 'INITIATED'
+      });
+
       // Return only minimum required info to client
       return res.status(200).json({
         success: true,
@@ -166,12 +175,19 @@ export default async function handler(req, res) {
         transactionId
       });
     } else {
+      logPaymentEvent('warn', 'CHECKOUT_INITIATION_REJECTED', {
+        transactionId,
+        errorCode: checkoutData.code || 'GATEWAY_REJECTED'
+      });
+
       return res.status(400).json({
         success: false,
         message: 'Could not initialize payment session with gateway'
       });
     }
   } catch (error) {
+    logPaymentEvent('error', 'CHECKOUT_INIT_ERROR', { error });
+
     return res.status(500).json({
       success: false,
       message: 'Internal server error processing payment initiation'

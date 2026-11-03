@@ -5,6 +5,7 @@ import {
   isRateLimited, 
   applySecurityHeaders 
 } from './_security.js';
+import { logPaymentEvent } from './_logger.js';
 
 /**
  * Authenticates PhonePe S2S webhook using timing-safe comparison
@@ -87,7 +88,11 @@ export default async function handler(req, res) {
   const isAuthenticated = verifyWebhookAuthentication(authHeader);
 
   if (!isAuthenticated) {
-    // Audit Log only safe metadata
+    // Safe structured audit log: log only action, channel, and sanitized IP
+    logPaymentEvent('warn', 'WEBHOOK_UNAUTHORIZED_ATTEMPT', {
+      errorCode: 'INVALID_AUTH_HEADER'
+    });
+
     return res.status(401).json({ success: false, message: 'Unauthorized callback' });
   }
 
@@ -110,6 +115,11 @@ export default async function handler(req, res) {
     if (storedOrder) {
       // 6. Idempotency Check: Protect against duplicate callbacks
       if (storedOrder.status === 'COMPLETED' && orderState === 'COMPLETED') {
+        logPaymentEvent('info', 'WEBHOOK_DUPLICATE_IDEMPOTENT_SKIPPED', {
+          transactionId: merchantOrderId,
+          status: 'COMPLETED'
+        });
+
         // Already processed; respond 200 without duplicate execution
         return res.status(200).json({ success: true, message: 'Callback already processed' });
       }
@@ -120,6 +130,10 @@ export default async function handler(req, res) {
         if (Number(reportedAmountPaise) !== expectedPaise) {
           // Amount mismatch - Possible tampering attempt
           updateRegisteredOrder(merchantOrderId, { status: 'FRAUD_AMOUNT_MISMATCH' });
+          logPaymentEvent('error', 'WEBHOOK_AMOUNT_FRAUD_DETECTED', {
+            transactionId: merchantOrderId,
+            amount: Number(reportedAmountPaise) / 100
+          });
           return res.status(400).json({ success: false, message: 'Amount verification failed' });
         }
       }
@@ -173,9 +187,20 @@ export default async function handler(req, res) {
               phonePeOrderId: verifyData.orderId || phonePeOrderId || null,
               verifiedAt: Date.now()
             });
+
+            logPaymentEvent('info', 'WEBHOOK_PAYMENT_CONFIRMED', {
+              transactionId: merchantOrderId,
+              orderId: verifyData.orderId,
+              status: 'COMPLETED'
+            });
           } else {
             updateRegisteredOrder(merchantOrderId, {
               status: verifyData.state || orderState || 'UNKNOWN'
+            });
+
+            logPaymentEvent('warn', 'WEBHOOK_PAYMENT_UNCONFIRMED', {
+              transactionId: merchantOrderId,
+              status: verifyData.state || orderState
             });
           }
         }
