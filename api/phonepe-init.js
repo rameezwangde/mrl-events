@@ -51,12 +51,9 @@ export default async function handler(req, res) {
     const tokenData = await tokenResponse.json();
 
     if (!tokenData.access_token) {
-      console.error('PhonePe OAuth error:', tokenData);
-      const errDetail = tokenData.error_description || tokenData.error || tokenData.message || JSON.stringify(tokenData);
       return res.status(400).json({
         success: false,
-        message: `PhonePe Auth Error: ${errDetail}`,
-        details: tokenData
+        message: 'PhonePe Authentication failed. Please verify merchant credentials.'
       });
     }
 
@@ -108,19 +105,16 @@ export default async function handler(req, res) {
         transactionId
       });
     } else {
-      console.error('PhonePe checkout error:', checkoutData);
       return res.status(400).json({
         success: false,
         message: checkoutData.message || 'Payment initiation failed',
-        code: checkoutData.code || null,
-        details: checkoutData
+        code: checkoutData.code || null
       });
     }
   } catch (error) {
-    console.error('PhonePe API Error:', error);
     return res.status(500).json({
       success: false,
-      message: error.message || 'Internal server error initializing PhonePe'
+      message: 'Internal error processing payment initiation'
     });
   }
 }

@@ -5,16 +5,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const payload = req.body;
-    console.log('PhonePe Webhook Received:', JSON.stringify(payload));
-
-    // Respond immediately with HTTP 200 OK
+    // In production, acknowledge receipt immediately without logging sensitive payload structures
     return res.status(200).json({
       success: true,
       message: 'Webhook received successfully'
     });
   } catch (error) {
-    console.error('Webhook error:', error);
     return res.status(200).json({ success: true });
   }
 }

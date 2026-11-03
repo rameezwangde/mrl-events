@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, CreditCard, Smartphone } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
 import { dummyEvents } from './EventsPage';
 
@@ -17,7 +17,7 @@ export default function BookingFlow() {
   
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Load event if missing
   useEffect(() => {
@@ -73,8 +73,6 @@ export default function BookingFlow() {
                          customerDetails.email.trim() !== '' && 
                          customerDetails.mobile.trim() !== '';
 
-  const [errorMessage, setErrorMessage] = useState('');
-
   const processPayment = async () => {
     setIsProcessing(true);
     setErrorMessage('');
@@ -103,13 +101,11 @@ export default function BookingFlow() {
         window.location.href = data.redirectUrl;
       } else {
         // Fallback or show error
-        console.warn('PhonePe direct init notice:', data);
         const detailedErr = data.message ? `${data.message}${data.code ? ` (${data.code})` : ''}` : 'Payment initiation failed. Please check credentials or try again.';
         setErrorMessage(detailedErr);
         setIsProcessing(false);
       }
     } catch (err) {
-      console.error('Payment request error:', err);
       setErrorMessage('Could not connect to payment gateway. Please make sure the backend is reachable.');
       setIsProcessing(false);
     }
@@ -299,69 +295,22 @@ export default function BookingFlow() {
                   <ShieldCheck size={36} style={{ color: 'var(--border-light)' }} />
                 </div>
 
-                <div style={{ marginBottom: '28px' }}>
-                  <label style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--charcoal-muted)', display: 'block', marginBottom: '14px' }}>Payment Method</label>
-                  
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-                    <button 
-                      onClick={() => setPaymentMethod('card')}
-                      style={{
-                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '18px', borderRadius: '10px',
-                        border: paymentMethod === 'card' ? '2px solid var(--red)' : '1.5px solid var(--border-light)',
-                        background: paymentMethod === 'card' ? 'rgba(183,25,46,0.04)' : 'var(--beige)',
-                        color: paymentMethod === 'card' ? 'var(--charcoal)' : 'var(--charcoal-muted)',
-                        cursor: 'pointer', transition: 'all 0.25s ease',
-                      }}
-                    >
-                      <CreditCard size={22} style={{ color: paymentMethod === 'card' ? 'var(--red)' : 'inherit' }} />
-                      <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.12em' }}>CARD</span>
-                    </button>
-                    <button 
-                      onClick={() => setPaymentMethod('upi')}
-                      style={{
-                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '18px', borderRadius: '10px',
-                        border: paymentMethod === 'upi' ? '2px solid var(--red)' : '1.5px solid var(--border-light)',
-                        background: paymentMethod === 'upi' ? 'rgba(183,25,46,0.04)' : 'var(--beige)',
-                        color: paymentMethod === 'upi' ? 'var(--charcoal)' : 'var(--charcoal-muted)',
-                        cursor: 'pointer', transition: 'all 0.25s ease',
-                      }}
-                    >
-                      <Smartphone size={22} style={{ color: paymentMethod === 'upi' ? 'var(--red)' : 'inherit' }} />
-                      <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.12em' }}>UPI</span>
-                    </button>
-                  </div>
-                </div>
-
-                {paymentMethod === 'card' && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' }}>
-                    <input type="text" placeholder="Card Number" style={inputStyle} defaultValue="4111 1111 1111 1111" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-                      <input type="text" placeholder="MM/YY" style={inputStyle} defaultValue="12/28" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
-                      <input type="text" placeholder="CVV" style={inputStyle} defaultValue="123" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
-                    </div>
-                    <input type="text" placeholder="Name on Card" style={inputStyle} defaultValue={customerDetails.fullName} onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
-                  </motion.div>
-                )}
-
-                {paymentMethod === 'upi' && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' }}>
-                    <input type="text" placeholder="Enter UPI ID (e.g., name@upi)" style={inputStyle} defaultValue="demo@upi" onFocus={(e) => e.target.style.borderColor = 'var(--red)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'} />
-                  </motion.div>
-                )}
-
                 {errorMessage && (
                   <div style={{ background: '#fef2f2', border: '1px solid #f87171', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', color: '#991b1b', fontSize: '13px' }}>
                     {errorMessage}
                   </div>
                 )}
 
-                <div style={{ background: 'var(--beige)', borderRadius: '10px', padding: '16px', marginBottom: '28px', border: '1px solid var(--border-light)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <ShieldCheck size={16} color="var(--red)" />
-                    <span style={{ fontSize: '12px', fontWeight: '800', letterSpacing: '0.05em', color: 'var(--charcoal)' }}>PHONEPE SECURE GATEWAY</span>
+                <div style={{ background: 'var(--beige)', borderRadius: '10px', padding: '20px', marginBottom: '28px', border: '1px solid var(--border-light)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                    <ShieldCheck size={20} color="var(--red)" />
+                    <span style={{ fontSize: '13px', fontWeight: '800', letterSpacing: '0.05em', color: 'var(--charcoal)' }}>PHONEPE SECURE CHECKOUT</span>
                   </div>
-                  <p style={{ fontSize: '12px', color: 'var(--charcoal-muted)', margin: 0, lineHeight: '1.4' }}>
-                    You will be redirected to PhonePe's official checkout page to complete the payment via UPI (PhonePe, GPay, Paytm), Cards, or NetBanking.
+                  <p style={{ fontSize: '12.5px', color: 'var(--charcoal-muted)', margin: 0, lineHeight: '1.6' }}>
+                    You will be redirected to PhonePe's official checkout page to complete the payment via UPI (PhonePe, GPay, Paytm), Credit/Debit Cards, or NetBanking.
+                  </p>
+                  <p style={{ fontSize: '11px', color: 'var(--charcoal-muted)', marginTop: '8px', marginBottom: 0, opacity: 0.8 }}>
+                    🔒 256-bit Encrypted • PCI-DSS Certified • No card or UPI PIN is ever collected on this website.
                   </p>
                 </div>
 

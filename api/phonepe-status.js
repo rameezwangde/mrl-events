@@ -42,7 +42,6 @@ export default async function handler(req, res) {
     const accessToken = tokenData.access_token;
 
     if (!accessToken) {
-      console.error('PhonePe Status Token Error:', tokenData);
       return res.redirect(302, `${origin}/events?paymentError=Auth+Failed`);
     }
 
@@ -65,7 +64,6 @@ export default async function handler(req, res) {
       return res.redirect(302, `${origin}/events?paymentError=${encodeURIComponent(statusData.state || 'Payment Failed')}`);
     }
   } catch (error) {
-    console.error('PhonePe verification error:', error);
     return res.redirect(302, `${origin}/events?paymentError=Verification+Error`);
   }
 }
