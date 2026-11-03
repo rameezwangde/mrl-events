@@ -111,3 +111,4 @@ export function logPaymentEvent(level, action, context = {}) {
     process.stdout.write(`${serialized}\n`);
   }
 }
+
